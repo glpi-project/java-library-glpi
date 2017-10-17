@@ -1,11 +1,8 @@
-package org.flyve.glpi;
+package org.flyve.glpi.utils;
 
-import org.flyve.glpi.response.InitSession;
+import android.util.Base64;
 
-import retrofit2.Call;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
+import java.io.UnsupportedEncodingException;
 
 /*
  *   Copyright © 2017 Teclib. All rights reserved.
@@ -25,7 +22,7 @@ import retrofit2.http.POST;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * ------------------------------------------------------------------------------
- * @author    Rafael Hernandez
+ * @author    rafaelhernandez
  * @date      17/10/17
  * @copyright Copyright © 2017 Teclib. All rights reserved.
  * @license   GPLv3 https://www.gnu.org/licenses/gpl-3.0.html
@@ -33,14 +30,35 @@ import retrofit2.http.POST;
  * @link      https://flyve-mdm.com
  * ------------------------------------------------------------------------------
  */
-public interface Routes {
+public class Helpers {
 
-    @Headers("Content-Type: application/json")
-    @POST("initSession")
-    Call<InitSession> initSessionByUserToken(@Header("Authorization") String Authorization);
+    private Helpers() {
+    }
 
-    @Headers("Content-Type: application/json")
-    @POST("initSession")
-    Call<InitSession> initSessionByCredentials(@Header("Authorization") String Authorization);
+    public static String base64decode(String text) {
+        String rtext = "";
+        if(text == null) { return ""; }
+        try {
+            byte[] bdata = Base64.decode(text, Base64.DEFAULT);
+            rtext = new String(bdata, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return rtext.trim();
+    }
 
+    public static String base64encode(String text) {
+        String rtext = "";
+        if(text == null) { return ""; }
+        try {
+            byte[] data = text.getBytes("UTF-8");
+            rtext = Base64.encodeToString(data, Base64.DEFAULT);
+            rtext = rtext.trim().replace("==", "");
+        } catch (UnsupportedEncodingException e) {
+
+            e.printStackTrace();
+        }
+
+        return rtext.trim();
+    }
 }

@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
         GLPI glpi = new GLPI("https://dev.flyve.org/glpi/apirest.php");
 
-        glpi.initSessionByUserToken("kbd2wdhj8hqgc6ggj20acdkdfb6gyxt4rc2hem9n", new GLPI.initSessionCallback() {
+        glpi.initSessionByCredentials("", "", new GLPI.initSessionCallback() {
             @Override
             public void onResponse(InitSession response) {
                 Log.d("MainActivity", response.getSession_token());

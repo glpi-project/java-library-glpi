@@ -1,6 +1,7 @@
 package org.flyve.glpi;
 
 import org.flyve.glpi.response.InitSession;
+import org.flyve.glpi.utils.Helpers;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,6 +44,29 @@ public class GLPI extends ServiceGenerator {
 
     public void initSessionByUserToken(String userToken, final initSessionCallback callback) {
         Call<InitSession> responseCall = interfaces.initSessionByUserToken("user_token " + userToken.trim());
+        responseCall.enqueue(new Callback<InitSession>() {
+            @Override
+            public void onResponse(Call<InitSession> call, Response<InitSession> response) {
+                if(response.isSuccessful()) {
+                    callback.onResponse( response.body() );
+                } else {
+                    callback.onFailure( response.errorBody().toString() );
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InitSession> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void initSessionByCredentials(String user, String password, final initSessionCallback callback) {
+
+        String authorization = Helpers.base64encode( user + ":" + password );
+
+        Call<InitSession> responseCall = interfaces.initSessionByCredentials("Basic " + authorization.trim());
         responseCall.enqueue(new Callback<InitSession>() {
             @Override
             public void onResponse(Call<InitSession> call, Response<InitSession> response) {
