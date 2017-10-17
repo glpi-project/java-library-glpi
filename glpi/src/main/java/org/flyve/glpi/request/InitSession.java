@@ -1,4 +1,4 @@
-package org.flyve.glpi;
+package org.flyve.glpi.request;
 
 /*
  *   Copyright © 2017 Teclib. All rights reserved.
@@ -26,7 +26,7 @@ package org.flyve.glpi;
  * @link      https://flyve-mdm.com
  * ------------------------------------------------------------------------------
  */
-public class InitSessionRequest {
+public class InitSession {
 
 
 }
