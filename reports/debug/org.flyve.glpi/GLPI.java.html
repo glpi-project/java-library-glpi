@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GLPI.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=0;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">debugAndroidTest</a> &gt; <a href="index.source.html" class="el_package">org.flyve.glpi</a> &gt; <span class="el_source">GLPI.java</span></div><h1>GLPI.java</h1><pre class="source lang-java linenums">package org.flyve.glpi;
+
+import org.flyve.glpi.response.InitSession;
+import org.flyve.glpi.utils.Helpers;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/*
+ *   Copyright © 2017 Teclib. All rights reserved.
+ *
+ *   This file is part of flyve-mdm-android
+ *
+ * flyve-mdm-android is a subproject of Flyve MDM. Flyve MDM is a mobile
+ * device management software.
+ *
+ * Flyve MDM is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * Flyve MDM is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * ------------------------------------------------------------------------------
+ * @author    Rafael Hernandez
+ * @date      17/10/17
+ * @copyright Copyright © 2017 Teclib. All rights reserved.
+ * @license   GPLv3 https://www.gnu.org/licenses/gpl-3.0.html
+ * @link      https://github.com/flyve-mdm/flyve-mdm-android
+ * @link      https://flyve-mdm.com
+ * ------------------------------------------------------------------------------
+ */
+public class GLPI extends ServiceGenerator {
+
+    public Routes interfaces;
+
+<span class="nc" id="L40">    public GLPI(String glpiUrl) {</span>
+<span class="nc" id="L41">        start(&quot;https://dev.flyve.org/glpi/apirest.php/&quot;);</span>
+<span class="nc" id="L42">        interfaces = retrofit.create(Routes.class);</span>
+<span class="nc" id="L43">    }</span>
+
+    public void initSessionByUserToken(String userToken, final initSessionCallback callback) {
+<span class="nc" id="L46">        Call&lt;InitSession&gt; responseCall = interfaces.initSessionByUserToken(&quot;user_token &quot; + userToken.trim());</span>
+<span class="nc" id="L47">        responseCall.enqueue(new Callback&lt;InitSession&gt;() {</span>
+            @Override
+            public void onResponse(Call&lt;InitSession&gt; call, Response&lt;InitSession&gt; response) {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                if(response.isSuccessful()) {</span>
+<span class="nc" id="L51">                    callback.onResponse( response.body() );</span>
+                } else {
+<span class="nc" id="L53">                    callback.onFailure( response.errorBody().toString() );</span>
+
+                }
+<span class="nc" id="L56">            }</span>
+
+            @Override
+            public void onFailure(Call&lt;InitSession&gt; call, Throwable t) {
+<span class="nc" id="L60">                callback.onFailure(t.getMessage());</span>
+<span class="nc" id="L61">            }</span>
+        });
+<span class="nc" id="L63">    }</span>
+
+    public void initSessionByCredentials(String user, String password, final initSessionCallback callback) {
+
+<span class="nc" id="L67">        String authorization = Helpers.base64encode( user + &quot;:&quot; + password );</span>
+
+<span class="nc" id="L69">        Call&lt;InitSession&gt; responseCall = interfaces.initSessionByCredentials(&quot;Basic &quot; + authorization.trim());</span>
+<span class="nc" id="L70">        responseCall.enqueue(new Callback&lt;InitSession&gt;() {</span>
+            @Override
+            public void onResponse(Call&lt;InitSession&gt; call, Response&lt;InitSession&gt; response) {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">                if(response.isSuccessful()) {</span>
+<span class="nc" id="L74">                    callback.onResponse( response.body() );</span>
+                } else {
+<span class="nc" id="L76">                    callback.onFailure( response.errorBody().toString() );</span>
+
+                }
+<span class="nc" id="L79">            }</span>
+
+            @Override
+            public void onFailure(Call&lt;InitSession&gt; call, Throwable t) {
+<span class="nc" id="L83">                callback.onFailure(t.getMessage());</span>
+<span class="nc" id="L84">            }</span>
+        });
+<span class="nc" id="L86">    }</span>
+
+<span class="nc" id="L88">    public void killsession() {}</span>
+<span class="nc" id="L89">    public void getMyProfiles() {}</span>
+<span class="nc" id="L90">    public void getActiveProfile() {}</span>
+<span class="nc" id="L91">    public void changeActiveProfile() {}</span>
+<span class="nc" id="L92">    public void getMyEntities() {}</span>
+<span class="nc" id="L93">    public void getActiveEntities() {}</span>
+<span class="nc" id="L94">    public void changeActiveEntities() {}</span>
+<span class="nc" id="L95">    public void getFullSession() {}</span>
+<span class="nc" id="L96">    public void getAnTtem() {}</span>
+<span class="nc" id="L97">    public void getAllUtems() {}</span>
+<span class="nc" id="L98">    public void getSubItems() {}</span>
+<span class="nc" id="L99">    public void getMultipleItems() {}</span>
+<span class="nc" id="L100">    public void listSearchOptions() {}</span>
+<span class="nc" id="L101">    public void searchItems() {}</span>
+<span class="nc" id="L102">    public void addItems() {}</span>
+<span class="nc" id="L103">    public void updateItems() {}</span>
+<span class="nc" id="L104">    public void deleteItems() {}</span>
+
+    public interface initSessionCallback {
+        void onResponse(InitSession response);
+        void onFailure(String mensajeError);
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span>Generated by the Android Gradle plugin 2.3.3</div></body></html>
