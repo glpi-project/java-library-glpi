@@ -41,7 +41,7 @@ sudo rm CHANGELOG.md
 git checkout $CIRCLE_BRANCH CHANGELOG.md
 
 # create a commit
-git commit -m "build(changelog): send changelog.md to gh-page"
+git commit -m "build(changelog): send changelog.md to gh-page" && echo true
 
 # push to branch
 git push origin gh-pages && echo true
