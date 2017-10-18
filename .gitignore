@@ -1,4 +1,5 @@
-.idea
+.idea/
+.idea/sonarlint
 .idea/libraries
 .idea/workspace.xml
 .idea/tasks.xml
@@ -8,6 +9,7 @@
 .idea/gradle.xml
 .idea/modules.xml
 .idea/vcs.xml
+.idea/markdown-exported-files.xml
 app/app.iml
 *.apk
 *.ap_

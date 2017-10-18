@@ -44,7 +44,7 @@ git checkout $CIRCLE_BRANCH CHANGELOG.md
 git commit -m "build(changelog): send changelog.md to gh-page"
 
 # push to branch
-git push origin gh-pages
+git push origin gh-pages && echo true
 
 # got back to original branch
 git checkout $CIRCLE_BRANCH
