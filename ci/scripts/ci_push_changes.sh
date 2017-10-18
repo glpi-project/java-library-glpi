@@ -34,7 +34,7 @@ git push --follow-tags origin $CIRCLE_BRANCH
 git checkout develop
 
 # merge with master
-git merge master
+git rebase master
 
 # push develop
 git push origin develop
