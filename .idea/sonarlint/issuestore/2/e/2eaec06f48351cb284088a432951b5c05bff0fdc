@@ -1,0 +1,5 @@
+
+ksquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‹ì‹8­İÎáò+
+usquid:S00116"XRename this field "session_token" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–ñ¶ñ8’œÎáò+
+ksquid:S00100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûŠÃÇ8­İÎáò+
+nsquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûŠÃÇ8­İÎáò+
