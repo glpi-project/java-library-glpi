@@ -12,3 +12,6 @@ inventory/
 local.properties
 gradlew
 gradlew.bat
+GLPIProject.iml
+app/
+glpi/
