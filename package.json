@@ -1,0 +1,33 @@
+{
+  "name": "@teclib/android-library-glpi",
+  "version": "0.0.1",
+  "description": "GLPI API Client Library for Java",
+  "main": "index.js",
+  "scripts": {
+    "release": "standard-version -t ''"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flyve-mdm/android-library-glpi"
+  },
+  "keywords": [
+    "android",
+    "glpi",
+    "flyve",
+    "library",
+    "agent",
+    "teclib"
+  ],
+  "author": "Rafael Hernandez <rhernandez@teclib.com> (https://flyve-mdm.com)",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/flyve-mdm/android-library-glpi/issues"
+  },
+  "homepage": "https://github.com/flyve-mdm/android-library-glpi#readme",
+  "devDependencies": {
+    "standard-version": "^4.2.0"
+  },
+  "dependencies": {
+    "conventional-github-releaser": "^1.1.12"
+  }
+}

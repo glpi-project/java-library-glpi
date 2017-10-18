@@ -12,7 +12,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -34,6 +33,37 @@ dependencies {
 
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-
-
 }
+
+Properties properties = new Properties()
+if(project.rootProject.file('local.properties').exists()) {
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+}
+
+ext {
+    bintrayRepo = 'glpi'
+    bintrayName = 'android-library-glpi'
+    bintrayUserOrg = "flyve-mdm"
+
+    publishedGroupId = 'org.flyve'
+    libraryName = 'glpi'
+    artifact = 'glpi'
+
+    libraryDescription = 'GLPI API Client Library for Java provides functionality common to all GLPI APIs, for example HTTP transport, error handling, authentication, JSON parsing, media download/upload, and batching.'
+
+    siteUrl = 'https://github.com/flyve-mdm/android-library-glpi'
+    gitUrl = 'https://github.com/flyve-mdm/android-library-glpi.git'
+
+    libraryVersion = properties.getProperty("version")
+
+    developerId = 'rafaelje'
+    developerName = 'Rafael Hernandez'
+    developerEmail = 'rhernandez@teclib.com'
+
+    licenseName = 'GNU GENERAL PUBLIC LICENSE, Version 3.0'
+    licenseUrl = 'https://www.gnu.org/licenses/gpl-3.0.html'
+    allLicenses = ["GLP-3.0"]
+}
+
+apply from: 'bintray.gradle'
+apply from: 'install.gradle'
