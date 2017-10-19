@@ -2,6 +2,7 @@
 
 [![License](https://img.shields.io/github/license/flyve-mdm/android-library-glpi.svg?&label=License)](https://github.com/flyve-mdm/android-library-glpi/blob/develop/LICENSE.md)
 [![Follow twitter](https://img.shields.io/twitter/follow/FlyveMDM.svg?style=social&label=Twitter&style=flat-square)](https://twitter.com/FlyveMDM)
+![Project Status: WIP](http://www.repostatus.org/badges/latest/wip.svg)
 [![Telegram Group](https://img.shields.io/badge/Telegram-Group-blue.svg)](https://t.me/flyvemdm)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
@@ -30,9 +31,7 @@ This library created in Java features several functionalities common to all GLPI
 - Media download/upload
 - Batching.
 
-You will be able to call all the methods that belong to the [GLPI REST API](https://dev.flyve.org/glpi/apirest.php), for more information visit the [projects website](http://flyve.org/android-library-glpi/).
-
-This project is a **work in progress**. The information here provided could change at any given time.
+You will be able to call all the methods that belong to the [GLPI REST API](https://dev.flyve.org/glpi/apirest.php), for more information visit the [project's website](http://flyve.org/android-library-glpi/).
 
 ## Build Status
 
