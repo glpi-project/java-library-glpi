@@ -44,18 +44,18 @@ if(project.rootProject.file('local.properties').exists()) {
 }
 
 ext {
-    bintrayRepo = 'glpi'
-    bintrayName = 'android-library-glpi'
-    bintrayUserOrg = "flyve-mdm"
+    bintrayName = 'glpi'
+    bintrayRepo = 'maven-repository'
+    bintrayUserOrg = "glpi-project"
 
-    publishedGroupId = 'org.flyve'
-    libraryName = 'glpi'
-    artifact = 'glpi'
+    publishedGroupId = 'org.glpi'
+    libraryName = 'api'
+    artifact = 'api'
 
     libraryDescription = 'GLPI API Client Library for Java provides functionality common to all GLPI APIs, for example HTTP transport, error handling, authentication, JSON parsing, media download/upload, and batching.'
 
-    siteUrl = 'https://github.com/flyve-mdm/android-library-glpi'
-    gitUrl = 'https://github.com/flyve-mdm/android-library-glpi.git'
+    siteUrl = 'https://github.com/glpi-project/java-library-glpi/'
+    gitUrl = 'https://github.com/glpi-project/java-library-glpi.git'
 
     libraryVersion = properties.getProperty("version")
 
@@ -65,7 +65,7 @@ ext {
 
     licenseName = 'GNU GENERAL PUBLIC LICENSE, Version 3.0'
     licenseUrl = 'https://www.gnu.org/licenses/gpl-3.0.html'
-    allLicenses = ["GLP-3.0"]
+    allLicenses = ["Apache-2.0"]
 }
 
 apply from: 'bintray.gradle'
