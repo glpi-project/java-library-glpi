@@ -10,6 +10,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        setProperty("archivesBaseName", "glpi-api-client")
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -23,7 +24,16 @@ android {
             testCoverageEnabled true
         }
     }
+}
 
+android.libraryVariants.all  { variant ->
+    def name = variant.buildType.name
+    if (!name.equals("debug")) {
+        def task = project.tasks.create  "jar${name.capitalize()}", Jar
+        task.dependsOn variant.javaCompile
+        task.from  variant.javaCompile.destinationDir
+        artifacts.add('archives', task);
+    }
 }
 
 dependencies {
@@ -44,13 +54,13 @@ if(project.rootProject.file('local.properties').exists()) {
 }
 
 ext {
-    bintrayName = 'glpi'
+    bintrayName = 'android-api-client'
     bintrayRepo = 'maven-repository'
     bintrayUserOrg = "glpi-project"
 
     publishedGroupId = 'org.glpi'
-    libraryName = 'api'
-    artifact = 'api'
+    libraryName = 'glpi-api-client'
+    artifact = 'glpi-api-client'
 
     libraryDescription = 'GLPI API Client Library for Java provides functionality common to all GLPI APIs, for example HTTP transport, error handling, authentication, JSON parsing, media download/upload, and batching.'
 
