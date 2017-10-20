@@ -1,8 +1,8 @@
 repository:
-  name: android-library-glpi
+  name: java-library-glpi
   description: GLPI API Client Library for Java
-  homepage: http://flyve.org/android-library-glpi/
-  topics: glpi-api, android, library
+  homepage: https://glpi-project.github.io/java-library-glpi/
+  topics: glpi-api, java, library
   private: false
   has_issues: true
   has_wiki: false
