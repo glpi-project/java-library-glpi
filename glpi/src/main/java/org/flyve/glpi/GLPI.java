@@ -1,5 +1,7 @@
 package org.flyve.glpi;
 
+import android.util.Log;
+
 import org.flyve.glpi.response.InitSession;
 import org.flyve.glpi.utils.Helpers;
 
@@ -35,7 +37,8 @@ import retrofit2.Response;
  */
 public class GLPI extends ServiceGenerator {
 
-    public Routes interfaces;
+    private Routes interfaces;
+    private String sessionToken;
 
     public GLPI(String glpiUrl) {
         start("https://dev.flyve.org/glpi/apirest.php/");
@@ -48,10 +51,16 @@ public class GLPI extends ServiceGenerator {
             @Override
             public void onResponse(Call<InitSession> call, Response<InitSession> response) {
                 if(response.isSuccessful()) {
+
+                    try {
+                        sessionToken = response.body().getSession_token();
+                    } catch (NullPointerException ex) {
+                        Log.d("initSession", ex.getMessage());
+                    }
+
                     callback.onResponse( response.body() );
                 } else {
                     callback.onFailure( response.errorBody().toString() );
-
                 }
             }
 
@@ -71,10 +80,15 @@ public class GLPI extends ServiceGenerator {
             @Override
             public void onResponse(Call<InitSession> call, Response<InitSession> response) {
                 if(response.isSuccessful()) {
+                    try {
+                        sessionToken = response.body().getSession_token();
+                    } catch (NullPointerException ex) {
+                        Log.d("initSession", ex.getMessage());
+                    }
+
                     callback.onResponse( response.body() );
                 } else {
                     callback.onFailure( response.errorBody().toString() );
-
                 }
             }
 
