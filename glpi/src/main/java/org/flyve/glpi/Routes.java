@@ -37,10 +37,14 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @POST("initSession")
-    Call<InitSession> initSessionByUserToken(@Header("Authorization") String Authorization);
+    Call<InitSession> initSessionByUserToken(@Header("Authorization") String authorization);
 
     @Headers("Content-Type: application/json")
     @POST("initSession")
-    Call<InitSession> initSessionByCredentials(@Header("Authorization") String Authorization);
+    Call<InitSession> initSessionByCredentials(@Header("Authorization") String authorization);
+
+    @Headers("Content-Type: application/json")
+    @POST("killSession")
+    Call<InitSession> killSession(@Header("Session-Token") String sessionToken);
 
 }
