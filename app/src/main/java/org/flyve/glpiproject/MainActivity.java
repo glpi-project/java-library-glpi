@@ -6,6 +6,7 @@ import android.util.Log;
 
 import org.flyve.glpi.GLPI;
 import org.flyve.glpi.response.InitSession;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,17 +15,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        GLPI glpi = new GLPI("https://dev.flyve.org/glpi/apirest.php");
+        GLPI glpi = new GLPI(MainActivity.this, "https://dev.flyve.org/glpi/apirest.php");
 
-        glpi.initSessionByCredentials("", "", new GLPI.initSessionCallback() {
+        glpi.initSessionByCredentials("rafaelje@gmail.com", "12345678", new GLPI.initSessionCallback() {
             @Override
             public void onResponse(InitSession response) {
-                Log.d("MainActivity", response.getSession_token());
+                Log.d("initSession", response.getSession_token());
             }
 
             @Override
-            public void onFailure(String mensajeError) {
-                Log.e("MainActivity", mensajeError);
+            public void onFailure(String errorMessage) {
+                Log.e("initSession", errorMessage);
+            }
+        });
+
+        glpi.getMyProfiles(new GLPI.jsonObjectCallback() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("getMyProfiles", response.toString());
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.d("getMyProfiles", errorMessage);
             }
         });
 

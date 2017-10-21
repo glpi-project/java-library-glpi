@@ -44,7 +44,6 @@ public class GLPI extends ServiceGenerator {
     private Context context;
 
     public GLPI(Context context, String glpiUrl) {
-        //start("https://dev.flyve.org/glpi/apirest.php/");
         start(glpiUrl);
         this.context = context;
 
@@ -266,12 +265,12 @@ public class GLPI extends ServiceGenerator {
 
     public interface initSessionCallback {
         void onResponse(InitSession response);
-        void onFailure(String mensajeError);
+        void onFailure(String errorMessage);
     }
 
     public interface jsonObjectCallback {
         void onResponse(JSONObject response);
-        void onFailure(String mensajeError);
+        void onFailure(String errorMessage);
     }
 
 }
