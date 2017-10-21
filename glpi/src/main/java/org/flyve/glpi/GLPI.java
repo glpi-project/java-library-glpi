@@ -177,10 +177,36 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void changeActiveProfile() {}
-    public void getActiveEntities() {}
-    public void changeActiveEntities() {}
+    public void getActiveEntities(final jsonObjectCallback callback) {
+        // validate if session token is empty
+        if (sessionToken.equals("")) {
+            callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
+        }
+
+        Call<JSONObject> responseCall = interfaces.getActiveEntities(this.sessionToken);
+        responseCall.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    callback.onFailure(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
     public void getFullSession() {}
+    public void killsession() {}
+
+    public void changeActiveProfile() {}
+    public void changeActiveEntities() {}
+
     public void getAnTtem() {}
     public void getAllUtems() {}
     public void getSubItems() {}
@@ -190,9 +216,6 @@ public class GLPI extends ServiceGenerator {
     public void addItems() {}
     public void updateItems() {}
     public void deleteItems() {}
-
-    public void killsession() {
-    }
 
 
     public interface initSessionCallback {
