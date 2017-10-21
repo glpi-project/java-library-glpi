@@ -52,4 +52,7 @@ public interface Routes {
     @GET("getMyProfiles")
     Call<JSONObject> getMyProfiles(@Header("Session-Token") String sessionToken);
 
+    @Headers("Content-Type: application/json")
+    @GET("getActiveProfile")
+    Call<JSONObject> getActiveProfile(@Header("Session-Token") String sessionToken);
 }
