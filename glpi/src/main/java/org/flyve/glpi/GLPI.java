@@ -3,9 +3,10 @@ package org.flyve.glpi;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
+
 import org.flyve.glpi.response.InitSession;
 import org.flyve.glpi.utils.Helpers;
-import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -110,10 +111,10 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure( context.getResources().getString(R.string.error_session_token_empty) );
         }
 
-        Call<JSONObject> responseCall = interfaces.getMyProfiles(this.sessionToken);
-        responseCall.enqueue(new Callback<JSONObject>() {
+        Call<JsonObject> responseCall = interfaces.getMyProfiles(this.sessionToken);
+        responseCall.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.isSuccessful()) {
                     callback.onResponse( response.body() );
                 } else {
@@ -122,7 +123,7 @@ public class GLPI extends ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -134,10 +135,10 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure( context.getResources().getString(R.string.error_session_token_empty) );
         }
 
-        Call<JSONObject> responseCall = interfaces.getActiveProfile(this.sessionToken);
-        responseCall.enqueue(new Callback<JSONObject>() {
+        Call<JsonObject> responseCall = interfaces.getActiveProfile(this.sessionToken);
+        responseCall.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.isSuccessful()) {
                     callback.onResponse( response.body() );
                 } else {
@@ -146,7 +147,7 @@ public class GLPI extends ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -158,10 +159,10 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure( context.getResources().getString(R.string.error_session_token_empty) );
         }
 
-        Call<JSONObject> responseCall = interfaces.getMyEntities(this.sessionToken);
-        responseCall.enqueue(new Callback<JSONObject>() {
+        Call<JsonObject> responseCall = interfaces.getMyEntities(this.sessionToken);
+        responseCall.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.isSuccessful()) {
                     callback.onResponse( response.body() );
                 } else {
@@ -170,7 +171,7 @@ public class GLPI extends ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -182,10 +183,10 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Call<JSONObject> responseCall = interfaces.getActiveEntities(this.sessionToken);
-        responseCall.enqueue(new Callback<JSONObject>() {
+        Call<JsonObject> responseCall = interfaces.getActiveEntities(this.sessionToken);
+        responseCall.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
                     callback.onResponse(response.body());
                 } else {
@@ -194,7 +195,7 @@ public class GLPI extends ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -206,10 +207,10 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Call<JSONObject> responseCall = interfaces.getFullSession(this.sessionToken);
-        responseCall.enqueue(new Callback<JSONObject>() {
+        Call<JsonObject> responseCall = interfaces.getFullSession(this.sessionToken);
+        responseCall.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
                     callback.onResponse(response.body());
                 } else {
@@ -218,7 +219,7 @@ public class GLPI extends ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -230,10 +231,10 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Call<JSONObject> responseCall = interfaces.killSession(this.sessionToken);
-        responseCall.enqueue(new Callback<JSONObject>() {
+        Call<JsonObject> responseCall = interfaces.killSession(this.sessionToken);
+        responseCall.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
                     callback.onResponse(response.body());
                 } else {
@@ -242,7 +243,7 @@ public class GLPI extends ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -269,7 +270,7 @@ public class GLPI extends ServiceGenerator {
     }
 
     public interface jsonObjectCallback {
-        void onResponse(JSONObject response);
+        void onResponse(JsonObject response);
         void onFailure(String errorMessage);
     }
 

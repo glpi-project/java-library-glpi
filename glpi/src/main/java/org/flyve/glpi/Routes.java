@@ -1,7 +1,8 @@
 package org.flyve.glpi;
 
+import com.google.gson.JsonObject;
+
 import org.flyve.glpi.response.InitSession;
-import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -46,26 +47,26 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("killSession")
-    Call<JSONObject> killSession(@Header("Session-Token") String sessionToken);
+    Call<JsonObject> killSession(@Header("Session-Token") String sessionToken);
 
     @Headers("Content-Type: application/json")
     @GET("getMyProfiles")
-    Call<JSONObject> getMyProfiles(@Header("Session-Token") String sessionToken);
+    Call<JsonObject> getMyProfiles(@Header("Session-Token") String sessionToken);
 
     @Headers("Content-Type: application/json")
     @GET("getActiveProfile")
-    Call<JSONObject> getActiveProfile(@Header("Session-Token") String sessionToken);
+    Call<JsonObject> getActiveProfile(@Header("Session-Token") String sessionToken);
 
     @Headers("Content-Type: application/json")
     @GET("getMyEntities")
-    Call<JSONObject> getMyEntities(@Header("Session-Token") String sessionToken);
+    Call<JsonObject> getMyEntities(@Header("Session-Token") String sessionToken);
 
     @Headers("Content-Type: application/json")
     @GET("getActiveEntities")
-    Call<JSONObject> getActiveEntities(@Header("Session-Token") String sessionToken);
+    Call<JsonObject> getActiveEntities(@Header("Session-Token") String sessionToken);
 
     @Headers("Content-Type: application/json")
     @GET("getFullSession")
-    Call<JSONObject> getFullSession(@Header("Session-Token") String sessionToken);
+    Call<JsonObject> getFullSession(@Header("Session-Token") String sessionToken);
 
 }
