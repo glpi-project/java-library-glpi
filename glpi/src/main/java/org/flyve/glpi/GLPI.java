@@ -85,7 +85,10 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void killsession() {}
+    public void killsession() {
+
+
+    }
     public void getMyProfiles() {}
     public void getActiveProfile() {}
     public void changeActiveProfile() {}
