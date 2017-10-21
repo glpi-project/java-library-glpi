@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GLPI</string>
+    <string name="error_session_token_empty">Session token is empty, please init session first</string>
 </resources>

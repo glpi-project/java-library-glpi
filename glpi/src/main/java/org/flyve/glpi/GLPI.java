@@ -1,9 +1,11 @@
 package org.flyve.glpi;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.flyve.glpi.response.InitSession;
 import org.flyve.glpi.utils.Helpers;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,10 +41,13 @@ public class GLPI extends ServiceGenerator {
 
     private Routes interfaces;
     private String sessionToken;
+    private Context context;
 
-    public GLPI(String glpiUrl) {
+    public GLPI(Context context, String glpiUrl) {
         //start("https://dev.flyve.org/glpi/apirest.php/");
         start(glpiUrl);
+        this.context = context;
+
         interfaces = retrofit.create(Routes.class);
     }
 
@@ -100,11 +105,6 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void killsession() {
-
-
-    }
-    public void getMyProfiles() {}
     public void getActiveProfile() {}
     public void changeActiveProfile() {}
     public void getMyEntities() {}
@@ -121,8 +121,17 @@ public class GLPI extends ServiceGenerator {
     public void updateItems() {}
     public void deleteItems() {}
 
+    public void killsession() {
+    }
+
+
     public interface initSessionCallback {
         void onResponse(InitSession response);
+        void onFailure(String mensajeError);
+    }
+
+    public interface jsonObjectCallback {
+        void onResponse(JSONObject response);
         void onFailure(String mensajeError);
     }
 
