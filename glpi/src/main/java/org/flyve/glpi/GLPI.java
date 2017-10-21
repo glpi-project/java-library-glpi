@@ -40,7 +40,7 @@ import retrofit2.Response;
 public class GLPI extends ServiceGenerator {
 
     private Routes interfaces;
-    private String sessionToken;
+    private String sessionToken = "";
     private Context context;
 
     public GLPI(Context context, String glpiUrl) {
@@ -103,6 +103,31 @@ public class GLPI extends ServiceGenerator {
                 callback.onFailure(t.getMessage());
             }
         });
+    }
+
+    public void getMyProfiles(final jsonObjectCallback callback) {
+        // validate if session token is empty
+        if(sessionToken.equals("")) {
+            callback.onFailure( context.getResources().getString(R.string.error_session_token_empty) );
+        }
+
+        Call<JSONObject> responseCall = interfaces.getMyProfiles(this.sessionToken);
+        responseCall.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                if(response.isSuccessful()) {
+                    callback.onResponse( response.body() );
+                } else {
+                    callback.onFailure( response.errorBody().toString() );
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+
     }
 
     public void getActiveProfile() {}
