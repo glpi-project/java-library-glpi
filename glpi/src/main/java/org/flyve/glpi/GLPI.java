@@ -66,7 +66,13 @@ public class GLPI extends ServiceGenerator {
 
                     callback.onResponse( response.body() );
                 } else {
-                    callback.onFailure( response.errorBody().toString() );
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure( errorMessage );
                 }
             }
 
@@ -94,7 +100,13 @@ public class GLPI extends ServiceGenerator {
 
                     callback.onResponse( response.body() );
                 } else {
-                    callback.onFailure( response.errorBody().toString() );
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure( errorMessage );
                 }
             }
 
@@ -118,7 +130,13 @@ public class GLPI extends ServiceGenerator {
                 if(response.isSuccessful()) {
                     callback.onResponse( response.body() );
                 } else {
-                    callback.onFailure( response.errorBody().toString() );
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure( errorMessage );
                 }
             }
 
@@ -142,7 +160,13 @@ public class GLPI extends ServiceGenerator {
                 if(response.isSuccessful()) {
                     callback.onResponse( response.body() );
                 } else {
-                    callback.onFailure( response.errorBody().toString() );
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure( errorMessage );
                 }
             }
 
@@ -166,7 +190,13 @@ public class GLPI extends ServiceGenerator {
                 if(response.isSuccessful()) {
                     callback.onResponse( response.body() );
                 } else {
-                    callback.onFailure( response.errorBody().toString() );
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure( errorMessage );
                 }
             }
 
@@ -190,7 +220,13 @@ public class GLPI extends ServiceGenerator {
                 if (response.isSuccessful()) {
                     callback.onResponse(response.body());
                 } else {
-                    callback.onFailure(response.errorBody().toString());
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure( errorMessage );
                 }
             }
 
@@ -214,7 +250,13 @@ public class GLPI extends ServiceGenerator {
                 if (response.isSuccessful()) {
                     callback.onResponse(response.body());
                 } else {
-                    callback.onFailure(response.errorBody().toString());
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure( errorMessage );
                 }
             }
 
@@ -238,7 +280,13 @@ public class GLPI extends ServiceGenerator {
                 if (response.isSuccessful()) {
                     callback.onResponse(context.getResources().getString(R.string.kill_session_success));
                 } else {
-                    callback.onFailure(response.errorBody().toString());
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure( errorMessage );
                 }
             }
 
