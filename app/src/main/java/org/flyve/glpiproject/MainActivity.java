@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         btnInit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                glpi.initSessionByCredentials("rafaelje@gmail.com", "12345678", new GLPI.initSessionCallback() {
+                glpi.initSessionByCredentials("rafaelje@gmail.com", "12345678", new GLPI.InitSessionCallback() {
                     @Override
                     public void onResponse(InitSession response) {
                         Log.d("initSession", response.getSession_token());
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                glpi.getMyProfiles(new GLPI.jsonObjectCallback() {
+                glpi.getMyProfiles(new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
                         Log.d("getMyProfiles", response.toString());
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                glpi.getActiveProfile(new GLPI.jsonObjectCallback() {
+                glpi.getActiveProfile(new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
                         Log.d("getActiveProfile", response.toString());
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                glpi.getMyEntities(new GLPI.jsonObjectCallback() {
+                glpi.getMyEntities(new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
                         Log.d("getMyEntities", response.toString());
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                glpi.getActiveEntities(new GLPI.jsonObjectCallback() {
+                glpi.getActiveEntities(new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
                         Log.d("getActiveEntities", response.toString());
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                glpi.getFullSession(new GLPI.jsonObjectCallback() {
+                glpi.getFullSession(new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
                         Log.d("getFullSession", response.toString());
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                glpi.killSession(new GLPI.killSessionCallback() {
+                glpi.killSession(new GLPI.KillSessionCallback() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("killSession", response.toString());
