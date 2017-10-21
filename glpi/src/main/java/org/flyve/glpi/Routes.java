@@ -1,6 +1,7 @@
 package org.flyve.glpi;
 
 import org.flyve.glpi.response.InitSession;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -45,6 +46,10 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("killSession")
-    Call<InitSession> killSession(@Header("Session-Token") String sessionToken);
+    Call<JSONObject> killSession(@Header("Session-Token") String sessionToken);
+
+    @Headers("Content-Type: application/json")
+    @GET("getMyProfiles")
+    Call<JSONObject> getMyProfiles(@Header("Session-Token") String sessionToken);
 
 }
