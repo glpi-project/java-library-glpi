@@ -60,4 +60,8 @@ public interface Routes {
     @GET("getMyEntities")
     Call<JSONObject> getMyEntities(@Header("Session-Token") String sessionToken);
 
+    @Headers("Content-Type: application/json")
+    @GET("getActiveEntities")
+    Call<JSONObject> getActiveEntities(@Header("Session-Token") String sessionToken);
+
 }
