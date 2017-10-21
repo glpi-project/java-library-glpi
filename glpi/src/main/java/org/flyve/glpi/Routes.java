@@ -64,4 +64,8 @@ public interface Routes {
     @GET("getActiveEntities")
     Call<JSONObject> getActiveEntities(@Header("Session-Token") String sessionToken);
 
+    @Headers("Content-Type: application/json")
+    @GET("getFullSession")
+    Call<JSONObject> getFullSession(@Header("Session-Token") String sessionToken);
+
 }
