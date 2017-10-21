@@ -102,6 +102,18 @@ public class MainActivity extends AppCompatActivity {
                         Log.e("getFullSession", errorMessage);
                     }
                 });
+
+                glpi.getGlpiConfig(new GLPI.JsonObjectCallback() {
+                    @Override
+                    public void onResponse(JsonObject response) {
+                        Log.d("getGlpiConfig", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("getGlpiConfig", errorMessage);
+                    }
+                });
             }
         });
 
