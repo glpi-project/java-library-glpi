@@ -41,7 +41,8 @@ public class GLPI extends ServiceGenerator {
     private String sessionToken;
 
     public GLPI(String glpiUrl) {
-        start("https://dev.flyve.org/glpi/apirest.php/");
+        //start("https://dev.flyve.org/glpi/apirest.php/");
+        start(glpiUrl);
         interfaces = retrofit.create(Routes.class);
     }
 
