@@ -3,9 +3,9 @@ package org.flyve.glpi;
 import org.flyve.glpi.response.InitSession;
 
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
-import retrofit2.http.POST;
 
 /*
  *   Copyright © 2017 Teclib. All rights reserved.
@@ -36,15 +36,15 @@ import retrofit2.http.POST;
 public interface Routes {
 
     @Headers("Content-Type: application/json")
-    @POST("initSession")
+    @GET("initSession")
     Call<InitSession> initSessionByUserToken(@Header("Authorization") String authorization);
 
     @Headers("Content-Type: application/json")
-    @POST("initSession")
+    @GET("initSession")
     Call<InitSession> initSessionByCredentials(@Header("Authorization") String authorization);
 
     @Headers("Content-Type: application/json")
-    @POST("killSession")
+    @GET("killSession")
     Call<InitSession> killSession(@Header("Session-Token") String sessionToken);
 
 }
