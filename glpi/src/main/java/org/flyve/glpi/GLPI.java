@@ -267,6 +267,36 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    public void getGlpiConfig(final JsonObjectCallback callback) {
+        // validate if session token is empty
+        if (sessionToken.equals("")) {
+            callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
+        }
+
+        Call<JsonObject> responseCall = interfaces.getGlpiConfig(this.sessionToken);
+        responseCall.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure( errorMessage );
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
     public void killSession(final KillSessionCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
