@@ -225,40 +225,40 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void killSession(final jsonObjectCallback callback) {
+    public void killSession(final killSessionCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Call<JsonObject> responseCall = interfaces.killSession(this.sessionToken);
-        responseCall.enqueue(new Callback<JsonObject>() {
+        Call<Void> responseCall = interfaces.killSession(this.sessionToken);
+        responseCall.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    callback.onResponse(response.body());
+                    callback.onResponse(context.getResources().getString(R.string.kill_session_success));
                 } else {
                     callback.onFailure(response.errorBody().toString());
                 }
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
     }
 
-
-    public void changeActiveProfile() {}
-    public void changeActiveEntities() {}
-
     public void getAnTtem() {}
     public void getAllUtems() {}
     public void getSubItems() {}
     public void getMultipleItems() {}
+
     public void listSearchOptions() {}
     public void searchItems() {}
+
+    public void changeActiveProfile() {}
+    public void changeActiveEntities() {}
     public void addItems() {}
     public void updateItems() {}
     public void deleteItems() {}
@@ -271,6 +271,11 @@ public class GLPI extends ServiceGenerator {
 
     public interface jsonObjectCallback {
         void onResponse(JsonObject response);
+        void onFailure(String errorMessage);
+    }
+
+    public interface killSessionCallback {
+        void onResponse(String response);
         void onFailure(String errorMessage);
     }
 

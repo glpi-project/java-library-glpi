@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                glpi.killSession(new GLPI.jsonObjectCallback() {
+                glpi.killSession(new GLPI.killSessionCallback() {
                     @Override
-                    public void onResponse(JsonObject response) {
+                    public void onResponse(String response) {
                         Log.d("killSession", response.toString());
                     }
 

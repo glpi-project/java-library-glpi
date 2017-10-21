@@ -47,7 +47,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("killSession")
-    Call<JsonObject> killSession(@Header("Session-Token") String sessionToken);
+    Call<Void> killSession(@Header("Session-Token") String sessionToken);
 
     @Headers("Content-Type: application/json")
     @GET("getMyProfiles")
