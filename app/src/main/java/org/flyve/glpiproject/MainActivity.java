@@ -3,10 +3,13 @@ package org.flyve.glpiproject;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+import com.google.gson.JsonObject;
 
 import org.flyve.glpi.GLPI;
 import org.flyve.glpi.response.InitSession;
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,31 +18,114 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        GLPI glpi = new GLPI(MainActivity.this, "https://dev.flyve.org/glpi/apirest.php");
+        final GLPI glpi = new GLPI(MainActivity.this, "https://dev.flyve.org/glpi/apirest.php/");
 
-        glpi.initSessionByCredentials("rafaelje@gmail.com", "12345678", new GLPI.initSessionCallback() {
+
+        Button btnInit = (Button) findViewById(R.id.btnInit);
+        btnInit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(InitSession response) {
-                Log.d("initSession", response.getSession_token());
+            public void onClick(View v) {
+                glpi.initSessionByCredentials("rafaelje@gmail.com", "12345678", new GLPI.initSessionCallback() {
+                    @Override
+                    public void onResponse(InitSession response) {
+                        Log.d("initSession", response.getSession_token());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("initSession", errorMessage);
+                    }
+                });
             }
+        });
 
+        Button btn = (Button) findViewById(R.id.btnCall);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(String errorMessage) {
-                Log.e("initSession", errorMessage);
+            public void onClick(View v) {
+                glpi.getMyProfiles(new GLPI.jsonObjectCallback() {
+                    @Override
+                    public void onResponse(JsonObject response) {
+                        Log.d("getMyProfiles", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("getMyProfiles", errorMessage);
+                    }
+                });
+
+                glpi.getActiveProfile(new GLPI.jsonObjectCallback() {
+                    @Override
+                    public void onResponse(JsonObject response) {
+                        Log.d("getActiveProfile", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("getActiveProfile", errorMessage);
+                    }
+                });
+
+                glpi.getMyEntities(new GLPI.jsonObjectCallback() {
+                    @Override
+                    public void onResponse(JsonObject response) {
+                        Log.d("getMyEntities", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("getMyEntities", errorMessage);
+                    }
+                });
+
+                glpi.getActiveEntities(new GLPI.jsonObjectCallback() {
+                    @Override
+                    public void onResponse(JsonObject response) {
+                        Log.d("getActiveEntities", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("getActiveEntities", errorMessage);
+                    }
+                });
+
+                glpi.getFullSession(new GLPI.jsonObjectCallback() {
+                    @Override
+                    public void onResponse(JsonObject response) {
+                        Log.d("getFullSession", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("getFullSession", errorMessage);
+                    }
+                });
             }
         });
 
-        glpi.getMyProfiles(new GLPI.jsonObjectCallback() {
+        Button btnKill = (Button) findViewById(R.id.btnKill);
+        btnKill.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(JSONObject response) {
-                Log.d("getMyProfiles", response.toString());
-            }
+            public void onClick(View v) {
 
-            @Override
-            public void onFailure(String errorMessage) {
-                Log.d("getMyProfiles", errorMessage);
+                glpi.killSession(new GLPI.jsonObjectCallback() {
+                    @Override
+                    public void onResponse(JsonObject response) {
+                        Log.d("killSession", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("killSession", errorMessage);
+                    }
+                });
+
             }
         });
+
+
 
     }
 }
