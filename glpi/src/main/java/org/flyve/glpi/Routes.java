@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Path;
 
 /*
  *   Copyright © 2017 Teclib. All rights reserved.
@@ -72,5 +73,9 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @GET("getGlpiConfig")
     Call<JsonObject> getGlpiConfig(@Header("Session-Token") String sessionToken);
+
+    @Headers("Content-Type: application/json")
+    @GET("{itemType}")
+    Call<JsonObject> getAllItem(@Header("Session-Token") String sessionToken, @Path("itemType") itemType itemType);
 
 }
