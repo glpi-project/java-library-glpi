@@ -3,6 +3,7 @@ package org.flyve.glpi;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.flyve.glpi.response.InitSession;
@@ -327,8 +328,66 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void getAnTtem() {}
-    public void getAllUtems() {}
+    public void getAllItems(itemType itemType, final JsonArrayCallback callback) {
+        // validate if session token is empty
+        if (sessionToken.equals("")) {
+            callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
+        }
+
+        Call<JsonArray> responseCall = interfaces.getAllItem(this.sessionToken, itemType.name());
+        responseCall.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure( errorMessage );
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void getAnItem(itemType itemType, String id, final JsonObjectCallback callback) {
+        // validate if session token is empty
+        if (sessionToken.equals("")) {
+            callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
+        }
+
+        Call<JsonObject> responseCall = interfaces.getAnItem(this.sessionToken, itemType.name(), id);
+        responseCall.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
     public void getSubItems() {}
     public void getMultipleItems() {}
 
@@ -349,6 +408,11 @@ public class GLPI extends ServiceGenerator {
 
     public interface JsonObjectCallback {
         void onResponse(JsonObject response);
+        void onFailure(String errorMessage);
+    }
+
+    public interface JsonArrayCallback {
+        void onResponse(JsonArray response);
         void onFailure(String errorMessage);
     }
 

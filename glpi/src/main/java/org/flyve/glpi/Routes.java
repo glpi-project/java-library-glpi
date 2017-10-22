@@ -1,5 +1,6 @@
 package org.flyve.glpi;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.flyve.glpi.response.InitSession;
@@ -76,6 +77,10 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("{itemType}")
-    Call<JsonObject> getAllItem(@Header("Session-Token") String sessionToken, @Path("itemType") itemType itemType);
+    Call<JsonArray> getAllItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType);
+
+    @Headers("Content-Type: application/json")
+    @GET("{itemType}/{id}")
+    Call<JsonObject> getAnItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Path("id") String id);
 
 }

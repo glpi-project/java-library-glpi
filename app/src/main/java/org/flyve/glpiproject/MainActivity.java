@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.flyve.glpi.GLPI;
+import org.flyve.glpi.itemType;
 import org.flyve.glpi.response.InitSession;
 
 public class MainActivity extends AppCompatActivity {
@@ -114,6 +116,31 @@ public class MainActivity extends AppCompatActivity {
                         Log.e("getGlpiConfig", errorMessage);
                     }
                 });
+
+                glpi.getAllItems(itemType.Computer, new GLPI.JsonArrayCallback() {
+                    @Override
+                    public void onResponse(JsonArray response) {
+                        Log.d("getAllItems", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("getAllItems", errorMessage);
+                    }
+                });
+
+                glpi.getAnItem(itemType.Computer, "110", new GLPI.JsonObjectCallback() {
+                    @Override
+                    public void onResponse(JsonObject response) {
+                        Log.d("getAnItem", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("getAnItem", errorMessage);
+                    }
+                });
+
             }
         });
 
