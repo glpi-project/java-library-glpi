@@ -383,11 +383,9 @@ public class GLPI extends ServiceGenerator {
         }
         Map<String, String> map = new HashMap<>();
 
-        String _appToken = appToken;
-
         map.put("Session-Token", this.sessionToken);
-        if(_appToken!=null) {
-            map.put("App-Token", _appToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
         }
 
         Call<Void> responseCall = interfaces.killSession(map);
@@ -415,12 +413,23 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getAllItems(itemType itemType, final JsonArrayCallback callback) {
+        getAllItems(null, itemType, callback);
+    }
+
+    public void getAllItems(String appToken, itemType itemType, final JsonArrayCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Call<JsonArray> responseCall = interfaces.getAllItem(this.sessionToken, itemType.name());
+        Map<String, String> map = new HashMap<>();
+
+        map.put("Session-Token", this.sessionToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
+        }
+
+        Call<JsonArray> responseCall = interfaces.getAllItem(map, itemType.name());
         responseCall.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
