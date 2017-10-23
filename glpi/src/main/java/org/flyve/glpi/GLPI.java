@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.flyve.glpi.request.changeActiveProfileRequest;
 import org.flyve.glpi.response.InitSession;
 import org.flyve.glpi.utils.Helpers;
 
@@ -418,18 +419,47 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    public void changeActiveProfile(String profilesId, final ChangeActiveProfileCallback callback) {
+        // validate if session token is empty
+        if (sessionToken.equals("")) {
+            callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
+        }
 
-    public void getMultipleItems() {}
+        changeActiveProfileRequest requestPost = new changeActiveProfileRequest(profilesId);
 
-    public void listSearchOptions() {}
-    public void searchItems() {}
+        Call<Void> responseCall = interfaces.changeActiveProfile(this.sessionToken, requestPost);
+        responseCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(context.getResources().getString(R.string.change_active_profile_success));
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
 
-    public void changeActiveProfile() {}
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
     public void changeActiveEntities() {}
     public void addItems() {}
     public void updateItems() {}
     public void deleteItems() {}
 
+
+    public void getMultipleItems() {}
+    public void listSearchOptions() {}
+    public void searchItems() {}
 
     public interface InitSessionCallback {
         void onResponse(InitSession response);
@@ -447,6 +477,11 @@ public class GLPI extends ServiceGenerator {
     }
 
     public interface KillSessionCallback {
+        void onResponse(String response);
+        void onFailure(String errorMessage);
+    }
+
+    public interface ChangeActiveProfileCallback {
         void onResponse(String response);
         void onFailure(String errorMessage);
     }

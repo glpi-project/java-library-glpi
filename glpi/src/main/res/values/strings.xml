@@ -2,5 +2,6 @@
     <string name="app_name">GLPI</string>
     <string name="error_session_token_empty">Session token is empty, please init session first</string>
     <string name="kill_session_success">Session is closed</string>
+    <string name="change_active_profile_success">Change active profile success</string>
     <string name="error_generic">Fail</string>
 </resources>

@@ -3,12 +3,15 @@ package org.flyve.glpi;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.flyve.glpi.request.changeActiveProfileRequest;
 import org.flyve.glpi.response.InitSession;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /*
@@ -86,5 +89,10 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @GET("{itemType}/{id}/{subItemType}")
     Call<JsonObject> getSubItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Path("id") String id, @Path("subItemType") String subItemType);
+
+
+    @Headers("Content-Type: application/json")
+    @POST("changeActiveProfile")
+    Call<Void> changeActiveProfile(@Header("Session-Token") String sessionToken,  @Body changeActiveProfileRequest requestPost);
 
 }

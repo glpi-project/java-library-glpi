@@ -153,6 +153,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                glpi.changeActiveProfile("9", new GLPI.ChangeActiveProfileCallback() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("changeActiveProfile", response);
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("changeActiveProfile", errorMessage);
+                    }
+                });
+
             }
         });
 
