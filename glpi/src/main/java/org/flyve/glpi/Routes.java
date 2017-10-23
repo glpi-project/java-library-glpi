@@ -73,7 +73,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("getMyEntities")
-    Call<JsonObject> getMyEntities(@Header("Session-Token") String sessionToken);
+    Call<JsonObject> getMyEntities(@HeaderMap Map<String, String> headers);
 
     @Headers("Content-Type: application/json")
     @GET("getActiveEntities")
