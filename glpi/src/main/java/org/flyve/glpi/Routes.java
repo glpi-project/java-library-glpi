@@ -9,12 +9,15 @@ import org.flyve.glpi.request.lostPasswordRequest;
 import org.flyve.glpi.request.recoveryPasswordRequest;
 import org.flyve.glpi.response.InitSession;
 
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -58,7 +61,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("killSession")
-    Call<Void> killSession(@Header("Session-Token") String sessionToken);
+    Call<Void> killSession(@HeaderMap Map<String, String> headers);
 
     @Headers("Content-Type: application/json")
     @GET("getMyProfiles")

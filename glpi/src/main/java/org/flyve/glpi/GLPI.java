@@ -13,6 +13,9 @@ import org.flyve.glpi.request.recoveryPasswordRequest;
 import org.flyve.glpi.response.InitSession;
 import org.flyve.glpi.utils.Helpers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -303,12 +306,24 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void killSession(final VoidCallback callback) {
+        killSession(null, callback);
+    }
+
+    public void killSession(String appToken, final VoidCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
+        Map<String, String> map = new HashMap<>();
 
-        Call<Void> responseCall = interfaces.killSession(this.sessionToken);
+        String _appToken = appToken;
+
+        map.put("Session-Token", this.sessionToken);
+        if(_appToken!=null) {
+            map.put("App-Token", _appToken);
+        }
+
+        Call<Void> responseCall = interfaces.killSession(map);
         responseCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
