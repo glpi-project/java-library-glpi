@@ -100,4 +100,8 @@ public interface Routes {
     @POST("changeActiveEntities")
     Call<Void> changeActiveEntities(@Header("Session-Token") String sessionToken,  @Body changeActiveEntitiesRequest requestPost);
 
+    @Headers("Content-Type: application/json")
+    @POST("{itemType}")
+    Call<JsonArray> addItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Body Object requestPost);
+
 }

@@ -13,6 +13,8 @@ import org.flyve.glpi.GLPI;
 import org.flyve.glpi.itemType;
 import org.flyve.glpi.response.InitSession;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -174,6 +176,29 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(String errorMessage) {
                         Log.e("changeActiveEntities", errorMessage);
+                    }
+                });
+
+                addItemExamplePayload.data item1 = new addItemExamplePayload.data("My first computer","12345");
+                addItemExamplePayload.data item2 = new addItemExamplePayload.data("My second computer","12345678");
+                addItemExamplePayload.data item3 = new addItemExamplePayload.data("My computer","54321");
+
+                ArrayList<addItemExamplePayload.data> list = new ArrayList<>();
+                list.add(item1);
+                list.add(item2);
+                list.add(item3);
+
+                addItemExamplePayload obj = new addItemExamplePayload(list);
+
+                glpi.addItems(itemType.Computer, obj, new GLPI.JsonArrayCallback() {
+                    @Override
+                    public void onResponse(JsonArray response) {
+                        Log.d("addItems", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("addItems", errorMessage);
                     }
                 });
 
