@@ -9,10 +9,13 @@ import org.flyve.glpi.response.InitSession;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /*
@@ -103,5 +106,17 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @POST("{itemType}")
     Call<JsonArray> addItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Body Object requestPost);
+
+    @Headers("Content-Type: application/json")
+    @PUT("{itemType}/{id}")
+    Call<JsonArray> updateItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Path("id") String id, @Body Object requestPost);
+
+    @Headers("Content-Type: application/json")
+    @DELETE("{itemType}/{id}")
+    Call<JsonArray> deleteItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Path("id") String id);
+
+    @Headers("Content-Type: application/json")
+    @HTTP(method = "DELETE", path = "{itemType}", hasBody = true)
+    Call<JsonArray> deleteMultiplesItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Body Object requestPost);
 
 }

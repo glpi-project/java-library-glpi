@@ -514,9 +514,95 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void updateItems() {}
-    public void deleteItems() {}
+    public void updateItems(itemType itemType, String id, Object payload, final JsonArrayCallback callback) {
+        // validate if session token is empty
+        if (sessionToken.equals("")) {
+            callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
+        }
 
+        Call<JsonArray> responseCall = interfaces.updateItem(this.sessionToken, itemType.name(), id, payload);
+        responseCall.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void deleteItems(itemType itemType, String id, final JsonArrayCallback callback) {
+        // validate if session token is empty
+        if (sessionToken.equals("")) {
+            callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
+        }
+
+        Call<JsonArray> responseCall = interfaces.deleteItem(this.sessionToken, itemType.name(), id);
+        responseCall.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void deleteItems(itemType itemType, Object payload, final JsonArrayCallback callback) {
+        // validate if session token is empty
+        if (sessionToken.equals("")) {
+            callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
+        }
+
+        Call<JsonArray> responseCall = interfaces.deleteMultiplesItem(this.sessionToken, itemType.name(), payload);
+        responseCall.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
 
     public void getMultipleItems() {}
     public void listSearchOptions() {}

@@ -5,14 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import org.flyve.glpi.GLPI;
 import org.flyve.glpi.itemType;
 import org.flyve.glpi.response.InitSession;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -202,6 +199,53 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                glpi.updateItems(itemType.Computer, "10", obj, new GLPI.JsonArrayCallback() {
+                    @Override
+                    public void onResponse(JsonArray response) {
+                        Log.d("updateItems", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("updateItems", errorMessage);
+                    }
+                });
+
+                glpi.deleteItems(itemType.Computer, "10", new GLPI.JsonArrayCallback() {
+                    @Override
+                    public void onResponse(JsonArray response) {
+                        Log.d("deleteItems", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("deleteItems", errorMessage);
+                    }
+                });
+
+                deleteItemExamplePayload.data deleteItem1 = new deleteItemExamplePayload.data("16");
+                deleteItemExamplePayload.data deleteItem2 = new deleteItemExamplePayload.data("17");
+                deleteItemExamplePayload.data deleteItem3 = new deleteItemExamplePayload.data("18");
+
+                ArrayList<deleteItemExamplePayload.data> deleteList = new ArrayList<>();
+                deleteList.add(deleteItem1);
+                deleteList.add(deleteItem2);
+                deleteList.add(deleteItem3);
+
+                deleteItemExamplePayload deleteObj = new deleteItemExamplePayload(deleteList);
+
+                glpi.deleteItems(itemType.Computer, deleteObj, new GLPI.JsonArrayCallback() {
+                    @Override
+                    public void onResponse(JsonArray response) {
+                        Log.d("deleteItems", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("deleteItems", errorMessage);
+                    }
+                });
+
             }
         });
 
@@ -221,11 +265,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.e("killSession", errorMessage);
                     }
                 });
-
             }
         });
-
-
-
     }
 }
