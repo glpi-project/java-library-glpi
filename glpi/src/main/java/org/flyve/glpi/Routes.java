@@ -99,14 +99,13 @@ public interface Routes {
     @GET("{itemType}/{id}/{subItemType}")
     Call<JsonObject> getSubItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @Path("id") String id, @Path("subItemType") String subItemType);
 
-
     @Headers("Content-Type: application/json")
     @POST("changeActiveProfile")
-    Call<Void> changeActiveProfile(@Header("Session-Token") String sessionToken,  @Body changeActiveProfileRequest requestPost);
+    Call<Void> changeActiveProfile(@HeaderMap Map<String, String> headers,  @Body changeActiveProfileRequest requestPost);
 
     @Headers("Content-Type: application/json")
     @POST("changeActiveEntities")
-    Call<Void> changeActiveEntities(@Header("Session-Token") String sessionToken,  @Body changeActiveEntitiesRequest requestPost);
+    Call<Void> changeActiveEntities(@HeaderMap Map<String, String> headers,  @Body changeActiveEntitiesRequest requestPost);
 
     @Headers("Content-Type: application/json")
     @POST("{itemType}")

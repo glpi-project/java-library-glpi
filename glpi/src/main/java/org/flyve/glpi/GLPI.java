@@ -536,14 +536,25 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void changeActiveProfile(String profilesId, final VoidCallback callback) {
+        changeActiveProfile(null, profilesId, callback);
+    }
+
+    public void changeActiveProfile(String appToken, String profilesId, final VoidCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
+        Map<String, String> map = new HashMap<>();
+
+        map.put("Session-Token", this.sessionToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
+        }
+
         changeActiveProfileRequest requestPost = new changeActiveProfileRequest(profilesId);
 
-        Call<Void> responseCall = interfaces.changeActiveProfile(this.sessionToken, requestPost);
+        Call<Void> responseCall = interfaces.changeActiveProfile(map, requestPost);
         responseCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
