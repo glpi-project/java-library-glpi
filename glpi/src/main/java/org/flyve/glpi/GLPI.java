@@ -704,12 +704,23 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void deleteItems(itemType itemType, String id, final JsonArrayCallback callback) {
+        deleteItems(null, itemType, id, callback);
+    }
+
+    public void deleteItems(String appToken, itemType itemType, String id, final JsonArrayCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Call<JsonArray> responseCall = interfaces.deleteItem(this.sessionToken, itemType.name(), id);
+        Map<String, String> map = new HashMap<>();
+
+        map.put("Session-Token", this.sessionToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
+        }
+
+        Call<JsonArray> responseCall = interfaces.deleteItem(map, itemType.name(), id);
         responseCall.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
@@ -734,12 +745,23 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void deleteItems(itemType itemType, Object payload, final JsonArrayCallback callback) {
+        deleteItems(null, itemType, payload, callback);
+    }
+
+    public void deleteItems(String appToken, itemType itemType, Object payload, final JsonArrayCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Call<JsonArray> responseCall = interfaces.deleteMultiplesItem(this.sessionToken, itemType.name(), payload);
+        Map<String, String> map = new HashMap<>();
+
+        map.put("Session-Token", this.sessionToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
+        }
+
+        Call<JsonArray> responseCall = interfaces.deleteMultiplesItem(map, itemType.name(), payload);
         responseCall.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {

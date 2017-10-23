@@ -117,11 +117,11 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @DELETE("{itemType}/{id}")
-    Call<JsonArray> deleteItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Path("id") String id);
+    Call<JsonArray> deleteItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @Path("id") String id);
 
     @Headers("Content-Type: application/json")
     @HTTP(method = "DELETE", path = "{itemType}", hasBody = true)
-    Call<JsonArray> deleteMultiplesItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Body Object requestPost);
+    Call<JsonArray> deleteMultiplesItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @Body Object requestPost);
 
     @Headers("Content-Type: application/json")
     @PUT("lostPassword")
