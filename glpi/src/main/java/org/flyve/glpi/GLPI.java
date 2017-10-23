@@ -179,11 +179,9 @@ public class GLPI extends ServiceGenerator {
 
         Map<String, String> map = new HashMap<>();
 
-        String _appToken = appToken;
-
         map.put("Session-Token", this.sessionToken);
-        if(_appToken!=null) {
-            map.put("App-Token", _appToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
         }
 
         Call<JsonObject> responseCall = interfaces.getActiveProfile(map);
@@ -222,11 +220,9 @@ public class GLPI extends ServiceGenerator {
 
         Map<String, String> map = new HashMap<>();
 
-        String _appToken = appToken;
-
         map.put("Session-Token", this.sessionToken);
-        if(_appToken!=null) {
-            map.put("App-Token", _appToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
         }
 
         Call<JsonObject> responseCall = interfaces.getMyEntities(map);
@@ -265,11 +261,9 @@ public class GLPI extends ServiceGenerator {
 
         Map<String, String> map = new HashMap<>();
 
-        String _appToken = appToken;
-
         map.put("Session-Token", this.sessionToken);
-        if(_appToken!=null) {
-            map.put("App-Token", _appToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
         }
 
         Call<JsonObject> responseCall = interfaces.getActiveEntities(map);
@@ -297,12 +291,23 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getFullSession(final JsonObjectCallback callback) {
+        getFullSession(null, callback);
+    }
+
+    public void getFullSession(String appToken, final JsonObjectCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Call<JsonObject> responseCall = interfaces.getFullSession(this.sessionToken);
+        Map<String, String> map = new HashMap<>();
+
+        map.put("Session-Token", this.sessionToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
+        }
+
+        Call<JsonObject> responseCall = interfaces.getFullSession(map);
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

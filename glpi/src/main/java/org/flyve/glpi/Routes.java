@@ -81,7 +81,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("getFullSession")
-    Call<JsonObject> getFullSession(@Header("Session-Token") String sessionToken);
+    Call<JsonObject> getFullSession(@HeaderMap Map<String, String> headers);
 
     @Headers("Content-Type: application/json")
     @GET("getGlpiConfig")
