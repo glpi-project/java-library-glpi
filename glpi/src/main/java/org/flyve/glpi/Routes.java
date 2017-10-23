@@ -109,7 +109,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @POST("{itemType}")
-    Call<JsonArray> addItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Body Object requestPost);
+    Call<JsonArray> addItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @Body Object requestPost);
 
     @Headers("Content-Type: application/json")
     @PUT("{itemType}/{id}")
