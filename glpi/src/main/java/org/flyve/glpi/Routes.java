@@ -113,7 +113,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @PUT("{itemType}/{id}")
-    Call<JsonArray> updateItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Path("id") String id, @Body Object requestPost);
+    Call<JsonArray> updateItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @Path("id") String id, @Body Object requestPost);
 
     @Headers("Content-Type: application/json")
     @DELETE("{itemType}/{id}")
