@@ -126,12 +126,24 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getMyProfiles(final JsonObjectCallback callback) {
+        getMyProfiles(null, callback);
+    }
+
+    public void getMyProfiles(String appToken, final JsonObjectCallback callback) {
         // validate if session token is empty
         if(sessionToken.equals("")) {
             callback.onFailure( context.getResources().getString(R.string.error_session_token_empty) );
         }
+        Map<String, String> map = new HashMap<>();
 
-        Call<JsonObject> responseCall = interfaces.getMyProfiles(this.sessionToken);
+        String _appToken = appToken;
+
+        map.put("Session-Token", this.sessionToken);
+        if(_appToken!=null) {
+            map.put("App-Token", _appToken);
+        }
+
+        Call<JsonObject> responseCall = interfaces.getMyProfiles(map);
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

@@ -65,7 +65,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("getMyProfiles")
-    Call<JsonObject> getMyProfiles(@Header("Session-Token") String sessionToken);
+    Call<JsonObject> getMyProfiles(@HeaderMap Map<String, String> headers);
 
     @Headers("Content-Type: application/json")
     @GET("getActiveProfile")
