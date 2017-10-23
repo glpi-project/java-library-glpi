@@ -141,6 +141,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                glpi.getSubItems(itemType.User, "2", "Log", new GLPI.JsonObjectCallback() {
+                    @Override
+                    public void onResponse(JsonObject response) {
+                        Log.d("getSubItems", response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("getSubItems", errorMessage);
+                    }
+                });
+
             }
         });
 
