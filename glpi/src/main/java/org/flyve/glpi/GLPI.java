@@ -332,12 +332,23 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getGlpiConfig(final JsonObjectCallback callback) {
+        getGlpiConfig(null, callback);
+    }
+
+    public void getGlpiConfig(String appToken, final JsonObjectCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Call<JsonObject> responseCall = interfaces.getGlpiConfig(this.sessionToken);
+        Map<String, String> map = new HashMap<>();
+
+        map.put("Session-Token", this.sessionToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
+        }
+
+        Call<JsonObject> responseCall = interfaces.getGlpiConfig(map);
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

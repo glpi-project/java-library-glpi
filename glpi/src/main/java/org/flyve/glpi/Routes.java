@@ -85,7 +85,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("getGlpiConfig")
-    Call<JsonObject> getGlpiConfig(@Header("Session-Token") String sessionToken);
+    Call<JsonObject> getGlpiConfig(@HeaderMap Map<String, String> headers);
 
     @Headers("Content-Type: application/json")
     @GET("{itemType}")
