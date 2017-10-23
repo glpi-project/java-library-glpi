@@ -579,14 +579,25 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void changeActiveEntities(String entitiesId, Boolean is_recursive, final VoidCallback callback) {
+        changeActiveEntities(null, entitiesId, is_recursive, callback);
+    }
+
+    public void changeActiveEntities(String appToken, String entitiesId, Boolean is_recursive, final VoidCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
+        Map<String, String> map = new HashMap<>();
+
+        map.put("Session-Token", this.sessionToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
+        }
+
         changeActiveEntitiesRequest requestPost = new changeActiveEntitiesRequest(entitiesId, is_recursive.toString());
 
-        Call<Void> responseCall = interfaces.changeActiveEntities(this.sessionToken, requestPost);
+        Call<Void> responseCall = interfaces.changeActiveEntities(map, requestPost);
         responseCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
