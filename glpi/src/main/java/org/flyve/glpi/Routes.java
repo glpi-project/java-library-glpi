@@ -97,7 +97,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("{itemType}/{id}/{subItemType}")
-    Call<JsonObject> getSubItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Path("id") String id, @Path("subItemType") String subItemType);
+    Call<JsonObject> getSubItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @Path("id") String id, @Path("subItemType") String subItemType);
 
 
     @Headers("Content-Type: application/json")
