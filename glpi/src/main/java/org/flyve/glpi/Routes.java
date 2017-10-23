@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 
 import org.flyve.glpi.request.changeActiveEntitiesRequest;
 import org.flyve.glpi.request.changeActiveProfileRequest;
+import org.flyve.glpi.request.lostPasswordRequest;
+import org.flyve.glpi.request.recoveryPasswordRequest;
 import org.flyve.glpi.response.InitSession;
 
 import retrofit2.Call;
@@ -118,5 +120,13 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @HTTP(method = "DELETE", path = "{itemType}", hasBody = true)
     Call<JsonArray> deleteMultiplesItem(@Header("Session-Token") String sessionToken, @Path("itemType") String itemType, @Body Object requestPost);
+
+    @Headers("Content-Type: application/json")
+    @PUT("lostPassword")
+    Call<Void> lostPassword(@Body lostPasswordRequest requestPost);
+
+    @Headers("Content-Type: application/json")
+    @PUT("lostPassword")
+    Call<Void> recoveryPassword(@Body recoveryPasswordRequest requestPost);
 
 }

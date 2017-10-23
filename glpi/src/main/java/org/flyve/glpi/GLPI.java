@@ -8,6 +8,8 @@ import com.google.gson.JsonObject;
 
 import org.flyve.glpi.request.changeActiveEntitiesRequest;
 import org.flyve.glpi.request.changeActiveProfileRequest;
+import org.flyve.glpi.request.lostPasswordRequest;
+import org.flyve.glpi.request.recoveryPasswordRequest;
 import org.flyve.glpi.response.InitSession;
 import org.flyve.glpi.utils.Helpers;
 
@@ -300,7 +302,7 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void killSession(final KillSessionCallback callback) {
+    public void killSession(final VoidCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -420,7 +422,7 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void changeActiveProfile(String profilesId, final ChangeActiveProfileCallback callback) {
+    public void changeActiveProfile(String profilesId, final VoidCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -452,7 +454,7 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void changeActiveEntities(String entitiesId, Boolean is_recursive, final ChangeActiveProfileCallback callback) {
+    public void changeActiveEntities(String entitiesId, Boolean is_recursive, final VoidCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -604,6 +606,70 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    public void lostPassword(String email, final VoidCallback callback) {
+        // validate if session token is empty
+        if (sessionToken.equals("")) {
+            callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
+        }
+
+        lostPasswordRequest requestPost = new lostPasswordRequest(email);
+
+        Call<Void> responseCall = interfaces.lostPassword(requestPost);
+        responseCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(context.getResources().getString(R.string.lost_password_success));
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void recoveryPassword(String email, String token, String newPassword, final VoidCallback callback) {
+        // validate if session token is empty
+        if (sessionToken.equals("")) {
+            callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
+        }
+
+        recoveryPasswordRequest requestPost = new recoveryPasswordRequest(email, token, newPassword);
+
+        Call<Void> responseCall = interfaces.recoveryPassword(requestPost);
+        responseCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(context.getResources().getString(R.string.recovery_password_success));
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
     public void getMultipleItems() {}
     public void listSearchOptions() {}
     public void searchItems() {}
@@ -623,13 +689,10 @@ public class GLPI extends ServiceGenerator {
         void onFailure(String errorMessage);
     }
 
-    public interface KillSessionCallback {
+    public interface VoidCallback {
         void onResponse(String response);
         void onFailure(String errorMessage);
     }
 
-    public interface ChangeActiveProfileCallback {
-        void onResponse(String response);
-        void onFailure(String errorMessage);
-    }
+
 }

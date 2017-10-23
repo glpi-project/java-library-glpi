@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                glpi.changeActiveProfile("9", new GLPI.ChangeActiveProfileCallback() {
+                glpi.changeActiveProfile("9", new GLPI.VoidCallback() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("changeActiveProfile", response);
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                glpi.changeActiveEntities("1", false, new GLPI.ChangeActiveProfileCallback() {
+                glpi.changeActiveEntities("1", false, new GLPI.VoidCallback() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("changeActiveEntities", response);
@@ -246,6 +246,29 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                glpi.lostPassword("youremail@yourdomain.com", new GLPI.VoidCallback() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("lostPassword", response);
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("lostPassword", errorMessage);
+                    }
+                });
+
+                glpi.recoveryPassword("youremail@yourdomain.com", "asdfasdfafsASDFd333A", "1234", new GLPI.VoidCallback() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("recoveryPassword", response);
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("recoveryPassword", errorMessage);
+                    }
+                });
             }
         });
 
@@ -254,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                glpi.killSession(new GLPI.KillSessionCallback() {
+                glpi.killSession(new GLPI.VoidCallback() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("killSession", response.toString());
