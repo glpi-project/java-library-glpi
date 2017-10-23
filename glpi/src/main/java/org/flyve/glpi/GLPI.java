@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.flyve.glpi.request.changeActiveEntitiesRequest;
 import org.flyve.glpi.request.changeActiveProfileRequest;
 import org.flyve.glpi.response.InitSession;
 import org.flyve.glpi.utils.Helpers;
@@ -451,7 +452,38 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void changeActiveEntities() {}
+    public void changeActiveEntities(String entitiesId, Boolean is_recursive, final ChangeActiveProfileCallback callback) {
+        // validate if session token is empty
+        if (sessionToken.equals("")) {
+            callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
+        }
+
+        changeActiveEntitiesRequest requestPost = new changeActiveEntitiesRequest(entitiesId, is_recursive.toString());
+
+        Call<Void> responseCall = interfaces.changeActiveEntities(this.sessionToken, requestPost);
+        responseCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(context.getResources().getString(R.string.change_active_entities_success));
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
     public void addItems() {}
     public void updateItems() {}
     public void deleteItems() {}

@@ -165,6 +165,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                glpi.changeActiveEntities("1", false, new GLPI.ChangeActiveProfileCallback() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("changeActiveEntities", response);
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+                        Log.e("changeActiveEntities", errorMessage);
+                    }
+                });
+
             }
         });
 

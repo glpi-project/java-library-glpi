@@ -3,6 +3,7 @@ package org.flyve.glpi;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.flyve.glpi.request.changeActiveEntitiesRequest;
 import org.flyve.glpi.request.changeActiveProfileRequest;
 import org.flyve.glpi.response.InitSession;
 
@@ -94,5 +95,9 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @POST("changeActiveProfile")
     Call<Void> changeActiveProfile(@Header("Session-Token") String sessionToken,  @Body changeActiveProfileRequest requestPost);
+
+    @Headers("Content-Type: application/json")
+    @POST("changeActiveEntities")
+    Call<Void> changeActiveEntities(@Header("Session-Token") String sessionToken,  @Body changeActiveEntitiesRequest requestPost);
 
 }
