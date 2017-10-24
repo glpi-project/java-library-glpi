@@ -143,10 +143,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getMyProfiles(final JsonObjectCallback callback) {
-        getMyProfiles(null, callback);
-    }
-
-    public void getMyProfiles(String appToken, final JsonObjectCallback callback) {
         // validate if session token is empty
         if(sessionToken.equals("")) {
             callback.onFailure( context.getResources().getString(R.string.error_session_token_empty) );
@@ -185,10 +181,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getActiveProfile(final JsonObjectCallback callback) {
-        getActiveProfile(null, callback);
-    }
-
-    public void getActiveProfile(String appToken, final JsonObjectCallback callback) {
         // validate if session token is empty
         if(sessionToken.equals("")) {
             callback.onFailure( context.getResources().getString(R.string.error_session_token_empty) );
@@ -226,10 +218,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getMyEntities(final JsonObjectCallback callback) {
-        getMyEntities(null, callback);
-    }
-
-    public void getMyEntities(String appToken, final JsonObjectCallback callback) {
         // validate if session token is empty
         if(sessionToken.equals("")) {
             callback.onFailure( context.getResources().getString(R.string.error_session_token_empty) );
@@ -267,10 +255,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getActiveEntities(final JsonObjectCallback callback) {
-        getActiveEntities(null, callback);
-    }
-
-    public void getActiveEntities(String appToken, final JsonObjectCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -308,10 +292,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getFullSession(final JsonObjectCallback callback) {
-        getFullSession(null, callback);
-    }
-
-    public void getFullSession(String appToken, final JsonObjectCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -349,10 +329,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getGlpiConfig(final JsonObjectCallback callback) {
-        getGlpiConfig(null, callback);
-    }
-
-    public void getGlpiConfig(String appToken, final JsonObjectCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -389,11 +365,8 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void killSession(final VoidCallback callback) {
-        killSession(null, callback);
-    }
 
-    public void killSession(String appToken, final VoidCallback callback) {
+    public void killSession(final VoidCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -410,6 +383,8 @@ public class GLPI extends ServiceGenerator {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
+                    GLPI.this.appToken = null;
+                    GLPI.this.sessionToken = "";
                     callback.onResponse(context.getResources().getString(R.string.kill_session_success));
                 } else {
                     String errorMessage;
@@ -553,10 +528,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void changeActiveProfile(String profilesId, final VoidCallback callback) {
-        changeActiveProfile(null, profilesId, callback);
-    }
-
-    public void changeActiveProfile(String appToken, String profilesId, final VoidCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -596,10 +567,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void changeActiveEntities(String entitiesId, Boolean is_recursive, final VoidCallback callback) {
-        changeActiveEntities(null, entitiesId, is_recursive, callback);
-    }
-
-    public void changeActiveEntities(String appToken, String entitiesId, Boolean is_recursive, final VoidCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -639,10 +606,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void addItems(itemType itemType, Object payload, final JsonArrayCallback callback) {
-        addItems(null, itemType, payload, callback);
-    }
-
-    public void addItems(String appToken, itemType itemType, Object payload, final JsonArrayCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -680,10 +643,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void updateItems(itemType itemType, String id, Object payload, final JsonArrayCallback callback) {
-        updateItems(null, itemType, id, payload, callback);
-    }
-
-    public void updateItems(String appToken, itemType itemType, String id, Object payload, final JsonArrayCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -721,10 +680,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void deleteItems(itemType itemType, String id, final JsonArrayCallback callback) {
-        deleteItems(null, itemType, id, callback);
-    }
-
-    public void deleteItems(String appToken, itemType itemType, String id, final JsonArrayCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -762,10 +717,6 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void deleteItems(itemType itemType, Object payload, final JsonArrayCallback callback) {
-        deleteItems(null, itemType, payload, callback);
-    }
-
-    public void deleteItems(String appToken, itemType itemType, Object payload, final JsonArrayCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
