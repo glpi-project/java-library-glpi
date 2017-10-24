@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -20,15 +20,14 @@ import static org.junit.Assert.*;
 public class GLPITest {
     // Context of the app under test.
     Context appContext = InstrumentationRegistry.getTargetContext();
-    String sessionToken = "";
 
     @Test
     public void initSessionTest() throws Exception {
-        GLPI glpi = new GLPI(appContext, "https://dev.flyve.org/glpi/apirest.php/");
-        glpi.initSessionByCredentials("rafaelje@gmail.com", "12345678", new GLPI.InitSessionCallback() {
+        GLPI glpi = new GLPI(appContext, BuildConfig.GLPI_URL);
+        glpi.initSessionByCredentials(BuildConfig.GLPI_USER, BuildConfig.GLPI_PASSWORD, new GLPI.InitSessionCallback() {
             @Override
             public void onResponse(InitSession response) {
-                sessionToken = response.getSessionToken();
+                String sessionToken = response.getSessionToken();
                 assertNotEquals("", sessionToken);
             }
 
@@ -38,7 +37,4 @@ public class GLPITest {
             }
         });
     }
-
-
-
 }
