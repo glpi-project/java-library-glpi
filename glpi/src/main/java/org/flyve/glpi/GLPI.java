@@ -129,7 +129,8 @@ public class GLPI extends ServiceGenerator {
         Call<InitSession> responseCall = interfaces.initSessionByCredentials("Basic " + authorization.trim());
 
         try {
-            return responseCall.execute().body().getSessionToken();
+            sessionToken = responseCall.execute().body().getSessionToken();
+            return sessionToken;
         } catch (Exception ex) {
             return "";
         }
@@ -506,7 +507,7 @@ public class GLPI extends ServiceGenerator {
      * @param subItemType This are the item type available on GLPI
      * @param callback here your are going to get the asynchronous response
      */
-    public void getSubItems(itemType itemType, String id, String subItemType, final JsonObjectCallback callback) {
+    public void getSubItems(itemType itemType, String id, itemType subItemType, final JsonObjectCallback callback) {
         getSubItems(new GetSubItemQuery(GLPI.this.context), itemType, id, subItemType, callback);
     }
 
@@ -518,9 +519,9 @@ public class GLPI extends ServiceGenerator {
      * @param subItemType This are the item type available on GLPI
      * @param callback here your are going to get the asynchronous response
      */
-    public void getSubItems(GetSubItemQuery options, itemType itemType, String id, String subItemType, final JsonObjectCallback callback) {
+    public void getSubItems(GetSubItemQuery options, itemType itemType, String id, itemType subItemType, final JsonObjectCallback callback) {
 
-        Call<JsonObject> responseCall = interfaces.getSubItem(getHeader(), itemType.name(), id, subItemType, options.getQuery());
+        Call<JsonObject> responseCall = interfaces.getSubItem(getHeader(), itemType.name(), id, subItemType.name(), options.getQuery());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
