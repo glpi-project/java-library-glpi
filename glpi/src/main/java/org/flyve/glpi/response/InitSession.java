@@ -30,13 +30,13 @@ import com.google.gson.annotations.SerializedName;
 public class InitSession {
 
     @SerializedName("session_token")
-    private String session_token;
+    private String sessionToken;
 
-    public String getSession_token() {
-        return session_token;
+    public String getSessionToken() {
+        return sessionToken;
     }
 
-    public void setSession_token(String session_token) {
-        this.session_token = session_token;
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
     }
 }

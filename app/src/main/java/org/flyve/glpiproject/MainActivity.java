@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 glpi.initSessionByCredentials("gianfrancomanganiello1997@gmail.com", "12345678", new GLPI.InitSessionCallback() {
                     @Override
                     public void onResponse(InitSession response) {
-                        Log.d("initSession", response.getSession_token());
+                        Log.d("initSession", response.getSessionToken());
                     }
 
                     @Override

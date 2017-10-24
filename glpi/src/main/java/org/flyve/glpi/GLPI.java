@@ -89,7 +89,7 @@ public class GLPI extends ServiceGenerator {
                 if(response.isSuccessful()) {
 
                     try {
-                        sessionToken = response.body().getSession_token();
+                        sessionToken = response.body().getSessionToken();
                     } catch (NullPointerException ex) {
                         Log.d("initSession", ex.getMessage());
                     }
@@ -142,7 +142,7 @@ public class GLPI extends ServiceGenerator {
             public void onResponse(Call<InitSession> call, Response<InitSession> response) {
                 if(response.isSuccessful()) {
                     try {
-                        sessionToken = response.body().getSession_token();
+                        sessionToken = response.body().getSessionToken();
                     } catch (NullPointerException ex) {
                         Log.d("initSession", ex.getMessage());
                     }

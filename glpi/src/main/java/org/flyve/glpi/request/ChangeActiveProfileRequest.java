@@ -30,17 +30,17 @@ import com.google.gson.annotations.SerializedName;
 public class ChangeActiveProfileRequest {
 
     @SerializedName("profiles_id")
-    private String profiles_id;
+    private String profilesId;
 
-    public ChangeActiveProfileRequest(String profiles_id) {
-        this.profiles_id = profiles_id;
+    public ChangeActiveProfileRequest(String profilesId) {
+        this.profilesId = profilesId;
     }
 
-    public String getProfiles_id() {
-        return profiles_id;
+    public String getprofilesId() {
+        return profilesId;
     }
 
-    public void setProfiles_id(String profiles_id) {
-        this.profiles_id = profiles_id;
+    public void setprofilesId(String profilesId) {
+        this.profilesId = profilesId;
     }
 }
