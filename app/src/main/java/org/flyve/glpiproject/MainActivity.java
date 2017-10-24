@@ -5,11 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
 import org.flyve.glpi.GLPI;
 import org.flyve.glpi.itemType;
 import org.flyve.glpi.response.InitSession;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
         final GLPI glpi = new GLPI(MainActivity.this, "https://dev.flyve.org/glpi/apirest.php/");
 
-
         Button btnInit = (Button) findViewById(R.id.btnInit);
+        btnInit.setOnClickListener( new  );
         btnInit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

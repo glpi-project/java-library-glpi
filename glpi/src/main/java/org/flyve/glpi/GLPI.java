@@ -53,6 +53,11 @@ public class GLPI extends ServiceGenerator {
     private String appToken;
     private Context context;
 
+    /**
+     * GLPI REST API Constructor this class will help you to interact with GLPI endpoints
+     * @param context is the context
+     * @param glpiUrl is the url glpi instance
+     */
     public GLPI(Context context, String glpiUrl) {
         start(glpiUrl);
         this.context = context;
@@ -60,10 +65,21 @@ public class GLPI extends ServiceGenerator {
         interfaces = retrofit.create(Routes.class);
     }
 
+    /**
+     * Request a session token to uses other api endpoints.
+     * @param userToken defined in User Preference (See 'Remote access key' on GLPI)
+     * @param callback here your are going to get the asynchronous response
+     */
     public void initSessionByUserToken(String userToken, final InitSessionCallback callback) {
         initSessionByUserToken(null, userToken, callback);
     }
 
+    /**
+     * Request a session token to uses other api endpoints.
+     * @param appToken authorization string provided by the GLPI api configuration. [Optional]
+     * @param userToken defined in User Preference (See 'Remote access key' on GLPI)
+     * @param callback here your are going to get the asynchronous response
+     */
     public void initSessionByUserToken(String appToken, String userToken, final InitSessionCallback callback) {
 
         this.appToken = appToken;
@@ -99,10 +115,23 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Request a session token to uses other api endpoints. with a couple login & password: 2 parameters to login with user authentication
+     * @param user valid user on GLPI
+     * @param password valid password on GLPI
+     * @param callback here your are going to get the asynchronous response
+     */
     public void initSessionByCredentials(String user, String password, final InitSessionCallback callback) {
         initSessionByCredentials(null, user, password, callback);
     }
 
+    /**
+     * Request a session token to uses other api endpoints. with a couple login & password: 2 parameters to login with user authentication
+     * @param appToken  authorization string provided by the GLPI api configuration. [Optional]
+     * @param user valid user on GLPI
+     * @param password valid password on GLPI
+     * @param callback here your are going to get the asynchronous response
+     */
     public void initSessionByCredentials(String appToken, String user, String password, final InitSessionCallback callback) {
 
         this.appToken = appToken;
@@ -139,6 +168,10 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Create a valid Array with common headers needs
+     * @return Map<String, String> with all the headers
+     */
     private Map<String, String> getHeader() {
         Map<String, String> map = new HashMap<>();
 
@@ -150,6 +183,10 @@ public class GLPI extends ServiceGenerator {
         return map;
     }
 
+    /**
+     * Return all the profiles associated to logged user.
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getMyProfiles(final JsonObjectCallback callback) {
 
         Call<JsonObject> responseCall = interfaces.getMyProfiles(getHeader());
@@ -176,6 +213,10 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Return the current active profile.
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getActiveProfile(final JsonObjectCallback callback) {
 
         Call<JsonObject> responseCall = interfaces.getActiveProfile(getHeader());
@@ -202,6 +243,10 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Return all the possible entities of the current logged user (and for current active profile).
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getMyEntities(final JsonObjectCallback callback) {
 
         Call<JsonObject> responseCall = interfaces.getMyEntities(getHeader());
@@ -228,6 +273,10 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Return active entities of current logged user.
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getActiveEntities(final JsonObjectCallback callback) {
 
         Call<JsonObject> responseCall = interfaces.getActiveEntities(getHeader());
@@ -254,6 +303,10 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Return the current php $_SESSION.
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getFullSession(final JsonObjectCallback callback) {
 
         Call<JsonObject> responseCall = interfaces.getFullSession(getHeader());
@@ -280,6 +333,10 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Return the current $CFG_GLPI.
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getGlpiConfig(final JsonObjectCallback callback) {
 
         Call<JsonObject> responseCall = interfaces.getGlpiConfig(getHeader());
@@ -306,7 +363,10 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-
+    /**
+     * Destroy a session identified by a session token.
+     * @param callback here your are going to get the asynchronous response
+     */
     public void killSession(final VoidCallback callback) {
 
         Call<Void> responseCall = interfaces.killSession(getHeader());
@@ -335,10 +395,21 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Return a collection of rows of the itemtype.
+     * @param itemType This are the item type available on GLPI
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getAllItems(itemType itemType, final JsonArrayCallback callback) {
         getAllItems(new getAllItemQuery(GLPI.this.context), itemType, callback);
     }
 
+    /**
+     * Return a collection of rows of the itemtype.
+     * @param options this are the parameters of this endpoint for example expand_dropdowns or get_hateoas
+     * @param itemType This are the item type available on GLPI
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getAllItems(getAllItemQuery options, itemType itemType, final JsonArrayCallback callback) {
 
         Call<JsonArray> responseCall = interfaces.getAllItem(getHeader(), itemType.name(), options.getQuery());
@@ -365,10 +436,23 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Return the instance fields of itemtype identified by id.
+     * @param itemType This are the item type available on GLPI
+     * @param id unique identifier of the itemtype
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getAnItem(itemType itemType, String id, final JsonObjectCallback callback) {
         getAnItem(new getAnItemQuery(), itemType, id, callback);
     }
 
+    /**
+     *  Return the instance fields of itemtype identified by id.
+     * @param options this are the parameters of this endpoint for example expand_dropdowns or get_hateoas
+     * @param itemType This are the item type available on GLPI
+     * @param id unique identifier of the itemtype
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getAnItem(getAnItemQuery options, itemType itemType, String id, final JsonObjectCallback callback) {
 
         Call<JsonObject> responseCall = interfaces.getAnItem(getHeader(), itemType.name(), id, options.getQuery());
@@ -395,10 +479,25 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Return a collection of rows of the sub_itemtype for the identified item.
+     * @param itemType This are the item type available on GLPI
+     * @param id unique identifier of the parent itemtype
+     * @param subItemType This are the item type available on GLPI
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getSubItems(itemType itemType, String id, String subItemType, final JsonObjectCallback callback) {
         getSubItems(new getSubItemQuery(GLPI.this.context), itemType, id, subItemType, callback);
     }
 
+    /**
+     * Return a collection of rows of the sub_itemtype for the identified item.
+     * @param options this are the parameters of this endpoint for example expand_dropdowns or get_hateoas
+     * @param itemType This are the item type available on GLPI
+     * @param id unique identifier of the parent itemtype
+     * @param subItemType This are the item type available on GLPI
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getSubItems(getSubItemQuery options, itemType itemType, String id, String subItemType, final JsonObjectCallback callback) {
 
         Call<JsonObject> responseCall = interfaces.getSubItem(getHeader(), itemType.name(), id, subItemType, options.getQuery());
@@ -425,6 +524,11 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Change active profile to the profiles_id one. See getMyProfiles endpoint for possible profiles.
+     * @param profilesId (default 'all') ID of the new active profile.
+     * @param callback here your are going to get the asynchronous response
+     */
     public void changeActiveProfile(String profilesId, final VoidCallback callback) {
 
         changeActiveProfileRequest requestPost = new changeActiveProfileRequest(profilesId);
@@ -453,6 +557,12 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Change active entity to the entities_id one. See getMyEntities endpoint for possible entities.
+     * @param entitiesId (default 'all') ID of the new active entity ("all" => load all possible entities).
+     * @param is_recursive (default false) Also display sub entities of the active entity.
+     * @param callback here your are going to get the asynchronous response
+     */
     public void changeActiveEntities(String entitiesId, Boolean is_recursive, final VoidCallback callback) {
 
         changeActiveEntitiesRequest requestPost = new changeActiveEntitiesRequest(entitiesId, is_recursive.toString());
@@ -481,6 +591,12 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Add an object (or multiple objects) into GLPI.
+     * @param itemType This are the item type available on GLPI
+     * @param payload input: an object with fields of itemtype to be inserted. You can add several items in one action by passing an array of objects.
+     * @param callback here your are going to get the asynchronous response
+     */
     public void addItems(itemType itemType, Object payload, final JsonArrayCallback callback) {
 
         Call<JsonArray> responseCall = interfaces.addItem(getHeader(), itemType.name(), payload);
@@ -507,6 +623,13 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Update an object (or multiple objects) existing in GLPI.
+     * @param itemType This are the item type available on GLPI
+     * @param id the unique identifier of the itemtype
+     * @param payload Array of objects with fields of itemtype to be updated.
+     * @param callback here your are going to get the asynchronous response
+     */
     public void updateItems(itemType itemType, String id, Object payload, final JsonArrayCallback callback) {
 
         Call<JsonArray> responseCall = interfaces.updateItem(getHeader(), itemType.name(), id, payload);
@@ -533,6 +656,12 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Delete an object existing in GLPI.
+     * @param itemType This are the item type available on GLPI
+     * @param id unique identifier of the itemtype
+     * @param callback here your are going to get the asynchronous response
+     */
     public void deleteItems(itemType itemType, String id, final JsonArrayCallback callback) {
 
         Call<JsonArray> responseCall = interfaces.deleteItem(getHeader(), itemType.name(), id);
@@ -559,6 +688,12 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * Delete multiples objects existing in GLPI.
+     * @param itemType This are the item type available on GLPI
+     * @param payload Array of id who need to be deleted
+     * @param callback here your are going to get the asynchronous response
+     */
     public void deleteItems(itemType itemType, Object payload, final JsonArrayCallback callback) {
 
         Call<JsonArray> responseCall = interfaces.deleteMultiplesItem(getHeader(), itemType.name(), payload);
@@ -585,6 +720,11 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * This endpoint allows to request password reset
+     * @param email email address of the user to recover
+     * @param callback here your are going to get the asynchronous response
+     */
     public void lostPassword(String email, final VoidCallback callback) {
 
         lostPasswordRequest requestPost = new lostPasswordRequest(email);
@@ -613,6 +753,13 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    /**
+     * This endpoint allows to request password recovery
+     * @param email email address of the user to recover
+     * @param token reset token
+     * @param newPassword the new password for the user
+     * @param callback here your are going to get the asynchronous response
+     */
     public void recoveryPassword(String email, String token, String newPassword, final VoidCallback callback) {
 
         recoveryPasswordRequest requestPost = new recoveryPasswordRequest(email, token, newPassword);
@@ -645,21 +792,33 @@ public class GLPI extends ServiceGenerator {
     public void listSearchOptions() {}
     public void searchItems() {}
 
+    /**
+     * Interface definition for a callback to be invoked when a user init session.
+     */
     public interface InitSessionCallback {
         void onResponse(InitSession response);
         void onFailure(String errorMessage);
     }
 
+    /**
+     * Interface definition for a callback to be invoked when an endpoint return a Json Object.
+     */
     public interface JsonObjectCallback {
         void onResponse(JsonObject response);
         void onFailure(String errorMessage);
     }
 
+    /**
+     * Interface definition for a callback to be invoked when an endpoint return a Json Array.
+     */
     public interface JsonArrayCallback {
         void onResponse(JsonArray response);
         void onFailure(String errorMessage);
     }
 
+    /**
+     * Interface definition for a callback to be invoked when an endpoint return void.
+     */
     public interface VoidCallback {
         void onResponse(String response);
         void onFailure(String errorMessage);
