@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.flyve.glpi.query.getAnItemQuery;
 import org.flyve.glpi.request.changeActiveEntitiesRequest;
 import org.flyve.glpi.request.changeActiveProfileRequest;
 import org.flyve.glpi.request.lostPasswordRequest;
@@ -50,6 +51,7 @@ public class GLPI extends ServiceGenerator {
 
     private Routes interfaces;
     private String sessionToken = "";
+    private String appToken;
     private Context context;
 
     public GLPI(Context context, String glpiUrl) {
@@ -60,6 +62,13 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void initSessionByUserToken(String userToken, final InitSessionCallback callback) {
+        initSessionByUserToken(null, userToken, callback);
+    }
+
+    public void initSessionByUserToken(String appToken, String userToken, final InitSessionCallback callback) {
+
+        this.appToken = appToken;
+
         Call<InitSession> responseCall = interfaces.initSessionByUserToken("user_token " + userToken.trim());
         responseCall.enqueue(new Callback<InitSession>() {
             @Override
@@ -92,6 +101,12 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void initSessionByCredentials(String user, String password, final InitSessionCallback callback) {
+        initSessionByCredentials(null, user, password, callback);
+    }
+
+    public void initSessionByCredentials(String appToken, String user, String password, final InitSessionCallback callback) {
+
+        this.appToken = appToken;
 
         String authorization = Helpers.base64encode( user + ":" + password );
 
@@ -455,9 +470,15 @@ public class GLPI extends ServiceGenerator {
 
     public void getAnItem(itemType itemType, String id, final JsonObjectCallback callback) {
         getAnItem(null, itemType, id, callback);
+
+        getAnItemQuery obj = new getAnItemQuery();
+
+        obj.setExpand_dropdowns(true);
+        obj.setWith_changes(true);
+
     }
 
-    public void getAnItem(String appToken, itemType itemType, String id, final JsonObjectCallback callback) {
+    public void getAnItem(getAnItemQuery getAnItemQuery, itemType itemType, String id, final JsonObjectCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
