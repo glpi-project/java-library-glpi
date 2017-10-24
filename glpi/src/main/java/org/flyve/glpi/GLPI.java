@@ -405,7 +405,7 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getAllItems(itemType itemType, final JsonArrayCallback callback) {
-        getAllItems(null, itemType, callback);
+        getAllItems(new getAllItemQuery(GLPI.this.context), itemType, callback);
     }
 
     public void getAllItems(getAllItemQuery options, itemType itemType, final JsonArrayCallback callback) {
@@ -446,7 +446,7 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getAnItem(itemType itemType, String id, final JsonObjectCallback callback) {
-        getAnItem(null, itemType, id, callback);
+        getAnItem(new getAnItemQuery(), itemType, id, callback);
     }
 
     public void getAnItem(getAnItemQuery options, itemType itemType, String id, final JsonObjectCallback callback) {
@@ -487,7 +487,7 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void getSubItems(itemType itemType, String id, String subItemType, final JsonObjectCallback callback) {
-        getSubItems(null, itemType, id, subItemType, callback);
+        getSubItems(new getSubItemQuery(GLPI.this.context), itemType, id, subItemType, callback);
     }
 
     public void getSubItems(getSubItemQuery options, itemType itemType, String id, String subItemType, final JsonObjectCallback callback) {
