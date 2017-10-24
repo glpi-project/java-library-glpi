@@ -28,6 +28,12 @@ echo TELEGRAM_WEBHOOKS=$TELEGRAM_WEBHOOKS > .env
 echo GIT_REPO=$CIRCLE_REPOSITORY_URL >> .env
 echo GIT_BRANCH=$CIRCLE_BRANCH >> .env
 
+# create gradle properties
+echo org.gradle.jvmargs=-Xmx1536m >> gradle.properties
+echo glpi_user=$GLPI_USER >> gradle.properties
+echo glpi_password=$GLPI_PASSWORD >> gradle.properties
+echo glpi_url=$GLPI_URL >> gradle.properties
+
 # install ruby
 sudo apt-get install ruby-full build-essential
 
