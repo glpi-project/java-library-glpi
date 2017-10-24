@@ -28,12 +28,12 @@ import com.google.gson.annotations.SerializedName;
  * @link      https://flyve-mdm.com
  * ------------------------------------------------------------------------------
  */
-public class changeActiveProfileRequest {
+public class ChangeActiveProfileRequest {
 
     @SerializedName("profiles_id")
     private String profiles_id;
 
-    public changeActiveProfileRequest(String profiles_id) {
+    public ChangeActiveProfileRequest(String profiles_id) {
         this.profiles_id = profiles_id;
     }
 

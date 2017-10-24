@@ -1,7 +1,3 @@
-package org.flyve.glpi.request;
-
-import com.google.gson.annotations.SerializedName;
-
 /*
  *   Copyright © 2017 Teclib. All rights reserved.
  *
@@ -28,44 +24,37 @@ import com.google.gson.annotations.SerializedName;
  * @link      https://flyve-mdm.com
  * ------------------------------------------------------------------------------
  */
-public class recoveryPasswordRequest {
 
-    @SerializedName("email")
-    private String email;
+package org.flyve.glpi.request;
 
-    @SerializedName("password_forget_token")
-    private String password_forget_token;
+import com.google.gson.annotations.SerializedName;
 
-    @SerializedName("password")
-    private String password;
+public class ChangeActiveEntitiesRequest {
 
-    public recoveryPasswordRequest(String email, String password_forget_token, String password) {
-        this.email = email;
-        this.password_forget_token = password_forget_token;
-        this.password = password;
+    @SerializedName("entities_id")
+    private String entitiesId;
+
+    @SerializedName("is_recursive")
+    private String isRecursive;
+
+    public ChangeActiveEntitiesRequest(String entitiesId, String isRecursive) {
+        this.entitiesId = entitiesId;
+        this.isRecursive = isRecursive;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEntitiesId() {
+        return entitiesId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEntitiesId(String entitiesId) {
+        this.entitiesId = entitiesId;
     }
 
-    public String getPassword_forget_token() {
-        return password_forget_token;
+    public String getIsRecursive() {
+        return isRecursive;
     }
 
-    public void setPassword_forget_token(String password_forget_token) {
-        this.password_forget_token = password_forget_token;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setIsRecursive(String isRecursive) {
+        this.isRecursive = isRecursive;
     }
 }

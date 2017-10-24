@@ -31,13 +31,13 @@ import android.content.Context;
 import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.flyve.glpi.query.getAllItemQuery;
-import org.flyve.glpi.query.getAnItemQuery;
-import org.flyve.glpi.query.getSubItemQuery;
-import org.flyve.glpi.request.changeActiveEntitiesRequest;
-import org.flyve.glpi.request.changeActiveProfileRequest;
-import org.flyve.glpi.request.lostPasswordRequest;
-import org.flyve.glpi.request.recoveryPasswordRequest;
+import org.flyve.glpi.query.GetAllItemQuery;
+import org.flyve.glpi.query.GetAnItemQuery;
+import org.flyve.glpi.query.GetSubItemQuery;
+import org.flyve.glpi.request.ChangeActiveEntitiesRequest;
+import org.flyve.glpi.request.ChangeActiveProfileRequest;
+import org.flyve.glpi.request.LostPasswordRequest;
+import org.flyve.glpi.request.RecoveryPasswordRequest;
 import org.flyve.glpi.response.InitSession;
 import org.flyve.glpi.utils.Helpers;
 import java.util.HashMap;
@@ -401,7 +401,7 @@ public class GLPI extends ServiceGenerator {
      * @param callback here your are going to get the asynchronous response
      */
     public void getAllItems(itemType itemType, final JsonArrayCallback callback) {
-        getAllItems(new getAllItemQuery(GLPI.this.context), itemType, callback);
+        getAllItems(new GetAllItemQuery(GLPI.this.context), itemType, callback);
     }
 
     /**
@@ -410,7 +410,7 @@ public class GLPI extends ServiceGenerator {
      * @param itemType This are the item type available on GLPI
      * @param callback here your are going to get the asynchronous response
      */
-    public void getAllItems(getAllItemQuery options, itemType itemType, final JsonArrayCallback callback) {
+    public void getAllItems(GetAllItemQuery options, itemType itemType, final JsonArrayCallback callback) {
 
         Call<JsonArray> responseCall = interfaces.getAllItem(getHeader(), itemType.name(), options.getQuery());
         responseCall.enqueue(new Callback<JsonArray>() {
@@ -443,7 +443,7 @@ public class GLPI extends ServiceGenerator {
      * @param callback here your are going to get the asynchronous response
      */
     public void getAnItem(itemType itemType, String id, final JsonObjectCallback callback) {
-        getAnItem(new getAnItemQuery(), itemType, id, callback);
+        getAnItem(new GetAnItemQuery(), itemType, id, callback);
     }
 
     /**
@@ -453,7 +453,7 @@ public class GLPI extends ServiceGenerator {
      * @param id unique identifier of the itemtype
      * @param callback here your are going to get the asynchronous response
      */
-    public void getAnItem(getAnItemQuery options, itemType itemType, String id, final JsonObjectCallback callback) {
+    public void getAnItem(GetAnItemQuery options, itemType itemType, String id, final JsonObjectCallback callback) {
 
         Call<JsonObject> responseCall = interfaces.getAnItem(getHeader(), itemType.name(), id, options.getQuery());
         responseCall.enqueue(new Callback<JsonObject>() {
@@ -487,7 +487,7 @@ public class GLPI extends ServiceGenerator {
      * @param callback here your are going to get the asynchronous response
      */
     public void getSubItems(itemType itemType, String id, String subItemType, final JsonObjectCallback callback) {
-        getSubItems(new getSubItemQuery(GLPI.this.context), itemType, id, subItemType, callback);
+        getSubItems(new GetSubItemQuery(GLPI.this.context), itemType, id, subItemType, callback);
     }
 
     /**
@@ -498,7 +498,7 @@ public class GLPI extends ServiceGenerator {
      * @param subItemType This are the item type available on GLPI
      * @param callback here your are going to get the asynchronous response
      */
-    public void getSubItems(getSubItemQuery options, itemType itemType, String id, String subItemType, final JsonObjectCallback callback) {
+    public void getSubItems(GetSubItemQuery options, itemType itemType, String id, String subItemType, final JsonObjectCallback callback) {
 
         Call<JsonObject> responseCall = interfaces.getSubItem(getHeader(), itemType.name(), id, subItemType, options.getQuery());
         responseCall.enqueue(new Callback<JsonObject>() {
@@ -531,7 +531,7 @@ public class GLPI extends ServiceGenerator {
      */
     public void changeActiveProfile(String profilesId, final VoidCallback callback) {
 
-        changeActiveProfileRequest requestPost = new changeActiveProfileRequest(profilesId);
+        ChangeActiveProfileRequest requestPost = new ChangeActiveProfileRequest(profilesId);
 
         Call<Void> responseCall = interfaces.changeActiveProfile(getHeader(), requestPost);
         responseCall.enqueue(new Callback<Void>() {
@@ -565,7 +565,7 @@ public class GLPI extends ServiceGenerator {
      */
     public void changeActiveEntities(String entitiesId, Boolean is_recursive, final VoidCallback callback) {
 
-        changeActiveEntitiesRequest requestPost = new changeActiveEntitiesRequest(entitiesId, is_recursive.toString());
+        ChangeActiveEntitiesRequest requestPost = new ChangeActiveEntitiesRequest(entitiesId, is_recursive.toString());
 
         Call<Void> responseCall = interfaces.changeActiveEntities(getHeader(), requestPost);
         responseCall.enqueue(new Callback<Void>() {
@@ -727,7 +727,7 @@ public class GLPI extends ServiceGenerator {
      */
     public void lostPassword(String email, final VoidCallback callback) {
 
-        lostPasswordRequest requestPost = new lostPasswordRequest(email);
+        LostPasswordRequest requestPost = new LostPasswordRequest(email);
 
         Call<Void> responseCall = interfaces.lostPassword(requestPost);
         responseCall.enqueue(new Callback<Void>() {
@@ -762,7 +762,7 @@ public class GLPI extends ServiceGenerator {
      */
     public void recoveryPassword(String email, String token, String newPassword, final VoidCallback callback) {
 
-        recoveryPasswordRequest requestPost = new recoveryPasswordRequest(email, token, newPassword);
+        RecoveryPasswordRequest requestPost = new RecoveryPasswordRequest(email, token, newPassword);
 
         Call<Void> responseCall = interfaces.recoveryPassword(requestPost);
         responseCall.enqueue(new Callback<Void>() {

@@ -28,13 +28,21 @@ import com.google.gson.annotations.SerializedName;
  * @link      https://flyve-mdm.com
  * ------------------------------------------------------------------------------
  */
-public class lostPasswordRequest {
+public class RecoveryPasswordRequest {
 
     @SerializedName("email")
     private String email;
 
-    public lostPasswordRequest(String email) {
+    @SerializedName("password_forget_token")
+    private String password_forget_token;
+
+    @SerializedName("password")
+    private String password;
+
+    public RecoveryPasswordRequest(String email, String password_forget_token, String password) {
         this.email = email;
+        this.password_forget_token = password_forget_token;
+        this.password = password;
     }
 
     public String getEmail() {
@@ -43,5 +51,21 @@ public class lostPasswordRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword_forget_token() {
+        return password_forget_token;
+    }
+
+    public void setPassword_forget_token(String password_forget_token) {
+        this.password_forget_token = password_forget_token;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -29,10 +29,10 @@ package org.flyve.glpi;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.flyve.glpi.request.changeActiveEntitiesRequest;
-import org.flyve.glpi.request.changeActiveProfileRequest;
-import org.flyve.glpi.request.lostPasswordRequest;
-import org.flyve.glpi.request.recoveryPasswordRequest;
+import org.flyve.glpi.request.ChangeActiveEntitiesRequest;
+import org.flyve.glpi.request.ChangeActiveProfileRequest;
+import org.flyve.glpi.request.LostPasswordRequest;
+import org.flyve.glpi.request.RecoveryPasswordRequest;
 import org.flyve.glpi.response.InitSession;
 import java.util.Map;
 import retrofit2.Call;
@@ -100,11 +100,11 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @POST("changeActiveProfile")
-    Call<Void> changeActiveProfile(@HeaderMap Map<String, String> headers,  @Body changeActiveProfileRequest requestPost);
+    Call<Void> changeActiveProfile(@HeaderMap Map<String, String> headers,  @Body ChangeActiveProfileRequest requestPost);
 
     @Headers("Content-Type: application/json")
     @POST("changeActiveEntities")
-    Call<Void> changeActiveEntities(@HeaderMap Map<String, String> headers,  @Body changeActiveEntitiesRequest requestPost);
+    Call<Void> changeActiveEntities(@HeaderMap Map<String, String> headers,  @Body ChangeActiveEntitiesRequest requestPost);
 
     @Headers("Content-Type: application/json")
     @POST("{itemType}")
@@ -124,10 +124,10 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @PUT("lostPassword")
-    Call<Void> lostPassword(@Body lostPasswordRequest requestPost);
+    Call<Void> lostPassword(@Body LostPasswordRequest requestPost);
 
     @Headers("Content-Type: application/json")
     @PUT("lostPassword")
-    Call<Void> recoveryPassword(@Body recoveryPasswordRequest requestPost);
+    Call<Void> recoveryPassword(@Body RecoveryPasswordRequest requestPost);
 
 }

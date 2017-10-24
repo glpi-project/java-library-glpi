@@ -28,32 +28,20 @@ import com.google.gson.annotations.SerializedName;
  * @link      https://flyve-mdm.com
  * ------------------------------------------------------------------------------
  */
-public class changeActiveEntitiesRequest {
+public class LostPasswordRequest {
 
-    @SerializedName("entities_id")
-    private String entities_id;
+    @SerializedName("email")
+    private String email;
 
-    @SerializedName("is_recursive")
-    private String is_recursive;
-
-    public changeActiveEntitiesRequest(String entities_id, String is_recursive) {
-        this.entities_id = entities_id;
-        this.is_recursive = is_recursive;
+    public LostPasswordRequest(String email) {
+        this.email = email;
     }
 
-    public String getEntities_id() {
-        return entities_id;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEntities_id(String entities_id) {
-        this.entities_id = entities_id;
-    }
-
-    public String getIs_recursive() {
-        return is_recursive;
-    }
-
-    public void setIs_recursive(String is_recursive) {
-        this.is_recursive = is_recursive;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

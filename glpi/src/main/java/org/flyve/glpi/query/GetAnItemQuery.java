@@ -30,7 +30,7 @@ package org.flyve.glpi.query;
 import java.util.HashMap;
 import java.util.Map;
 
-public class getAnItemQuery {
+public class GetAnItemQuery {
 
     private Boolean expandDropdowns;
     private Boolean getHateoas;
