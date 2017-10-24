@@ -1,8 +1,3 @@
-package org.flyve.glpi.query;
-
-import java.util.HashMap;
-import java.util.Map;
-
 /*
  *   Copyright © 2017 Teclib. All rights reserved.
  *
@@ -29,6 +24,12 @@ import java.util.Map;
  * @link      https://flyve-mdm.com
  * ------------------------------------------------------------------------------
  */
+
+package org.flyve.glpi.query;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class getAnItemQuery {
 
     private Boolean expandDropdowns;
@@ -48,6 +49,10 @@ public class getAnItemQuery {
     private Boolean withNotes;
     private Boolean withLogs;
 
+    /**
+     * Get a map with all the parameters available to work with the get an item endpoint
+     * @return Map<String, String> with the parameters selected
+     */
     public Map<String, String> getQuery() {
 
         Map<String, String> map = new HashMap<>();
@@ -119,66 +124,130 @@ public class getAnItemQuery {
         return map;
     }
 
+    /**
+     * (default: false): show dropdown name instead of id.
+     * @param expandDropdowns
+     */
     public void setExpandDropdowns(Boolean expandDropdowns) {
         this.expandDropdowns = expandDropdowns;
     }
 
+    /**
+     * (default: true): Show relations of the item in a links attribute.
+     * @param getHateoas
+     */
     public void setGetHateoas(Boolean getHateoas) {
         this.getHateoas = getHateoas;
     }
 
+    /**
+     * (default: false): Get a sha1 signature instead of the full answer.
+     * @param getSha1
+     */
     public void setGetSha1(Boolean getSha1) {
         this.getSha1 = getSha1;
     }
 
+    /**
+     * Only for [Computer, NetworkEquipment, Peripheral, Phone, Printer], retrieve the associated components.
+     * @param withDevices
+     */
     public void setWithDevices(Boolean withDevices) {
         this.withDevices = withDevices;
     }
 
+    /**
+     * Only for Computer, retrieve the associated file-systems.
+     * @param withDisks
+     */
     public void setWithDisks(Boolean withDisks) {
         this.withDisks = withDisks;
     }
 
+    /**
+     * Only for Computer, retrieve the associated software's installations.
+     * @param withSoftwares
+     */
     public void setWithSoftwares(Boolean withSoftwares) {
         this.withSoftwares = withSoftwares;
     }
 
+    /**
+     * Only for Computer, retrieve the associated direct connections
+     * @param withConnections
+     */
     public void setWithConnections(Boolean withConnections) {
         this.withConnections = withConnections;
     }
 
+    /**
+     * Retrieve all network's connections and advanced network's informations.
+     * @param withNetworkports
+     */
     public void setWithNetworkports(Boolean withNetworkports) {
         this.withNetworkports = withNetworkports;
     }
 
+    /**
+     * Retrieve financial and administrative informations.
+     * @param withInfocoms
+     */
     public void setWithInfocoms(Boolean withInfocoms) {
         this.withInfocoms = withInfocoms;
     }
 
+    /**
+     * Retrieve associated contracts.
+     * @param withContracts
+     */
     public void setWithContracts(Boolean withContracts) {
         this.withContracts = withContracts;
     }
 
+    /**
+     * Retrieve associated external documents.
+     * @param withDocuments
+     */
     public void setWithDocuments(Boolean withDocuments) {
         this.withDocuments = withDocuments;
     }
 
+    /**
+     * Retrieve associated itil tickets.
+     * @param withTickets
+     */
     public void setWithTickets(Boolean withTickets) {
         this.withTickets = withTickets;
     }
 
+    /**
+     * Retrieve associated itil problems.
+     * @param withProblems
+     */
     public void setWithProblems(Boolean withProblems) {
         this.withProblems = withProblems;
     }
 
+    /**
+     * Retrieve associated itil changes.
+     * @param withChanges
+     */
     public void setWithChanges(Boolean withChanges) {
         this.withChanges = withChanges;
     }
 
+    /**
+     * Retrieve Notes.
+     * @param withNotes
+     */
     public void setWithNotes(Boolean withNotes) {
         this.withNotes = withNotes;
     }
 
+    /**
+     * Retrieve historical.
+     * @param withLogs
+     */
     public void setWithLogs(Boolean withLogs) {
         this.withLogs = withLogs;
     }
