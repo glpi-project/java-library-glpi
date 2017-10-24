@@ -27,8 +27,10 @@ package org.flyve.glpi;
 
 import android.content.Context;
 import android.util.Log;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
 import org.flyve.glpi.query.GetAllItemQuery;
 import org.flyve.glpi.query.GetAnItemQuery;
 import org.flyve.glpi.query.GetSubItemQuery;
@@ -38,8 +40,10 @@ import org.flyve.glpi.request.LostPasswordRequest;
 import org.flyve.glpi.request.RecoveryPasswordRequest;
 import org.flyve.glpi.response.InitSession;
 import org.flyve.glpi.utils.Helpers;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -111,6 +115,24 @@ public class GLPI extends ServiceGenerator {
                 callback.onFailure(t.getMessage());
             }
         });
+    }
+
+    /**
+     * Synchronous Request a session token to uses other api endpoints. with a couple login & password: 2 parameters to login with user authentication
+     * @param user valid user on GLPI
+     * @param password valid password on GLPI
+     * @return SessionToken
+     */
+    public String initSessionByCredentialsSync(String user, String password) {
+        String authorization = Helpers.base64encode( user + ":" + password );
+
+        Call<InitSession> responseCall = interfaces.initSessionByCredentials("Basic " + authorization.trim());
+
+        try {
+            return responseCall.execute().body().getSessionToken();
+        } catch (Exception ex) {
+            return "";
+        }
     }
 
     /**
