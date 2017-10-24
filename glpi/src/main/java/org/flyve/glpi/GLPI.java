@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 
 import org.flyve.glpi.query.getAllItemQuery;
 import org.flyve.glpi.query.getAnItemQuery;
+import org.flyve.glpi.query.getSubItemQuery;
 import org.flyve.glpi.request.changeActiveEntitiesRequest;
 import org.flyve.glpi.request.changeActiveProfileRequest;
 import org.flyve.glpi.request.lostPasswordRequest;
@@ -514,7 +515,7 @@ public class GLPI extends ServiceGenerator {
         getSubItems(null, itemType, id, subItemType, callback);
     }
 
-    public void getSubItems(String appToken, itemType itemType, String id, String subItemType, final JsonObjectCallback callback) {
+    public void getSubItems(getSubItemQuery options, itemType itemType, String id, String subItemType, final JsonObjectCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -527,7 +528,7 @@ public class GLPI extends ServiceGenerator {
             map.put("App-Token", appToken);
         }
 
-        Call<JsonObject> responseCall = interfaces.getSubItem(map, itemType.name(), id, subItemType);
+        Call<JsonObject> responseCall = interfaces.getSubItem(map, itemType.name(), id, subItemType, options.getQuery());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
