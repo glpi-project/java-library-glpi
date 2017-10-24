@@ -22,6 +22,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 /*
  *   Copyright © 2017 Teclib. All rights reserved.
@@ -93,7 +94,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("{itemType}/{id}")
-    Call<JsonObject> getAnItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @Path("id") String id);
+    Call<JsonObject> getAnItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @Path("id") String id, @QueryMap Map<String, String> options);
 
     @Headers("Content-Type: application/json")
     @GET("{itemType}/{id}/{subItemType}")

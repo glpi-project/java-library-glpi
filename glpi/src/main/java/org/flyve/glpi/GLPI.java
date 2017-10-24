@@ -470,12 +470,6 @@ public class GLPI extends ServiceGenerator {
 
     public void getAnItem(itemType itemType, String id, final JsonObjectCallback callback) {
         getAnItem(null, itemType, id, callback);
-
-        getAnItemQuery obj = new getAnItemQuery();
-
-        obj.setExpand_dropdowns(true);
-        obj.setWith_changes(true);
-
     }
 
     public void getAnItem(getAnItemQuery getAnItemQuery, itemType itemType, String id, final JsonObjectCallback callback) {
@@ -491,7 +485,7 @@ public class GLPI extends ServiceGenerator {
             map.put("App-Token", appToken);
         }
 
-        Call<JsonObject> responseCall = interfaces.getAnItem(map, itemType.name(), id);
+        Call<JsonObject> responseCall = interfaces.getAnItem(map, itemType.name(), id, getAnItemQuery.getQuery());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
