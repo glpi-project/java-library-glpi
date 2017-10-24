@@ -90,7 +90,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("{itemType}")
-    Call<JsonArray> getAllItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType);
+    Call<JsonArray> getAllItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @QueryMap Map<String, String> options);
 
     @Headers("Content-Type: application/json")
     @GET("{itemType}/{id}")

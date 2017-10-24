@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.flyve.glpi.query.getAllItemQuery;
 import org.flyve.glpi.query.getAnItemQuery;
 import org.flyve.glpi.request.changeActiveEntitiesRequest;
 import org.flyve.glpi.request.changeActiveProfileRequest;
@@ -431,7 +432,7 @@ public class GLPI extends ServiceGenerator {
         getAllItems(null, itemType, callback);
     }
 
-    public void getAllItems(String appToken, itemType itemType, final JsonArrayCallback callback) {
+    public void getAllItems(getAllItemQuery options, itemType itemType, final JsonArrayCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -444,7 +445,7 @@ public class GLPI extends ServiceGenerator {
             map.put("App-Token", appToken);
         }
 
-        Call<JsonArray> responseCall = interfaces.getAllItem(map, itemType.name());
+        Call<JsonArray> responseCall = interfaces.getAllItem(map, itemType.name(), options.getQuery());
         responseCall.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
@@ -472,7 +473,7 @@ public class GLPI extends ServiceGenerator {
         getAnItem(null, itemType, id, callback);
     }
 
-    public void getAnItem(getAnItemQuery getAnItemQuery, itemType itemType, String id, final JsonObjectCallback callback) {
+    public void getAnItem(getAnItemQuery options, itemType itemType, String id, final JsonObjectCallback callback) {
         // validate if session token is empty
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
@@ -485,7 +486,7 @@ public class GLPI extends ServiceGenerator {
             map.put("App-Token", appToken);
         }
 
-        Call<JsonObject> responseCall = interfaces.getAnItem(map, itemType.name(), id, getAnItemQuery.getQuery());
+        Call<JsonObject> responseCall = interfaces.getAnItem(map, itemType.name(), id, options.getQuery());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
