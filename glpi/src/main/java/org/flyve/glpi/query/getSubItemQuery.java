@@ -1,15 +1,3 @@
-package org.flyve.glpi.query;
-
-import android.content.Context;
-
-import org.flyve.glpi.R;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import static android.R.attr.data;
-
 /*
  *   Copyright © 2017 Teclib. All rights reserved.
  *
@@ -36,6 +24,14 @@ import static android.R.attr.data;
  * @link      https://flyve-mdm.com
  * ------------------------------------------------------------------------------
  */
+
+package org.flyve.glpi.query;
+
+import android.content.Context;
+import org.flyve.glpi.R;
+import java.util.HashMap;
+import java.util.Map;
+
 public class getSubItemQuery {
 
     private Boolean expandDropdowns;
@@ -46,10 +42,18 @@ public class getSubItemQuery {
     private String order;
     private Context context;
 
+    /**
+     * Get all the parameters available to work with the sub item endpoint
+     * @param context
+     */
     public getSubItemQuery(Context context) {
         this.context = context;
     }
 
+    /**
+     * Get a map with all the parameters available to work with the all items endpoint
+     * @return Map<String, String> with the parameters selected
+     */
     public Map<String, String> getQuery() {
 
         Map<String, String> map = new HashMap<>();
@@ -81,18 +85,35 @@ public class getSubItemQuery {
         return map;
     }
 
+    /**
+     * (default: false): show dropdown name instead of id.
+     * @param expandDropdowns boolean
+     */
     public void setExpandDropdowns(Boolean expandDropdowns) {
         this.expandDropdowns = expandDropdowns;
     }
 
+    /**
+     * (default: true): Show relation of item in a links attribute.
+     * @param getHateoas boolean
+     */
     public void setGetHateoas(Boolean getHateoas) {
         this.getHateoas = getHateoas;
     }
 
+    /**
+     * (default: false): keep only id keys in returned data.
+     * @param onlyId boolean
+     */
     public void setOnlyId(Boolean onlyId) {
         this.onlyId = onlyId;
     }
 
+    /**
+     * (default: 0-50): a range with a couple of number for start and end of pagination
+     * @param min
+     * @param max
+     */
     public void setRange(int min, int max) {
         if(max>=min) {
             throw new RuntimeException(context.getResources().getString(R.string.error_range));
@@ -101,14 +122,25 @@ public class getSubItemQuery {
         this.range = min + "-" + max;
     }
 
+    /**
+     * (default 1): id of the searchoption to sort by.
+     * @param sort int
+     */
     public void setSort(int sort) {
         this.sort = String.valueOf(sort);
     }
 
+    /**
+     * (default ASC): ASC - Ascending sort / DESC Descending sort.
+     * @param order Order type with ASC or DESC values
+     */
     public void setOrder(Order order) {
         this.order = order.name();
     }
 
+    /**
+     * Enum definition with sort order possibilities
+     */
     public enum Order {
         DESC,
         ASC
