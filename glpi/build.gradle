@@ -16,6 +16,11 @@ android {
     }
 
     buildTypes {
+        buildTypes.each {
+            it.buildConfigField 'String', 'GLPI_USER', glpi_user
+            it.buildConfigField 'String', 'GLPI_PASSWORD', glpi_password
+            it.buildConfigField 'String', 'GLPI_URL', glpi_url
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
