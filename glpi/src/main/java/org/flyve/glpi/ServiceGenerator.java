@@ -11,9 +11,9 @@ public class ServiceGenerator {
     private static final int READ_TIMEOUT = 60;
     private static final int WRITE_TIMEOUT = 60;
 
-    public Retrofit retrofit;
+    protected Retrofit retrofit;
 
-    public void start(String url) {
+    protected void start(String url) {
 
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
