@@ -36,3 +36,4 @@ node_modules/
 .externalNativeBuild
 GLPIProject.iml
 app/
+gradle.properties
