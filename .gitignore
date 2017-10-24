@@ -1,3 +1,5 @@
+/gradle.properties
+gradle.properties
 .idea/
 .idea/sonarlint
 .idea/misc.xml
@@ -36,5 +38,3 @@ node_modules/
 .externalNativeBuild
 GLPIProject.iml
 app/
-/gradle.properties
-gradle.properties
