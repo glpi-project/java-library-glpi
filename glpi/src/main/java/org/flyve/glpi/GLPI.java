@@ -1,28 +1,3 @@
-package org.flyve.glpi;
-
-import android.content.Context;
-import android.util.Log;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import org.flyve.glpi.query.getAllItemQuery;
-import org.flyve.glpi.query.getAnItemQuery;
-import org.flyve.glpi.query.getSubItemQuery;
-import org.flyve.glpi.request.changeActiveEntitiesRequest;
-import org.flyve.glpi.request.changeActiveProfileRequest;
-import org.flyve.glpi.request.lostPasswordRequest;
-import org.flyve.glpi.request.recoveryPasswordRequest;
-import org.flyve.glpi.response.InitSession;
-import org.flyve.glpi.utils.Helpers;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 /*
  *   Copyright © 2017 Teclib. All rights reserved.
  *
@@ -49,6 +24,28 @@ import retrofit2.Response;
  * @link      https://flyve-mdm.com
  * ------------------------------------------------------------------------------
  */
+
+package org.flyve.glpi;
+
+import android.content.Context;
+import android.util.Log;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import org.flyve.glpi.query.getAllItemQuery;
+import org.flyve.glpi.query.getAnItemQuery;
+import org.flyve.glpi.query.getSubItemQuery;
+import org.flyve.glpi.request.changeActiveEntitiesRequest;
+import org.flyve.glpi.request.changeActiveProfileRequest;
+import org.flyve.glpi.request.lostPasswordRequest;
+import org.flyve.glpi.request.recoveryPasswordRequest;
+import org.flyve.glpi.response.InitSession;
+import org.flyve.glpi.utils.Helpers;
+import java.util.HashMap;
+import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class GLPI extends ServiceGenerator {
 
     private Routes interfaces;
@@ -142,21 +139,24 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    private Map<String, String> getHeader() {
+        Map<String, String> map = new HashMap<>();
+
+        map.put("Session-Token", this.sessionToken);
+        if(appToken!=null) {
+            map.put("App-Token", appToken);
+        }
+
+        return map;
+    }
+
     public void getMyProfiles(final JsonObjectCallback callback) {
         // validate if session token is empty
         if(sessionToken.equals("")) {
             callback.onFailure( context.getResources().getString(R.string.error_session_token_empty) );
         }
-        Map<String, String> map = new HashMap<>();
 
-        String _appToken = appToken;
-
-        map.put("Session-Token", this.sessionToken);
-        if(_appToken!=null) {
-            map.put("App-Token", _appToken);
-        }
-
-        Call<JsonObject> responseCall = interfaces.getMyProfiles(map);
+        Call<JsonObject> responseCall = interfaces.getMyProfiles(getHeader());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -186,14 +186,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure( context.getResources().getString(R.string.error_session_token_empty) );
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonObject> responseCall = interfaces.getActiveProfile(map);
+        Call<JsonObject> responseCall = interfaces.getActiveProfile(getHeader());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -223,14 +216,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure( context.getResources().getString(R.string.error_session_token_empty) );
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonObject> responseCall = interfaces.getMyEntities(map);
+        Call<JsonObject> responseCall = interfaces.getMyEntities(getHeader());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -260,14 +246,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonObject> responseCall = interfaces.getActiveEntities(map);
+        Call<JsonObject> responseCall = interfaces.getActiveEntities(getHeader());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -297,14 +276,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonObject> responseCall = interfaces.getFullSession(map);
+        Call<JsonObject> responseCall = interfaces.getFullSession(getHeader());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -334,14 +306,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonObject> responseCall = interfaces.getGlpiConfig(map);
+        Call<JsonObject> responseCall = interfaces.getGlpiConfig(getHeader());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -371,14 +336,8 @@ public class GLPI extends ServiceGenerator {
         if (sessionToken.equals("")) {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
-        Map<String, String> map = new HashMap<>();
 
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<Void> responseCall = interfaces.killSession(map);
+        Call<Void> responseCall = interfaces.killSession(getHeader());
         responseCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -414,14 +373,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonArray> responseCall = interfaces.getAllItem(map, itemType.name(), options.getQuery());
+        Call<JsonArray> responseCall = interfaces.getAllItem(getHeader(), itemType.name(), options.getQuery());
         responseCall.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
@@ -455,14 +407,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonObject> responseCall = interfaces.getAnItem(map, itemType.name(), id, options.getQuery());
+        Call<JsonObject> responseCall = interfaces.getAnItem(getHeader(), itemType.name(), id, options.getQuery());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -496,14 +441,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonObject> responseCall = interfaces.getSubItem(map, itemType.name(), id, subItemType, options.getQuery());
+        Call<JsonObject> responseCall = interfaces.getSubItem(getHeader(), itemType.name(), id, subItemType, options.getQuery());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -533,16 +471,9 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
         changeActiveProfileRequest requestPost = new changeActiveProfileRequest(profilesId);
 
-        Call<Void> responseCall = interfaces.changeActiveProfile(map, requestPost);
+        Call<Void> responseCall = interfaces.changeActiveProfile(getHeader(), requestPost);
         responseCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -572,16 +503,9 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
         changeActiveEntitiesRequest requestPost = new changeActiveEntitiesRequest(entitiesId, is_recursive.toString());
 
-        Call<Void> responseCall = interfaces.changeActiveEntities(map, requestPost);
+        Call<Void> responseCall = interfaces.changeActiveEntities(getHeader(), requestPost);
         responseCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -611,14 +535,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonArray> responseCall = interfaces.addItem(map, itemType.name(), payload);
+        Call<JsonArray> responseCall = interfaces.addItem(getHeader(), itemType.name(), payload);
         responseCall.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
@@ -648,14 +565,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonArray> responseCall = interfaces.updateItem(map, itemType.name(), id, payload);
+        Call<JsonArray> responseCall = interfaces.updateItem(getHeader(), itemType.name(), id, payload);
         responseCall.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
@@ -685,14 +595,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonArray> responseCall = interfaces.deleteItem(map, itemType.name(), id);
+        Call<JsonArray> responseCall = interfaces.deleteItem(getHeader(), itemType.name(), id);
         responseCall.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
@@ -722,14 +625,7 @@ public class GLPI extends ServiceGenerator {
             callback.onFailure(context.getResources().getString(R.string.error_session_token_empty));
         }
 
-        Map<String, String> map = new HashMap<>();
-
-        map.put("Session-Token", this.sessionToken);
-        if(appToken!=null) {
-            map.put("App-Token", appToken);
-        }
-
-        Call<JsonArray> responseCall = interfaces.deleteMultiplesItem(map, itemType.name(), payload);
+        Call<JsonArray> responseCall = interfaces.deleteMultiplesItem(getHeader(), itemType.name(), payload);
         responseCall.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {

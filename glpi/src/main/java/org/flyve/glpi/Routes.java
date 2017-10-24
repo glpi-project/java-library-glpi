@@ -1,29 +1,3 @@
-package org.flyve.glpi;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import org.flyve.glpi.request.changeActiveEntitiesRequest;
-import org.flyve.glpi.request.changeActiveProfileRequest;
-import org.flyve.glpi.request.lostPasswordRequest;
-import org.flyve.glpi.request.recoveryPasswordRequest;
-import org.flyve.glpi.response.InitSession;
-
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.HTTP;
-import retrofit2.http.Header;
-import retrofit2.http.HeaderMap;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
-import retrofit2.http.QueryMap;
-
 /*
  *   Copyright © 2017 Teclib. All rights reserved.
  *
@@ -50,6 +24,30 @@ import retrofit2.http.QueryMap;
  * @link      https://flyve-mdm.com
  * ------------------------------------------------------------------------------
  */
+
+package org.flyve.glpi;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import org.flyve.glpi.request.changeActiveEntitiesRequest;
+import org.flyve.glpi.request.changeActiveProfileRequest;
+import org.flyve.glpi.request.lostPasswordRequest;
+import org.flyve.glpi.request.recoveryPasswordRequest;
+import org.flyve.glpi.response.InitSession;
+import java.util.Map;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.HTTP;
+import retrofit2.http.Header;
+import retrofit2.http.HeaderMap;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
+
 public interface Routes {
 
     @Headers("Content-Type: application/json")

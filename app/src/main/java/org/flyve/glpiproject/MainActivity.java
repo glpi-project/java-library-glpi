@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         btnInit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                glpi.initSessionByCredentials("rafaelje@gmail.com", "12345678", new GLPI.InitSessionCallback() {
+                glpi.initSessionByCredentials("gianfrancomanganiello1997@gmail.com", "12345678", new GLPI.InitSessionCallback() {
                     @Override
                     public void onResponse(InitSession response) {
                         Log.d("initSession", response.getSession_token());
