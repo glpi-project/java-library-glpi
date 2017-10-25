@@ -23,7 +23,7 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpi;
+package org.glpi.api;
 
 import android.content.Context;
 import android.util.Log;
@@ -31,15 +31,15 @@ import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.flyve.glpi.query.GetAllItemQuery;
-import org.flyve.glpi.query.GetAnItemQuery;
-import org.flyve.glpi.query.GetSubItemQuery;
-import org.flyve.glpi.request.ChangeActiveEntitiesRequest;
-import org.flyve.glpi.request.ChangeActiveProfileRequest;
-import org.flyve.glpi.request.LostPasswordRequest;
-import org.flyve.glpi.request.RecoveryPasswordRequest;
-import org.flyve.glpi.response.InitSession;
-import org.flyve.glpi.utils.Helpers;
+import org.glpi.api.query.GetAllItemQuery;
+import org.glpi.api.query.GetAnItemQuery;
+import org.glpi.api.query.GetSubItemQuery;
+import org.glpi.api.request.ChangeActiveEntitiesRequest;
+import org.glpi.api.request.ChangeActiveProfileRequest;
+import org.glpi.api.request.LostPasswordRequest;
+import org.glpi.api.request.RecoveryPasswordRequest;
+import org.glpi.api.response.InitSession;
+import org.glpi.api.utils.Helpers;
 
 import java.util.HashMap;
 import java.util.Map;

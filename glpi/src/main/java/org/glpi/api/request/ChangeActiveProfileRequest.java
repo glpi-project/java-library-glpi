@@ -23,20 +23,24 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpi.response;
+package org.glpi.api.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class InitSession {
+public class ChangeActiveProfileRequest {
 
-    @SerializedName("session_token")
-    private String sessionToken;
+    @SerializedName("profiles_id")
+    private String profilesId;
 
-    public String getSessionToken() {
-        return sessionToken;
+    public ChangeActiveProfileRequest(String profilesId) {
+        this.profilesId = profilesId;
     }
 
-    public void setSessionToken(String sessionToken) {
-        this.sessionToken = sessionToken;
+    public String getprofilesId() {
+        return profilesId;
+    }
+
+    public void setprofilesId(String profilesId) {
+        this.profilesId = profilesId;
     }
 }

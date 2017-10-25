@@ -23,27 +23,24 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpiproject;
+package org.glpi.api.request;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
-public class addItemExamplePayload {
+public class LostPasswordRequest {
 
-    public List<data> input;
+    @SerializedName("email")
+    private String email;
 
-    public addItemExamplePayload(List<data> input) {
-        this.input = input;
+    public LostPasswordRequest(String email) {
+        this.email = email;
     }
 
-    public static class data {
-
-        public String name;
-        public String serial;
-
-        public data(String name, String serial) {
-            this.name = name;
-            this.serial = serial;
-        }
+    public String getEmail() {
+        return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

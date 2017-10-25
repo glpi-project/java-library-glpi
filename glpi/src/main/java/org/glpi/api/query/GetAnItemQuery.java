@@ -23,7 +23,7 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpi.query;
+package org.glpi.api.query;
 
 import java.util.HashMap;
 import java.util.Map;

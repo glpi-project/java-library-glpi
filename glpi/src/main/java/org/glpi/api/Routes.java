@@ -23,16 +23,19 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpi;
+package org.glpi.api;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.flyve.glpi.request.ChangeActiveEntitiesRequest;
-import org.flyve.glpi.request.ChangeActiveProfileRequest;
-import org.flyve.glpi.request.LostPasswordRequest;
-import org.flyve.glpi.request.RecoveryPasswordRequest;
-import org.flyve.glpi.response.InitSession;
+
+import org.glpi.api.request.ChangeActiveEntitiesRequest;
+import org.glpi.api.request.ChangeActiveProfileRequest;
+import org.glpi.api.request.LostPasswordRequest;
+import org.glpi.api.request.RecoveryPasswordRequest;
+import org.glpi.api.response.InitSession;
+
 import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;

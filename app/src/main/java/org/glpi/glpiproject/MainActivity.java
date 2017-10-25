@@ -23,7 +23,7 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpiproject;
+package org.glpi.glpiproject;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,9 +34,9 @@ import android.widget.Button;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.flyve.glpi.GLPI;
-import org.flyve.glpi.itemType;
-import org.flyve.glpi.response.InitSession;
+import org.glpi.api.GLPI;
+import org.glpi.api.itemType;
+import org.glpi.api.response.InitSession;
 
 import java.util.ArrayList;
 

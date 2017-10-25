@@ -23,36 +23,25 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpi.request;
+package org.glpi.glpiproject;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
-public class ChangeActiveEntitiesRequest {
+public class deleteItemExamplePayload {
 
-    @SerializedName("entities_id")
-    private String entitiesId;
+    public List<data> input;
 
-    @SerializedName("is_recursive")
-    private String isRecursive;
-
-    public ChangeActiveEntitiesRequest(String entitiesId, String isRecursive) {
-        this.entitiesId = entitiesId;
-        this.isRecursive = isRecursive;
+    public deleteItemExamplePayload(List<data> input) {
+        this.input = input;
     }
 
-    public String getEntitiesId() {
-        return entitiesId;
+    public static class data {
+
+        public String id;
+
+        public data(String id) {
+            this.id = id;
+        }
     }
 
-    public void setEntitiesId(String entitiesId) {
-        this.entitiesId = entitiesId;
-    }
-
-    public String getIsRecursive() {
-        return isRecursive;
-    }
-
-    public void setIsRecursive(String isRecursive) {
-        this.isRecursive = isRecursive;
-    }
 }

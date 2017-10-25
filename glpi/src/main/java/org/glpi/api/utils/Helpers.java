@@ -23,24 +23,41 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpi.request;
+package org.glpi.api.utils;
 
-import com.google.gson.annotations.SerializedName;
+import android.util.Base64;
 
-public class LostPasswordRequest {
+import java.io.UnsupportedEncodingException;
 
-    @SerializedName("email")
-    private String email;
+public class Helpers {
 
-    public LostPasswordRequest(String email) {
-        this.email = email;
+    private Helpers() {
     }
 
-    public String getEmail() {
-        return email;
+    public static String base64decode(String text) {
+        String rtext = "";
+        if(text == null) { return ""; }
+        try {
+            byte[] bdata = Base64.decode(text, Base64.DEFAULT);
+            rtext = new String(bdata, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return rtext.trim();
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public static String base64encode(String text) {
+        String rtext = "";
+        if(text == null) { return ""; }
+        try {
+            byte[] data = text.getBytes("UTF-8");
+            rtext = Base64.encodeToString(data, Base64.DEFAULT);
+            rtext = rtext.trim().replace("==", "");
+        } catch (UnsupportedEncodingException e) {
+
+            e.printStackTrace();
+        }
+
+        return rtext.trim();
     }
 }

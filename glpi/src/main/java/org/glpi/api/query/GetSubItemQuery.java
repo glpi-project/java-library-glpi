@@ -23,16 +23,16 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpi.query;
+package org.glpi.api.query;
 
 import android.content.Context;
 
-import org.flyve.glpi.R;
+import org.glpi.api.R;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GetAllItemQuery {
+public class GetSubItemQuery {
 
     private Boolean expandDropdowns;
     private Boolean getHateoas;
@@ -40,15 +40,13 @@ public class GetAllItemQuery {
     private String range;
     private String sort;
     private String order;
-    private String searchText;
-    private Boolean isDeleted;
     private Context context;
 
     /**
-     * Get all the parameters available to work with the all items endpoint
+     * Get all the parameters available to work with the sub item endpoint
      * @param context
      */
-    public GetAllItemQuery(Context context) {
+    public GetSubItemQuery(Context context) {
         this.context = context;
     }
 
@@ -82,14 +80,6 @@ public class GetAllItemQuery {
 
         if(order!=null) {
             map.put("order", order);
-        }
-
-        if(searchText!=null) {
-            map.put("searchText", searchText);
-        }
-
-        if(isDeleted!=null) {
-            map.put("is_deleted", isDeleted.toString());
         }
 
         return map;
@@ -146,22 +136,6 @@ public class GetAllItemQuery {
      */
     public void setOrder(Order order) {
         this.order = order.name();
-    }
-
-    /**
-     * (default NULL): array of filters to pass on the query (with key = field and value the text to search)
-     * @param searchText String
-     */
-    public void setSearchText(String searchText) {
-        this.searchText = searchText;
-    }
-
-    /**
-     * (default: false): Return deleted element.
-     * @param deleted boolean
-     */
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
     }
 
     /**

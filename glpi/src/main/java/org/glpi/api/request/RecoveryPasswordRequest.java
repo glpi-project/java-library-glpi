@@ -23,24 +23,48 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpi.request;
+package org.glpi.api.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ChangeActiveProfileRequest {
+public class RecoveryPasswordRequest {
 
-    @SerializedName("profiles_id")
-    private String profilesId;
+    @SerializedName("email")
+    private String email;
 
-    public ChangeActiveProfileRequest(String profilesId) {
-        this.profilesId = profilesId;
+    @SerializedName("password_forget_token")
+    private String passwordForgetToken;
+
+    @SerializedName("password")
+    private String password;
+
+    public RecoveryPasswordRequest(String email, String passwordForgetToken, String password) {
+        this.email = email;
+        this.passwordForgetToken = passwordForgetToken;
+        this.password = password;
     }
 
-    public String getprofilesId() {
-        return profilesId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setprofilesId(String profilesId) {
-        this.profilesId = profilesId;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPasswordForgetToken() {
+        return passwordForgetToken;
+    }
+
+    public void setPasswordForgetToken(String passwordForgetToken) {
+        this.passwordForgetToken = passwordForgetToken;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

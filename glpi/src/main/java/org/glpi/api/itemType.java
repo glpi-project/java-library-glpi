@@ -23,7 +23,7 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpi;
+package org.glpi.api;
 
 public enum itemType {
     Alert,

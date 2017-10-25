@@ -23,48 +23,36 @@
 *  --------------------------------------------------------------------
 */
 
-package org.flyve.glpi.request;
+package org.glpi.api.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RecoveryPasswordRequest {
+public class ChangeActiveEntitiesRequest {
 
-    @SerializedName("email")
-    private String email;
+    @SerializedName("entities_id")
+    private String entitiesId;
 
-    @SerializedName("password_forget_token")
-    private String passwordForgetToken;
+    @SerializedName("is_recursive")
+    private String isRecursive;
 
-    @SerializedName("password")
-    private String password;
-
-    public RecoveryPasswordRequest(String email, String passwordForgetToken, String password) {
-        this.email = email;
-        this.passwordForgetToken = passwordForgetToken;
-        this.password = password;
+    public ChangeActiveEntitiesRequest(String entitiesId, String isRecursive) {
+        this.entitiesId = entitiesId;
+        this.isRecursive = isRecursive;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEntitiesId() {
+        return entitiesId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEntitiesId(String entitiesId) {
+        this.entitiesId = entitiesId;
     }
 
-    public String getPasswordForgetToken() {
-        return passwordForgetToken;
+    public String getIsRecursive() {
+        return isRecursive;
     }
 
-    public void setPasswordForgetToken(String passwordForgetToken) {
-        this.passwordForgetToken = passwordForgetToken;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setIsRecursive(String isRecursive) {
+        this.isRecursive = isRecursive;
     }
 }
