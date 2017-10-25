@@ -23,29 +23,8 @@
 #  @link      http://www.glpi-project.org/
 #  --------------------------------------------------------------------
 
-# create enviroment vars to work with fastlane telegram
-echo TELEGRAM_WEBHOOKS=$TELEGRAM_WEBHOOKS > .env
-echo GIT_REPO=$CIRCLE_REPOSITORY_URL >> .env
-echo GIT_BRANCH=$CIRCLE_BRANCH >> .env
-
-# install ruby
-sudo apt-get install ruby-full build-essential
-
-# install Node.js v7
-curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
-sudo sudo apt-get install -y nodejs
-
-# install globally
-sudo npm install -g conventional-github-releaser
-
-# Install node-github-release to create and edit releases on Github
-sudo npm install -g node-github-release
-
-# install node package available on package.json
-sudo npm install
-
-# config git
-git config --global user.email $GH_EMAIL
-git config --global user.name "Flyve MDM"
-git remote remove origin
-git remote add origin https://$GH_USER:$GH_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git
+# create gradle properties
+echo org.gradle.jvmargs=-Xmx1536m >> gradle.properties
+echo glpi_user=$GLPI_USER >> gradle.properties
+echo glpi_password=$GLPI_PASSWORD >> gradle.properties
+echo glpi_url=$GLPI_URL >> gradle.properties
