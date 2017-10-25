@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/github/license/glpi-project/java-library-glpi.svg?&label=License)](https://github.com/glpi-project/java-library-glpi/blob/develop/LICENSE.md)
 [![Follow twitter](https://img.shields.io/twitter/follow/GLPI_PROJECT.svg?style=social&label=Twitter&style=flat-square)](https://twitter.com/GLPI_PROJECT)
-![Project Status: WIP](http://www.repostatus.org/badges/latest/wip.svg)
+[![Project Status: WIP](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/)
 [![Telegram Group](https://img.shields.io/badge/Telegram-Group-blue.svg)](https://t.me/glpien)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
@@ -14,6 +14,7 @@ It helps companies to manage their information system, since it's able to build 
 
 * [Synopsis](#synopsis)
 * [Build Status](#build-status)
+* [Compatibility matrix](#matrix)
 * [Documentation](#documentation)
 * [Versioning](#versioning)
 * [Contact](#contact)
@@ -39,6 +40,12 @@ You will be able to call all the methods that belong to the [GLPI REST API](http
 |**Release channel**|Beta Channel|
 |:---:|:---:|
 |[![Circle CI build](https://circleci.com/gh/glpi-project/java-library-glpi/tree/master.svg?style=svg)](https://circleci.com/gh/glpi-project/java-library-glpi/tree/master)|[![Circle CI build](https://circleci.com/gh/glpi-project/java-library-glpi/tree/develop.svg?style=svg)](https://circleci.com/gh/glpi-project/java-library-glpi/tree/develop)|
+
+## Matrix
+
+|**GLPI Version**|9.1.1|9.1.2|9.1.3|9.1.5|9.1.6|9.2.0|
+|:----|----|----|----|---|---|---|
+|**GLPI API Client**|||||||
 
 ## Documentation
 
