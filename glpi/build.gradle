@@ -10,11 +10,20 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        setProperty("archivesBaseName", "glpi-api-client")
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        buildTypes.each {
+            if(glpi_user == null) { glpi_user = "-" }
+            if(glpi_password == null) { glpi_password = "-" }
+            if(glpi_url == null) { glpi_url = "-" }
+            it.buildConfigField 'String', 'GLPI_USER', glpi_user
+            it.buildConfigField 'String', 'GLPI_PASSWORD', glpi_password
+            it.buildConfigField 'String', 'GLPI_URL', glpi_url
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -23,7 +32,16 @@ android {
             testCoverageEnabled true
         }
     }
+}
 
+android.libraryVariants.all  { variant ->
+    def name = variant.buildType.name
+    if (!name.equals("debug")) {
+        def task = project.tasks.create  "jar${name.capitalize()}", Jar
+        task.dependsOn variant.javaCompile
+        task.from  variant.javaCompile.destinationDir
+        artifacts.add('archives', task);
+    }
 }
 
 dependencies {
@@ -44,18 +62,18 @@ if(project.rootProject.file('local.properties').exists()) {
 }
 
 ext {
-    bintrayRepo = 'glpi'
-    bintrayName = 'android-library-glpi'
-    bintrayUserOrg = "flyve-mdm"
+    bintrayName = 'android-api-client'
+    bintrayRepo = 'maven-repository'
+    bintrayUserOrg = "glpi-project"
 
-    publishedGroupId = 'org.flyve'
-    libraryName = 'glpi'
-    artifact = 'glpi'
+    publishedGroupId = 'org.glpi'
+    libraryName = 'glpi-api-client'
+    artifact = 'glpi-api-client'
 
     libraryDescription = 'GLPI API Client Library for Java provides functionality common to all GLPI APIs, for example HTTP transport, error handling, authentication, JSON parsing, media download/upload, and batching.'
 
-    siteUrl = 'https://github.com/flyve-mdm/android-library-glpi'
-    gitUrl = 'https://github.com/flyve-mdm/android-library-glpi.git'
+    siteUrl = 'https://github.com/glpi-project/java-library-glpi/'
+    gitUrl = 'https://github.com/glpi-project/java-library-glpi.git'
 
     libraryVersion = properties.getProperty("version")
 
@@ -65,7 +83,7 @@ ext {
 
     licenseName = 'GNU GENERAL PUBLIC LICENSE, Version 3.0'
     licenseUrl = 'https://www.gnu.org/licenses/gpl-3.0.html'
-    allLicenses = ["GLP-3.0"]
+    allLicenses = ["GPL-3.0"]
 }
 
 apply from: 'bintray.gradle'
