@@ -69,8 +69,8 @@ ext {
     bintrayUserOrg = "glpi-project"
 
     publishedGroupId = 'org.glpi'
-    libraryName = 'glpi-api-client'
-    artifact = 'glpi-api-client'
+    libraryName = 'api'
+    artifact = 'api'
 
     libraryDescription = 'GLPI API Client Library for Java provides functionality common to all GLPI APIs, for example HTTP transport, error handling, authentication, JSON parsing, media download/upload, and batching.'
 
