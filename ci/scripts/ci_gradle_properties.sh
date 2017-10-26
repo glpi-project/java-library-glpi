@@ -23,19 +23,8 @@
 #  @link      http://www.glpi-project.org/
 #  --------------------------------------------------------------------
 
-# Push commits and tags to origin branch
-git push --follow-tags origin $CIRCLE_BRANCH
-
-# Merge back the develop branch step
-
-# go to develop
-git checkout develop
-
-# merge with master
-git rebase master
-
-# push develop
-git push origin develop
-
-# return to master
-git checkout master
+# create gradle properties
+echo org.gradle.jvmargs=-Xmx1536m >> gradle.properties
+echo glpi_user=$GLPI_USER >> gradle.properties
+echo glpi_password=$GLPI_PASSWORD >> gradle.properties
+echo glpi_url=$GLPI_URL >> gradle.properties
