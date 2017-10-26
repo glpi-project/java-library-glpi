@@ -50,4 +50,5 @@ error do |lane, exception|
     )
 end
 
+# config $BUILD_TOOL for zipalign tools
 # how to used it fastlane android beta storepass:'#KEYSTORE_PASSWORD' keypass:'#ALIAS_PASSWORD'
