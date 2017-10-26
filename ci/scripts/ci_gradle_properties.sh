@@ -24,6 +24,8 @@
 #  --------------------------------------------------------------------
 
 # create gradle properties
+rm gradle.properties
+
 echo org.gradle.jvmargs=-Xmx1536m >> gradle.properties
 echo glpi_user="$GLPI_USER" >> gradle.properties
 echo glpi_password="$GLPI_PASSWORD" >> gradle.properties
