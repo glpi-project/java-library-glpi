@@ -49,3 +49,11 @@ github-release upload \
 --tag ${GIT_TAG} \
 --name "java_example.zip" \
 --file $CIRCLE_ARTIFACTS/java_example_code.zip
+
+# Upload example code release
+github-release upload \
+--user $CIRCLE_PROJECT_USERNAME \
+--repo $CIRCLE_PROJECT_REPONAME \
+--tag ${GIT_TAG} \
+--name "app-example-${GIT_TAG}.apk" \
+--file app/build/outputs/apk/app-release.apk
