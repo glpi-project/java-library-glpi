@@ -31,6 +31,9 @@ echo GIT_BRANCH=$CIRCLE_BRANCH >> .env
 # install ruby
 sudo apt-get install ruby-full build-essential
 
+# install fastlane
+sudo gem install fastlane --no-rdoc --no-ri
+
 # install Node.js v7
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 sudo sudo apt-get install -y nodejs
