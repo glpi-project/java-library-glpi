@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flyve-mdm/android-library-glpi"
+    "url": "git+https://github.com/glpi-project/java-library-glpi"
   },
   "keywords": [
     "android",
@@ -21,9 +21,9 @@
   "author": "Rafael Hernandez <rhernandez@teclib.com> (https://flyve-mdm.com)",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/flyve-mdm/android-library-glpi/issues"
+    "url": "https://github.com/glpi-project/java-library-glpi/issues"
   },
-  "homepage": "https://github.com/flyve-mdm/android-library-glpi#readme",
+  "homepage": "https://github.com/glpi-project/java-library-glpi#readme",
   "devDependencies": {
     "standard-version": "^4.2.0"
   },
