@@ -116,6 +116,9 @@ jobs:
             name: Push changes to github
             command: source ci/scripts/ci_push_changes.sh
         - run:
+            name: Create apk
+            command: source ci/scripts/ci_fastlane.sh "example"
+        - run:
             name: Create a github release
             command: source ci/scripts/ci_github_release.sh
         - run:
