@@ -24,4 +24,6 @@
 #  --------------------------------------------------------------------
 #
 # send to google play
+
+./gradlew assemble
 fastlane android $1 storepass:'$KEYSTORE' keypass:'$ALIAS'
