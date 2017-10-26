@@ -13,9 +13,13 @@ android {
     }
     buildTypes {
         buildTypes.each {
-            it.buildConfigField 'String', 'GLPI_USER', glpi_user
-            it.buildConfigField 'String', 'GLPI_PASSWORD', glpi_password
-            it.buildConfigField 'String', 'GLPI_URL', glpi_url
+            def glpi_user_val = glpi_user ?: "\"\""
+            def glpi_password_val = glpi_password ?: "\"\""
+            def glpi_url_val = glpi_url ?: "\"\""
+
+            it.buildConfigField 'String', 'GLPI_USER', glpi_user_val
+            it.buildConfigField 'String', 'GLPI_PASSWORD', glpi_password_val
+            it.buildConfigField 'String', 'GLPI_URL', glpi_url_val
         }
         release {
             minifyEnabled false
