@@ -27,12 +27,15 @@ package org.glpi.glpiproject;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.FormatStrategy;
+import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.PrettyFormatStrategy;
 
 import org.glpi.api.GLPI;
 import org.glpi.api.itemType;
@@ -47,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
+                .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
+                .methodCount(0)         // (Optional) How many method line to show. Default 2
+                .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
+                .tag("org.glpi.api")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
+                .build();
+
+        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
+
         final GLPI glpi = new GLPI(MainActivity.this, BuildConfig.GLPI_URL);
 
         Button btnInit = (Button) findViewById(R.id.btnInit);
@@ -56,12 +68,12 @@ public class MainActivity extends AppCompatActivity {
                 glpi.initSessionByCredentials(BuildConfig.GLPI_USER, BuildConfig.GLPI_PASSWORD, new GLPI.InitSessionCallback() {
                     @Override
                     public void onResponse(InitSession response) {
-                        Log.d("initSession", response.getSessionToken());
+                        FlyveLog.i("initSession: %s", response.getSessionToken());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("initSession", errorMessage);
+                        FlyveLog.e("initSession: %s", errorMessage);
                     }
                 });
             }
@@ -74,132 +86,132 @@ public class MainActivity extends AppCompatActivity {
                 glpi.getMyProfiles(new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
-                        Log.d("getMyProfiles", response.toString());
+                        FlyveLog.i("getMyProfiles: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("getMyProfiles", errorMessage);
+                        FlyveLog.e("getMyProfiles: %s", errorMessage);
                     }
                 });
 
                 glpi.getActiveProfile(new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
-                        Log.d("getActiveProfile", response.toString());
+                        FlyveLog.i("getActiveProfile: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("getActiveProfile", errorMessage);
+                        FlyveLog.e("getActiveProfile: %s", errorMessage);
                     }
                 });
 
                 glpi.getMyEntities(new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
-                        Log.d("getMyEntities", response.toString());
+                        FlyveLog.i("getMyEntities: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("getMyEntities", errorMessage);
+                        FlyveLog.e("getMyEntities: %s", errorMessage);
                     }
                 });
 
                 glpi.getActiveEntities(new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
-                        Log.d("getActiveEntities", response.toString());
+                        FlyveLog.i("getActiveEntities: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("getActiveEntities", errorMessage);
+                        FlyveLog.e("getActiveEntities: %s", errorMessage);
                     }
                 });
 
                 glpi.getFullSession(new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
-                        Log.d("getFullSession", response.toString());
+                        FlyveLog.i("getFullSession: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("getFullSession", errorMessage);
+                        FlyveLog.e("getFullSession: %s", errorMessage);
                     }
                 });
 
                 glpi.getGlpiConfig(new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
-                        Log.d("getGlpiConfig", response.toString());
+                        FlyveLog.i("getGlpiConfig: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("getGlpiConfig", errorMessage);
+                        FlyveLog.e("getGlpiConfig: %s", errorMessage);
                     }
                 });
 
                 glpi.getAllItems(itemType.Computer, new GLPI.JsonArrayCallback() {
                     @Override
                     public void onResponse(JsonArray response) {
-                        Log.d("getAllItems", response.toString());
+                        FlyveLog.i("getAllItems: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("getAllItems", errorMessage);
+                        FlyveLog.e("getAllItems: %s", errorMessage);
                     }
                 });
 
                 glpi.getAnItem(itemType.Computer, "110", new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
-                        Log.d("getAnItem", response.toString());
+                        FlyveLog.i("getAnItem: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("getAnItem", errorMessage);
+                        FlyveLog.e("getAnItem: %s", errorMessage);
                     }
                 });
 
                 glpi.getSubItems(itemType.Computer, "2", itemType.ComputerType, new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
-                        Log.d("getSubItems", response.toString());
+                        FlyveLog.i("getSubItems", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("getSubItems", errorMessage);
+                        FlyveLog.e("getSubItems: %s", errorMessage);
                     }
                 });
 
                 glpi.changeActiveProfile("9", new GLPI.VoidCallback() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("changeActiveProfile", response);
+                        FlyveLog.i("changeActiveProfile: %s", response);
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("changeActiveProfile", errorMessage);
+                        FlyveLog.e("changeActiveProfile: %s", errorMessage);
                     }
                 });
 
                 glpi.changeActiveEntities("1", false, new GLPI.VoidCallback() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("changeActiveEntities", response);
+                        FlyveLog.i("changeActiveEntities: %s", response);
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("changeActiveEntities", errorMessage);
+                        FlyveLog.e("changeActiveEntities: %s", errorMessage);
                     }
                 });
 
@@ -217,36 +229,36 @@ public class MainActivity extends AppCompatActivity {
                 glpi.addItems(itemType.Computer, obj, new GLPI.JsonArrayCallback() {
                     @Override
                     public void onResponse(JsonArray response) {
-                        Log.d("addItems", response.toString());
+                        FlyveLog.i("addItems: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("addItems", errorMessage);
+                        FlyveLog.e("addItems: %s", errorMessage);
                     }
                 });
 
                 glpi.updateItems(itemType.Computer, "10", obj, new GLPI.JsonArrayCallback() {
                     @Override
                     public void onResponse(JsonArray response) {
-                        Log.d("updateItems", response.toString());
+                        FlyveLog.i("updateItems: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("updateItems", errorMessage);
+                        FlyveLog.e("updateItems: %s", errorMessage);
                     }
                 });
 
                 glpi.deleteItems(itemType.Computer, "10", new GLPI.JsonArrayCallback() {
                     @Override
                     public void onResponse(JsonArray response) {
-                        Log.d("deleteItems", response.toString());
+                        FlyveLog.i("deleteItems: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("deleteItems", errorMessage);
+                        FlyveLog.e("deleteItems: %s", errorMessage);
                     }
                 });
 
@@ -264,36 +276,36 @@ public class MainActivity extends AppCompatActivity {
                 glpi.deleteItems(itemType.Computer, deleteObj, new GLPI.JsonArrayCallback() {
                     @Override
                     public void onResponse(JsonArray response) {
-                        Log.d("deleteItems", response.toString());
+                        FlyveLog.i("deleteItems: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("deleteItems", errorMessage);
+                        FlyveLog.e("deleteItems: %s", errorMessage);
                     }
                 });
 
                 glpi.lostPassword("youremail@yourdomain.com", new GLPI.VoidCallback() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("lostPassword", response);
+                        FlyveLog.i("lostPassword: %s", response);
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("lostPassword", errorMessage);
+                        FlyveLog.e("lostPassword: %s", errorMessage);
                     }
                 });
 
                 glpi.recoveryPassword("youremail@yourdomain.com", "asdfasdfafsASDFd333A", "1234", new GLPI.VoidCallback() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("recoveryPassword", response);
+                        FlyveLog.i("recoveryPassword: %s", response);
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("recoveryPassword", errorMessage);
+                        FlyveLog.e("recoveryPassword: %s", errorMessage);
                     }
                 });
             }
@@ -307,12 +319,12 @@ public class MainActivity extends AppCompatActivity {
                 glpi.killSession(new GLPI.VoidCallback() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("killSession", response.toString());
+                        FlyveLog.i("killSession: %s", response.toString());
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        Log.e("killSession", errorMessage);
+                        FlyveLog.e("killSession: %s", errorMessage);
                     }
                 });
             }
