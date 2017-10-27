@@ -38,6 +38,10 @@ public class ServiceGenerator {
 
     protected Retrofit retrofit;
 
+    /**
+     * Initial connection configuration
+     * @param url
+     */
     protected void start(String url) {
 
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
