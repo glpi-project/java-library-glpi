@@ -528,8 +528,30 @@ public class GLPI extends ServiceGenerator {
      * @param subItemType This are the item type available on GLPI
      * @param callback here your are going to get the asynchronous response
      */
+    public void getSubItems(String itemType, String id, String subItemType, final JsonObjectCallback callback) {
+        getSubItems(new GetSubItemQuery(GLPI.this.context), itemType, id, subItemType, callback);
+    }
+
+    /**
+     * Return a collection of rows of the sub_itemtype for the identified item.
+     * @param itemType This are the item type available on GLPI
+     * @param id unique identifier of the parent itemtype
+     * @param subItemType This are the item type available on GLPI
+     * @param callback here your are going to get the asynchronous response
+     */
     public void getSubItems(itemType itemType, String id, itemType subItemType, final JsonObjectCallback callback) {
         getSubItems(new GetSubItemQuery(GLPI.this.context), itemType, id, subItemType, callback);
+    }
+
+    /**
+     * Return a collection of rows of the sub_itemtype for the identified item.
+     * @param itemType This are the item type available on GLPI
+     * @param id unique identifier of the parent itemtype
+     * @param subItemType This are the item type available on GLPI
+     * @param callback here your are going to get the asynchronous response
+     */
+    public void getSubItems(GetSubItemQuery options, itemType itemType, String id, itemType subItemType, final JsonObjectCallback callback) {
+        getSubItems(options, itemType.name(), id, subItemType.name(), callback);
     }
 
     /**
@@ -540,9 +562,9 @@ public class GLPI extends ServiceGenerator {
      * @param subItemType This are the item type available on GLPI
      * @param callback here your are going to get the asynchronous response
      */
-    public void getSubItems(GetSubItemQuery options, itemType itemType, String id, itemType subItemType, final JsonObjectCallback callback) {
+    public void getSubItems(GetSubItemQuery options, String itemType, String id, String subItemType, final JsonObjectCallback callback) {
 
-        Call<JsonObject> responseCall = interfaces.getSubItem(getHeader(), itemType.name(), id, subItemType.name(), options.getQuery());
+        Call<JsonObject> responseCall = interfaces.getSubItem(getHeader(), itemType, id, subItemType, options.getQuery());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
