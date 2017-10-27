@@ -215,12 +215,12 @@ span.code pre {
 }
 
 .success, .success a {
-    color: #008000;
+    color: #00A2FA;
 }
 
 div.success, #successRate.success {
-    background-color: #bbd9bb;
-    border-color: #008000;
+    background-color: rgb(183, 230, 255);
+    border-color: #00A2FA;
 }
 
 .failures, .failures a {
