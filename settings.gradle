@@ -1,1 +1,1 @@
-include ':app', ':glpi'
+include ':example', ':glpi'

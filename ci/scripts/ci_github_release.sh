@@ -56,4 +56,4 @@ github-release upload \
 --repo $CIRCLE_PROJECT_REPONAME \
 --tag ${GIT_TAG} \
 --name "app-example-${GIT_TAG}.apk" \
---file app/build/outputs/apk/app-release.apk
+--file example/build/outputs/apk/app-release.apk
