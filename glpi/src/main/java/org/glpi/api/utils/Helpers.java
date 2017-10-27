@@ -31,9 +31,17 @@ import java.io.UnsupportedEncodingException;
 
 public class Helpers {
 
+    /**
+     * add private constructor
+     */
     private Helpers() {
     }
 
+    /**
+     * base64 decode function
+     * @param text
+     * @return
+     */
     public static String base64decode(String text) {
         String rtext = "";
         if(text == null) { return ""; }
@@ -46,6 +54,11 @@ public class Helpers {
         return rtext.trim();
     }
 
+    /**
+     * base64 encode function
+     * @param text
+     * @return
+     */
     public static String base64encode(String text) {
         String rtext = "";
         if(text == null) { return ""; }
@@ -57,7 +70,6 @@ public class Helpers {
 
             e.printStackTrace();
         }
-
         return rtext.trim();
     }
 }
