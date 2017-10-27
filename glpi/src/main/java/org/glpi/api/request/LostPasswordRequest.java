@@ -32,14 +32,26 @@ public class LostPasswordRequest {
     @SerializedName("email")
     private String email;
 
+    /**
+     * Create a request for Lost Password
+     * @param email
+     */
     public LostPasswordRequest(String email) {
         this.email = email;
     }
 
+    /**
+     * get email
+     * @return
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * set email
+     * @return
+     */
     public void setEmail(String email) {
         this.email = email;
     }
