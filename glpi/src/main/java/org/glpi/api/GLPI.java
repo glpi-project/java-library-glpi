@@ -468,15 +468,36 @@ public class GLPI extends ServiceGenerator {
     }
 
     /**
-     *  Return the instance fields of itemtype identified by id.
+     * Return the instance fields of itemtype identified by id.
+     * @param itemType This are the item type available on GLPI
+     * @param id unique identifier of the itemtype
+     * @param callback here your are going to get the asynchronous response
+     */
+    public void getAnItem(String itemType, String id, final JsonObjectCallback callback) {
+        getAnItem(new GetAnItemQuery(), itemType, id, callback);
+    }
+
+    /**
+     * Return the instance fields of itemtype identified by id.
      * @param options this are the parameters of this endpoint for example expand_dropdowns or get_hateoas
      * @param itemType This are the item type available on GLPI
      * @param id unique identifier of the itemtype
      * @param callback here your are going to get the asynchronous response
      */
     public void getAnItem(GetAnItemQuery options, itemType itemType, String id, final JsonObjectCallback callback) {
+        getAnItem(options, itemType.name(), id, callback);
+    }
 
-        Call<JsonObject> responseCall = interfaces.getAnItem(getHeader(), itemType.name(), id, options.getQuery());
+    /**
+     *  Return the instance fields of itemtype identified by id.
+     * @param options this are the parameters of this endpoint for example expand_dropdowns or get_hateoas
+     * @param itemType This are the item type available on GLPI
+     * @param id unique identifier of the itemtype
+     * @param callback here your are going to get the asynchronous response
+     */
+    public void getAnItem(GetAnItemQuery options, String itemType, String id, final JsonObjectCallback callback) {
+
+        Call<JsonObject> responseCall = interfaces.getAnItem(getHeader(), itemType, id, options.getQuery());
         responseCall.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
