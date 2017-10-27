@@ -35,23 +35,44 @@ public class ChangeActiveEntitiesRequest {
     @SerializedName("is_recursive")
     private String isRecursive;
 
+    /**
+     * Create a request for change active entities
+     * @param entitiesId
+     * @param isRecursive
+     */
     public ChangeActiveEntitiesRequest(String entitiesId, String isRecursive) {
         this.entitiesId = entitiesId;
         this.isRecursive = isRecursive;
     }
 
+    /**
+     * Get Entities Id
+     * @return String
+     */
     public String getEntitiesId() {
         return entitiesId;
     }
 
+    /**
+     * Set Entities Id
+     * @param entitiesId
+     */
     public void setEntitiesId(String entitiesId) {
         this.entitiesId = entitiesId;
     }
 
+    /**
+     * get is Recursive
+     * @return
+     */
     public String getIsRecursive() {
         return isRecursive;
     }
 
+    /**
+     * set is Recursive
+     * @param isRecursive
+     */
     public void setIsRecursive(String isRecursive) {
         this.isRecursive = isRecursive;
     }
