@@ -32,14 +32,26 @@ public class ChangeActiveProfileRequest {
     @SerializedName("profiles_id")
     private String profilesId;
 
+    /**
+     * Create a request for change active profile
+     * @param profilesId
+     */
     public ChangeActiveProfileRequest(String profilesId) {
         this.profilesId = profilesId;
     }
 
+    /**
+     * get profiles id
+     * @return
+     */
     public String getprofilesId() {
         return profilesId;
     }
 
+    /**
+     * set profile id
+     * @param profilesId
+     */
     public void setprofilesId(String profilesId) {
         this.profilesId = profilesId;
     }
