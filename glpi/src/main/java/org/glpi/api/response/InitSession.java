@@ -27,15 +27,26 @@ package org.glpi.api.response;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Response for InitSession
+ */
 public class InitSession {
 
     @SerializedName("session_token")
     private String sessionToken;
 
+    /**
+     * get Session Token
+     * @return
+     */
     public String getSessionToken() {
         return sessionToken;
     }
 
+    /**
+     * set Session Token
+     * @return
+     */
     public void setSessionToken(String sessionToken) {
         this.sessionToken = sessionToken;
     }
