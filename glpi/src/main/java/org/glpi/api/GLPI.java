@@ -463,8 +463,8 @@ public class GLPI extends ServiceGenerator {
      * @param id unique identifier of the itemtype
      * @param callback here your are going to get the asynchronous response
      */
-    public void getAnItem(itemType itemType, String id, final JsonObjectCallback callback) {
-        getAnItem(new GetAnItemQuery(), itemType, id, callback);
+    public void getItem(itemType itemType, String id, final JsonObjectCallback callback) {
+        getItem(new GetAnItemQuery(), itemType, id, callback);
     }
 
     /**
@@ -473,8 +473,8 @@ public class GLPI extends ServiceGenerator {
      * @param id unique identifier of the itemtype
      * @param callback here your are going to get the asynchronous response
      */
-    public void getAnItem(String itemType, String id, final JsonObjectCallback callback) {
-        getAnItem(new GetAnItemQuery(), itemType, id, callback);
+    public void getItem(String itemType, String id, final JsonObjectCallback callback) {
+        getItem(new GetAnItemQuery(), itemType, id, callback);
     }
 
     /**
@@ -484,8 +484,8 @@ public class GLPI extends ServiceGenerator {
      * @param id unique identifier of the itemtype
      * @param callback here your are going to get the asynchronous response
      */
-    public void getAnItem(GetAnItemQuery options, itemType itemType, String id, final JsonObjectCallback callback) {
-        getAnItem(options, itemType.name(), id, callback);
+    public void getItem(GetAnItemQuery options, itemType itemType, String id, final JsonObjectCallback callback) {
+        getItem(options, itemType.name(), id, callback);
     }
 
     /**
@@ -495,7 +495,7 @@ public class GLPI extends ServiceGenerator {
      * @param id unique identifier of the itemtype
      * @param callback here your are going to get the asynchronous response
      */
-    public void getAnItem(GetAnItemQuery options, String itemType, String id, final JsonObjectCallback callback) {
+    public void getItem(GetAnItemQuery options, String itemType, String id, final JsonObjectCallback callback) {
 
         Call<JsonObject> responseCall = interfaces.getAnItem(getHeader(), itemType, id, options.getQuery());
         responseCall.enqueue(new Callback<JsonObject>() {
