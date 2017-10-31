@@ -23,6 +23,10 @@
 #  @link      http://www.glpi-project.org/
 #  --------------------------------------------------------------------
 
+# stash
+git add .
+git stash
+
 # get gh-pages branch
 git fetch origin gh-pages
 
