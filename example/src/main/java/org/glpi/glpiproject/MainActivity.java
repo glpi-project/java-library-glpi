@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                glpi.getAnItem(itemType.Computer, "110", new GLPI.JsonObjectCallback() {
+                glpi.getItem(itemType.Computer, "110", new GLPI.JsonObjectCallback() {
                     @Override
                     public void onResponse(JsonObject response) {
                         FlyveLog.i("getAnItem: %s", response.toString());
@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                glpi.lostPassword("youremail@yourdomain.com", new GLPI.VoidCallback() {
+                glpi.recoveryPassword("youremail@yourdomain.com", new GLPI.VoidCallback() {
                     @Override
                     public void onResponse(String response) {
                         FlyveLog.i("lostPassword: %s", response);
@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                glpi.recoveryPassword("youremail@yourdomain.com", "asdfasdfafsASDFd333A", "1234", new GLPI.VoidCallback() {
+                glpi.resetPassword("youremail@yourdomain.com", "asdfasdfafsASDFd333A", "1234", new GLPI.VoidCallback() {
                     @Override
                     public void onResponse(String response) {
                         FlyveLog.i("recoveryPassword: %s", response);
