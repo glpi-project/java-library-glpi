@@ -30,8 +30,8 @@ import com.google.gson.JsonObject;
 
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
-import org.glpi.api.request.LostPasswordRequest;
 import org.glpi.api.request.RecoveryPasswordRequest;
+import org.glpi.api.request.ResetPasswordRequest;
 import org.glpi.api.response.InitSession;
 
 import java.util.Map;
@@ -125,10 +125,10 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @PUT("lostPassword")
-    Call<Void> lostPassword(@Body LostPasswordRequest requestPost);
+    Call<Void> lostPassword(@Body RecoveryPasswordRequest requestPost);
 
     @Headers("Content-Type: application/json")
     @PUT("lostPassword")
-    Call<Void> recoveryPassword(@Body RecoveryPasswordRequest requestPost);
+    Call<Void> recoveryPassword(@Body ResetPasswordRequest requestPost);
 
 }

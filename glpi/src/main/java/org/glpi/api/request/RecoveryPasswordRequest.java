@@ -32,26 +32,16 @@ public class RecoveryPasswordRequest {
     @SerializedName("email")
     private String email;
 
-    @SerializedName("password_forget_token")
-    private String passwordForgetToken;
-
-    @SerializedName("password")
-    private String password;
-
     /**
-     * Create a request for Recovery Password
+     * Create a request for Lost Password
      * @param email
-     * @param passwordForgetToken
-     * @param password
      */
-    public RecoveryPasswordRequest(String email, String passwordForgetToken, String password) {
+    public RecoveryPasswordRequest(String email) {
         this.email = email;
-        this.passwordForgetToken = passwordForgetToken;
-        this.password = password;
     }
 
     /**
-     * get Email
+     * get email
      * @return
      */
     public String getEmail() {
@@ -59,42 +49,10 @@ public class RecoveryPasswordRequest {
     }
 
     /**
-     * set Email
+     * set email
      * @return
      */
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    /**
-     * get Password Forget Token
-     * @return
-     */
-    public String getPasswordForgetToken() {
-        return passwordForgetToken;
-    }
-
-    /**
-     * set Password Forget Token
-     * @return
-     */
-    public void setPasswordForgetToken(String passwordForgetToken) {
-        this.passwordForgetToken = passwordForgetToken;
-    }
-
-    /**
-     * get Password
-     * @return
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * set Password
-     * @return
-     */
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

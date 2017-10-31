@@ -27,21 +27,31 @@ package org.glpi.api.request;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LostPasswordRequest {
+public class ResetPasswordRequest {
 
     @SerializedName("email")
     private String email;
 
+    @SerializedName("password_forget_token")
+    private String passwordForgetToken;
+
+    @SerializedName("password")
+    private String password;
+
     /**
-     * Create a request for Lost Password
+     * Create a request for Recovery Password
      * @param email
+     * @param passwordForgetToken
+     * @param password
      */
-    public LostPasswordRequest(String email) {
+    public ResetPasswordRequest(String email, String passwordForgetToken, String password) {
         this.email = email;
+        this.passwordForgetToken = passwordForgetToken;
+        this.password = password;
     }
 
     /**
-     * get email
+     * get Email
      * @return
      */
     public String getEmail() {
@@ -49,10 +59,42 @@ public class LostPasswordRequest {
     }
 
     /**
-     * set email
+     * set Email
      * @return
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * get Password Forget Token
+     * @return
+     */
+    public String getPasswordForgetToken() {
+        return passwordForgetToken;
+    }
+
+    /**
+     * set Password Forget Token
+     * @return
+     */
+    public void setPasswordForgetToken(String passwordForgetToken) {
+        this.passwordForgetToken = passwordForgetToken;
+    }
+
+    /**
+     * get Password
+     * @return
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * set Password
+     * @return
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

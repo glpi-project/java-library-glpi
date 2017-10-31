@@ -36,8 +36,8 @@ import org.glpi.api.query.GetAnItemQuery;
 import org.glpi.api.query.GetSubItemQuery;
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
-import org.glpi.api.request.LostPasswordRequest;
 import org.glpi.api.request.RecoveryPasswordRequest;
+import org.glpi.api.request.ResetPasswordRequest;
 import org.glpi.api.response.InitSession;
 import org.glpi.api.utils.Helpers;
 
@@ -789,9 +789,9 @@ public class GLPI extends ServiceGenerator {
      * @param email email address of the user to recover
      * @param callback here your are going to get the asynchronous response
      */
-    public void lostPassword(String email, final VoidCallback callback) {
+    public void recoveryPassword(String email, final VoidCallback callback) {
 
-        LostPasswordRequest requestPost = new LostPasswordRequest(email);
+        RecoveryPasswordRequest requestPost = new RecoveryPasswordRequest(email);
 
         Call<Void> responseCall = interfaces.lostPassword(requestPost);
         responseCall.enqueue(new Callback<Void>() {
@@ -824,9 +824,9 @@ public class GLPI extends ServiceGenerator {
      * @param newPassword the new password for the user
      * @param callback here your are going to get the asynchronous response
      */
-    public void recoveryPassword(String email, String token, String newPassword, final VoidCallback callback) {
+    public void resetPassword(String email, String token, String newPassword, final VoidCallback callback) {
 
-        RecoveryPasswordRequest requestPost = new RecoveryPasswordRequest(email, token, newPassword);
+        ResetPasswordRequest requestPost = new ResetPasswordRequest(email, token, newPassword);
 
         Call<Void> responseCall = interfaces.recoveryPassword(requestPost);
         responseCall.enqueue(new Callback<Void>() {
