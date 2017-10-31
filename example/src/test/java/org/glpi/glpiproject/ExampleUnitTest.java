@@ -1,4 +1,4 @@
-package org.flyve.glpiproject;
+package org.glpi.glpiproject;
 
 import org.junit.Test;
 
