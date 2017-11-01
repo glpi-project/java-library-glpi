@@ -37,8 +37,8 @@ public class ChangeActiveEntitiesRequest {
 
     /**
      * Create a request for change active entities
-     * @param entitiesId
-     * @param isRecursive
+     * @param string entitiesId
+     * @param string isRecursive
      */
     public ChangeActiveEntitiesRequest(String entitiesId, String isRecursive) {
         this.entitiesId = entitiesId;
@@ -47,7 +47,7 @@ public class ChangeActiveEntitiesRequest {
 
     /**
      * Get Entities Id
-     * @return String
+     * @return the entities Id
      */
     public String getEntitiesId() {
         return entitiesId;
@@ -55,7 +55,7 @@ public class ChangeActiveEntitiesRequest {
 
     /**
      * Set Entities Id
-     * @param entitiesId
+     * @param string entitiesId
      */
     public void setEntitiesId(String entitiesId) {
         this.entitiesId = entitiesId;
@@ -63,7 +63,7 @@ public class ChangeActiveEntitiesRequest {
 
     /**
      * get is Recursive
-     * @return
+     * @return if the entity is recursive
      */
     public String getIsRecursive() {
         return isRecursive;
@@ -71,7 +71,7 @@ public class ChangeActiveEntitiesRequest {
 
     /**
      * set is Recursive
-     * @param isRecursive
+     * @param string isRecursive
      */
     public void setIsRecursive(String isRecursive) {
         this.isRecursive = isRecursive;
