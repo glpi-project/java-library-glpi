@@ -33,7 +33,7 @@ This library created in Java features several functionalities common to all GLPI
 * Media download/upload
 * Batching.
 
-You will be able to call all the methods that belong to the [GLPI REST API](https://dev.flyve.org/glpi/apirest.php), for more information visit the [project's website](https://glpi-project.github.io/java-library-glpi/).
+You will be able to call all the methods that belong to the [GLPI REST API](https://github.com/glpi-project/glpi/blob/master/apirest.md), for more information visit the [project's website](https://glpi-project.github.io/java-library-glpi/).
 
 ## Build Status
 
@@ -49,18 +49,18 @@ You will be able to call all the methods that belong to the [GLPI REST API](http
 
 ## Documentation
 
-We maintain a detailed documentation of the project in the [project's website](https://glpi-project.github.io/java-library-glpi/).
+We maintain a detailed documentation of the project on the [website](https://glpi-project.github.io/java-library-glpi/).
 
 ## Versioning
 
-In order to provide transparency on our release cycle and to maintain backward compatibility, Flyve MDM is maintained under [the Semantic Versioning guidelines](http://semver.org/). We are committed to following and complying with the rules, the best we can.
+In order to provide transparency on our release cycle and to maintain backward compatibility, GLPI is maintained under [the Semantic Versioning guidelines](http://semver.org/). We are committed to following and complying with the rules, the best we can.
 
-See [the tags section of our GitHub project](https://github.com/glpi-project/java-library-glpi/tags) for changelogs for each release version of Flyve MDM. Release announcement posts on [the official Teclib' blog](http://www.teclib-edition.com/en/communities/blog-posts/) contain summaries of the most noteworthy changes made in each release.
+See [the tags section of our GitHub project](https://github.com/glpi-project/java-library-glpi/tags) for changelogs for each release version. Release announcement posts on [the official Teclib' blog](http://www.teclib-edition.com/en/communities/blog-posts/) contain summaries of the most noteworthy changes made in each release.
 
 ## Contact
 
-For notices about major changes and general discussion of Flyve MDM development, subscribe to the [/r/glpi](http://www.reddit.com/r/glpi) subreddit.
-You can also chat with us via IRC in [#GLPI on freenode](http://webchat.freenode.net/?channels=GLPI]) or [@flyvemdmdev on Telegram](https://t.me/glpien).
+For notices about major changes and general discussion of GLPI development, subscribe to the [/r/glpi](http://www.reddit.com/r/glpi) subreddit.
+You can also chat with us via IRC in [#GLPI on freenode](http://webchat.freenode.net/?channels=GLPI]) or [@glpien on Telegram](https://t.me/glpien).
 
 ## Contribute
 
