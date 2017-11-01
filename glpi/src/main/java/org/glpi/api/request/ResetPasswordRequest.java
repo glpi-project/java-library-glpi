@@ -40,9 +40,9 @@ public class ResetPasswordRequest {
 
     /**
      * Create a request for Recovery Password
-     * @param email
-     * @param passwordForgetToken
-     * @param password
+     * @param string email
+     * @param string passwordForgetToken
+     * @param string password
      */
     public ResetPasswordRequest(String email, String passwordForgetToken, String password) {
         this.email = email;
@@ -52,7 +52,7 @@ public class ResetPasswordRequest {
 
     /**
      * get Email
-     * @return
+     * @return the email of the user to recover
      */
     public String getEmail() {
         return email;
@@ -60,7 +60,7 @@ public class ResetPasswordRequest {
 
     /**
      * set Email
-     * @return
+     * @param string the email of the user to recover
      */
     public void setEmail(String email) {
         this.email = email;
@@ -68,7 +68,7 @@ public class ResetPasswordRequest {
 
     /**
      * get Password Forget Token
-     * @return
+     * @return the token of the forgotten password
      */
     public String getPasswordForgetToken() {
         return passwordForgetToken;
@@ -76,7 +76,7 @@ public class ResetPasswordRequest {
 
     /**
      * set Password Forget Token
-     * @return
+     * @param string the token of the forgotten password
      */
     public void setPasswordForgetToken(String passwordForgetToken) {
         this.passwordForgetToken = passwordForgetToken;
@@ -84,7 +84,7 @@ public class ResetPasswordRequest {
 
     /**
      * get Password
-     * @return
+     * @return the new password
      */
     public String getPassword() {
         return password;
@@ -92,7 +92,7 @@ public class ResetPasswordRequest {
 
     /**
      * set Password
-     * @return
+     * @param string the new password
      */
     public void setPassword(String password) {
         this.password = password;
