@@ -34,7 +34,7 @@ public class ChangeActiveProfileRequest {
 
     /**
      * Create a request for change active profile
-     * @param profilesId
+     * @param string profilesId
      */
     public ChangeActiveProfileRequest(String profilesId) {
         this.profilesId = profilesId;
@@ -42,7 +42,7 @@ public class ChangeActiveProfileRequest {
 
     /**
      * get profiles id
-     * @return
+     * @return the profiles Id
      */
     public String getprofilesId() {
         return profilesId;
@@ -50,7 +50,7 @@ public class ChangeActiveProfileRequest {
 
     /**
      * set profile id
-     * @param profilesId
+     * @param string profilesId
      */
     public void setprofilesId(String profilesId) {
         this.profilesId = profilesId;
