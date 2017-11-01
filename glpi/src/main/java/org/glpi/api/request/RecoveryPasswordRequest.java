@@ -34,7 +34,7 @@ public class RecoveryPasswordRequest {
 
     /**
      * Create a request for Lost Password
-     * @param email
+     * @param string email
      */
     public RecoveryPasswordRequest(String email) {
         this.email = email;
@@ -42,15 +42,15 @@ public class RecoveryPasswordRequest {
 
     /**
      * get email
-     * @return
+     * @return the email of the user to recover
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * set email
-     * @return
+     * Set email
+     * @param string email
      */
     public void setEmail(String email) {
         this.email = email;
