@@ -37,7 +37,7 @@ public class InitSession {
 
     /**
      * get Session Token
-     * @return
+     * @return the session token
      */
     public String getSessionToken() {
         return sessionToken;
@@ -45,7 +45,7 @@ public class InitSession {
 
     /**
      * set Session Token
-     * @return
+     * @param string session token
      */
     public void setSessionToken(String sessionToken) {
         this.sessionToken = sessionToken;
