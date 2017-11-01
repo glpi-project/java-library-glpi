@@ -39,8 +39,8 @@ public class Helpers {
 
     /**
      * base64 decode function
-     * @param text
-     * @return
+     * @param string text the data to decode
+     * @return the decoded data
      */
     public static String base64decode(String text) {
         String rtext = "";
@@ -56,8 +56,8 @@ public class Helpers {
 
     /**
      * base64 encode function
-     * @param text
-     * @return
+     * @param string text the data to encode
+     * @return the encoded data
      */
     public static String base64encode(String text) {
         String rtext = "";
