@@ -101,3 +101,9 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 * Build the app with Android Studio
 
 * Select the AndroidTest folder right-click on the directory and select Run tests
+
+To check the log, specially for debugging purpose, type this in terminal:
+
+```console
+adb shell logcat | grep -E "org.glpi.api"
+```
