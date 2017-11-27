@@ -1,3 +1,5 @@
+# GLPI API Library for Java
+
 ![GLPI banner](https://user-images.githubusercontent.com/29282308/31666160-8ad74b1a-b34b-11e7-839b-043255af4f58.png)
 
 [![License](https://img.shields.io/github/license/glpi-project/java-library-glpi.svg?&label=License)](https://github.com/glpi-project/java-library-glpi/blob/develop/LICENSE.md)
@@ -60,7 +62,7 @@ See [the tags section of our GitHub project](https://github.com/glpi-project/jav
 ## Contact
 
 For notices about major changes and general discussion of GLPI development, subscribe to the [/r/glpi](http://www.reddit.com/r/glpi) subreddit.
-You can also chat with us via IRC in [#GLPI on freenode](http://webchat.freenode.net/?channels=GLPI]) or [@glpien on Telegram](https://t.me/glpien).
+You can also chat with us via IRC in [#GLPI on freenode](http://webchat.freenode.net/?channels=GLPI) or [@glpien on Telegram](https://t.me/glpien).
 
 ## Contribute
 
