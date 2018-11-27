@@ -80,7 +80,8 @@ public class GLPI extends ServiceGenerator {
     }
 
     /**
-     * Synchronous Request a session token to uses other api endpoints. with a couple login & password: 2 parameters to login with user authentication
+     * Synchronous Request a session token to uses other api endpoints. with a couple login & password:
+     * 2 parameters to login with user authentication
      *
      * @param user     valid user on GLPI
      * @param password valid password on GLPI
@@ -98,7 +99,8 @@ public class GLPI extends ServiceGenerator {
     }
 
     /**
-     * Request a session token to uses other api endpoints. with a couple login & password: 2 parameters to login with user authentication
+     * Request a session token to uses other api endpoints. with a couple login & password:
+     * 2 parameters to login with user authentication
      *
      * @param user     valid user on GLPI
      * @param password valid password on GLPI
@@ -108,6 +110,46 @@ public class GLPI extends ServiceGenerator {
         this.appToken = null;
         String authorization = Helpers.base64encode(user + ":" + password);
         responseInitSession(callback, interfaces.initSessionByCredentials("Basic " + authorization.trim()));
+    }
+
+    /**
+     * This endpoint allows to request password reset
+     *
+     * @param email    email address of the user to recover
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void recoveryPassword(String email, final VoidCallback callback) {
+        RecoveryPasswordRequest requestPost = new RecoveryPasswordRequest(email);
+        responseInitSession(callback, interfaces.lostPassword(requestPost), R.string.lost_password_success);
+    }
+
+    private void responseInitSession(final InitSessionCallback callback, Call<InitSession> responseCall) {
+        responseCall.enqueue(new Callback<InitSession>() {
+            @Override
+            public void onResponse(@NonNull Call<InitSession> call, @NonNull Response<InitSession> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        sessionToken = response.body().getSessionToken();
+                    } catch (NullPointerException ex) {
+                        Log.d("initSession", ex.getMessage());
+                    }
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InitSession> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
     }
 
     /**
@@ -165,18 +207,61 @@ public class GLPI extends ServiceGenerator {
     }
 
     /**
-     * Destroy a session identified by a session token.
+     * Return the instance fields of itemtype identified by id.
      *
+     * @param itemType These are the item type available on GLPI
+     * @param id       unique identifier of the itemtype
      * @param callback here you are going to get the asynchronous response
      */
-    public void killSession(final VoidCallback callback) {
-        interfaces.killSession(getHeader()).enqueue(new Callback<Void>() {
+    public void getItem(itemType itemType, String id, final JsonObjectCallback callback) {
+        Map<String, String> options = new GetAnItemQuery().getQuery();
+        responseJsonObject(callback, interfaces.getAnItem(getHeader(), itemType.name(), id, options));
+    }
+
+    /**
+     * Return the instance fields of itemtype identified by id.
+     *
+     * @param itemType These are the item type available on GLPI
+     * @param id       unique identifier of the itemtype
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void getItem(String itemType, String id, final JsonObjectCallback callback) {
+        Map<String, String> options = new GetAnItemQuery().getQuery();
+        responseJsonObject(callback, interfaces.getAnItem(getHeader(), itemType, id, options));
+    }
+
+    /**
+     * Return a collection of rows of the sub_itemtype for the identified item.
+     *
+     * @param itemType    These are the item type available on GLPI
+     * @param id          unique identifier of the parent itemtype
+     * @param subItemType These are the item type available on GLPI
+     * @param callback    here you are going to get the asynchronous response
+     */
+    public void getSubItems(String itemType, String id, String subItemType, final JsonObjectCallback callback) {
+        Map<String, String> options = new GetSubItemQuery(this.context).getQuery();
+        responseJsonObject(callback, interfaces.getSubItem(getHeader(), itemType, id, subItemType, options));
+    }
+
+    /**
+     * Return a collection of rows of the sub_itemtype for the identified item.
+     *
+     * @param itemType    These are the item type available on GLPI
+     * @param id          unique identifier of the parent itemtype
+     * @param subItemType These are the item type available on GLPI
+     * @param callback    here you are going to get the asynchronous response
+     */
+    public void getSubItems(itemType itemType, String id, itemType subItemType, final JsonObjectCallback callback) {
+        Map<String, String> options = new GetSubItemQuery(this.context).getQuery();
+        responseJsonObject(callback, interfaces.getSubItem(getHeader(), itemType.name(), id, subItemType.name(), options));
+    }
+
+    private void responseJsonObject(final JsonObjectCallback callback, Call<JsonObject> responseCall) {
+        responseCall.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
                 if (response.isSuccessful()) {
-                    GLPI.this.appToken = null;
-                    GLPI.this.sessionToken = "";
-                    callback.onResponse(context.getResources().getString(R.string.kill_session_success));
+                    callback.onResponse(response.body());
                 } else {
                     String errorMessage;
                     try {
@@ -188,7 +273,7 @@ public class GLPI extends ServiceGenerator {
                 }
             }
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -201,54 +286,95 @@ public class GLPI extends ServiceGenerator {
      * @param callback here you are going to get the asynchronous response
      */
     public void getAllItems(itemType itemType, final JsonArrayCallback callback) {
-        Map<String, String> query = new GetAllItemQuery(this.context).getQuery();
-        responseVoid(callback, interfaces.getAllItem(getHeader(), itemType.name(), query));
+        Map<String, String> options = new GetAllItemQuery(this.context).getQuery();
+        responseJsonArray(callback, interfaces.getAllItem(getHeader(), itemType.name(), options));
     }
 
     /**
-     * Return the instance fields of itemtype identified by id.
+     * Add an object (or multiple objects) into GLPI.
+     *
+     * @param itemType These are the item type available on GLPI
+     * @param payload  input: an object with fields of itemtype to be inserted. You can add several
+     *                 items in one action by passing an array of objects.
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void addItems(itemType itemType, Object payload, final JsonArrayCallback callback) {
+        responseJsonArray(callback, interfaces.addItem(getHeader(), itemType.name(), payload));
+    }
+
+    /**
+     * Update an object (or multiple objects) existing in GLPI.
+     *
+     * @param itemType These are the item type available on GLPI
+     * @param id       the unique identifier of the itemtype
+     * @param payload  Array of objects with fields of itemtype to be updated.
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void updateItems(itemType itemType, String id, Object payload, final JsonArrayCallback callback) {
+        responseJsonArray(callback, interfaces.updateItem(getHeader(), itemType.name(), id, payload));
+    }
+
+    /**
+     * Delete an object existing in GLPI.
      *
      * @param itemType These are the item type available on GLPI
      * @param id       unique identifier of the itemtype
      * @param callback here you are going to get the asynchronous response
      */
-    public void getItem(itemType itemType, String id, final JsonObjectCallback callback) {
-        responseJsonObject(callback, interfaces.getAnItem(getHeader(), itemType.name(), id, new GetAnItemQuery().getQuery()));
+    public void deleteItems(itemType itemType, String id, final JsonArrayCallback callback) {
+        responseJsonArray(callback, interfaces.deleteItem(getHeader(), itemType.name(), id));
     }
 
     /**
-     * Return the instance fields of itemtype identified by id.
+     * Delete multiples objects existing in GLPI.
      *
      * @param itemType These are the item type available on GLPI
-     * @param id       unique identifier of the itemtype
+     * @param payload  Array of id who need to be deleted
      * @param callback here you are going to get the asynchronous response
      */
-    public void getItem(String itemType, String id, final JsonObjectCallback callback) {
-        responseJsonObject(callback, interfaces.getAnItem(getHeader(), itemType, id, new GetAnItemQuery().getQuery()));
+    public void deleteItems(itemType itemType, Object payload, final JsonArrayCallback callback) {
+        responseJsonArray(callback, interfaces.deleteMultiplesItem(getHeader(), itemType.name(), payload));
+    }
+
+    private void responseJsonArray(final JsonArrayCallback callback, Call<JsonArray> responseCall) {
+        responseCall.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    private void responseInitSession(VoidCallback callback, Call<Void> responseCall, int lost_password_success) {
+        responseVoid(callback, responseCall, lost_password_success);
     }
 
     /**
-     * Return a collection of rows of the sub_itemtype for the identified item.
+     * This endpoint allows to request password recovery
      *
-     * @param itemType    These are the item type available on GLPI
-     * @param id          unique identifier of the parent itemtype
-     * @param subItemType These are the item type available on GLPI
+     * @param email       email address of the user to recover
+     * @param token       reset token
+     * @param newPassword the new password for the user
      * @param callback    here you are going to get the asynchronous response
      */
-    public void getSubItems(String itemType, String id, String subItemType, final JsonObjectCallback callback) {
-        responseJsonObject(callback, interfaces.getSubItem(getHeader(), itemType, id, subItemType, new GetSubItemQuery(this.context).getQuery()));
-    }
-
-    /**
-     * Return a collection of rows of the sub_itemtype for the identified item.
-     *
-     * @param itemType    These are the item type available on GLPI
-     * @param id          unique identifier of the parent itemtype
-     * @param subItemType These are the item type available on GLPI
-     * @param callback    here you are going to get the asynchronous response
-     */
-    public void getSubItems(itemType itemType, String id, itemType subItemType, final JsonObjectCallback callback) {
-        responseJsonObject(callback, interfaces.getSubItem(getHeader(), itemType.name(), id, subItemType.name(), new GetSubItemQuery(this.context).getQuery()));
+    public void resetPassword(String email, String token, String newPassword, final VoidCallback callback) {
+        ResetPasswordRequest requestPost = new ResetPasswordRequest(email, token, newPassword);
+        responseVoid(callback, interfaces.recoveryPassword(requestPost), R.string.recovery_password_success);
     }
 
     /**
@@ -276,170 +402,6 @@ public class GLPI extends ServiceGenerator {
         responseVoid(callback, interfaces.changeActiveEntities(getHeader(), requestPost), message);
     }
 
-    /**
-     * Add an object (or multiple objects) into GLPI.
-     *
-     * @param itemType These are the item type available on GLPI
-     * @param payload  input: an object with fields of itemtype to be inserted. You can add several items in one action by passing an array of objects.
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void addItems(itemType itemType, Object payload, final JsonArrayCallback callback) {
-        responseVoid(callback, interfaces.addItem(getHeader(), itemType.name(), payload));
-    }
-
-    /**
-     * Update an object (or multiple objects) existing in GLPI.
-     *
-     * @param itemType These are the item type available on GLPI
-     * @param id       the unique identifier of the itemtype
-     * @param payload  Array of objects with fields of itemtype to be updated.
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void updateItems(itemType itemType, String id, Object payload, final JsonArrayCallback callback) {
-        responseVoid(callback, interfaces.updateItem(getHeader(), itemType.name(), id, payload));
-    }
-
-    /**
-     * Delete an object existing in GLPI.
-     *
-     * @param itemType These are the item type available on GLPI
-     * @param id       unique identifier of the itemtype
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void deleteItems(itemType itemType, String id, final JsonArrayCallback callback) {
-        responseVoid(callback, interfaces.deleteItem(getHeader(), itemType.name(), id));
-    }
-
-    /**
-     * Delete multiples objects existing in GLPI.
-     *
-     * @param itemType These are the item type available on GLPI
-     * @param payload  Array of id who need to be deleted
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void deleteItems(itemType itemType, Object payload, final JsonArrayCallback callback) {
-        responseVoid(callback, interfaces.deleteMultiplesItem(getHeader(), itemType.name(), payload));
-    }
-
-    /**
-     * This endpoint allows to request password reset
-     *
-     * @param email    email address of the user to recover
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void recoveryPassword(String email, final VoidCallback callback) {
-        RecoveryPasswordRequest requestPost = new RecoveryPasswordRequest(email);
-        Call<Void> responseCall = interfaces.lostPassword(requestPost);
-        responseInitSession(callback, responseCall, R.string.lost_password_success);
-    }
-
-    private void responseInitSession(VoidCallback callback, Call<Void> responseCall, int lost_password_success) {
-        responseVoid(callback, responseCall, lost_password_success);
-    }
-
-    /**
-     * This endpoint allows to request password recovery
-     *
-     * @param email       email address of the user to recover
-     * @param token       reset token
-     * @param newPassword the new password for the user
-     * @param callback    here you are going to get the asynchronous response
-     */
-    public void resetPassword(String email, String token, String newPassword, final VoidCallback callback) {
-        ResetPasswordRequest requestPost = new ResetPasswordRequest(email, token, newPassword);
-        responseVoid(callback, interfaces.recoveryPassword(requestPost), R.string.recovery_password_success);
-    }
-
-    /**
-     * Create a valid Array with common headers needs
-     *
-     * @return Map<String   ,       String> with all the headers
-     */
-    private Map<String, String> getHeader() {
-        Map<String, String> map = new HashMap<>();
-        map.put("Session-Token", this.sessionToken);
-        if (appToken != null) {
-            map.put("App-Token", appToken);
-        }
-        return map;
-    }
-
-    private void responseVoid(final JsonArrayCallback callback, Call<JsonArray> responseCall) {
-        responseCall.enqueue(new Callback<JsonArray>() {
-            @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                if (response.isSuccessful()) {
-                    callback.onResponse(response.body());
-                } else {
-                    String errorMessage;
-                    try {
-                        errorMessage = response.errorBody().string();
-                    } catch (Exception ex) {
-                        errorMessage = context.getResources().getString(R.string.error_generic);
-                    }
-                    callback.onFailure(errorMessage);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
-                callback.onFailure(t.getMessage());
-            }
-        });
-    }
-
-    private void responseJsonObject(final JsonObjectCallback callback, Call<JsonObject> responseCall) {
-        responseCall.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(@NonNull Call<JsonObject> call, @NonNull Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    callback.onResponse(response.body());
-                } else {
-                    String errorMessage;
-                    try {
-                        errorMessage = response.errorBody().string();
-                    } catch (Exception ex) {
-                        errorMessage = context.getResources().getString(R.string.error_generic);
-                    }
-                    callback.onFailure(errorMessage);
-                }
-            }
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                callback.onFailure(t.getMessage());
-            }
-        });
-    }
-
-    private void responseInitSession(final InitSessionCallback callback, Call<InitSession> responseCall) {
-        responseCall.enqueue(new Callback<InitSession>() {
-            @Override
-            public void onResponse(@NonNull Call<InitSession> call, @NonNull Response<InitSession> response) {
-                if (response.isSuccessful()) {
-                    try {
-                        sessionToken = response.body().getSessionToken();
-                    } catch (NullPointerException ex) {
-                        Log.d("initSession", ex.getMessage());
-                    }
-                    callback.onResponse(response.body());
-                } else {
-                    String errorMessage;
-                    try {
-                        errorMessage = response.errorBody().string();
-                    } catch (Exception ex) {
-                        errorMessage = context.getResources().getString(R.string.error_generic);
-                    }
-                    callback.onFailure(errorMessage);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<InitSession> call, Throwable t) {
-                callback.onFailure(t.getMessage());
-            }
-        });
-    }
-
     private void responseVoid(final VoidCallback callback, Call<Void> responseCall, final int message) {
         responseCall.enqueue(new Callback<Void>() {
             @Override
@@ -462,6 +424,54 @@ public class GLPI extends ServiceGenerator {
                 callback.onFailure(t.getMessage());
             }
         });
+    }
+
+    /**
+     * Destroy a session identified by a session token.
+     *
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void killSession(final VoidCallback callback) {
+        responseKillSession(callback, interfaces.killSession(getHeader()));
+    }
+
+    private void responseKillSession(final VoidCallback callback, Call<Void> responseCall) {
+        responseCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    GLPI.this.appToken = null;
+                    GLPI.this.sessionToken = "";
+                    callback.onResponse(context.getResources().getString(R.string.kill_session_success));
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Create a valid Array with common headers needs
+     *
+     * @return Map<String   ,       String> with all the headers
+     */
+    private Map<String, String> getHeader() {
+        Map<String, String> map = new HashMap<>();
+        map.put("Session-Token", this.sessionToken);
+        if (appToken != null) {
+            map.put("App-Token", appToken);
+        }
+        return map;
     }
 
     public void getMultipleItems() {
