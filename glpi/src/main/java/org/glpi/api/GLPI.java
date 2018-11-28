@@ -75,8 +75,8 @@ public class GLPI extends ServiceGenerator {
      * @param callback  here you are going to get the asynchronous response
      */
     public void initSessionByUserToken(String userToken, final InitSessionCallback callback) {
-        this.appToken = null;
-        responseInitSession(callback, interfaces.initSessionByUserToken("user_token " + userToken.trim()));
+        Call<InitSession> call = interfaces.initSessionByUserToken(userToken, userToken);
+        responseInitSession(callback, call);
     }
 
     /**
@@ -216,18 +216,6 @@ public class GLPI extends ServiceGenerator {
     public void getItem(itemType itemType, String id, final JsonObjectCallback callback) {
         Map<String, String> options = new GetAnItemQuery().getQuery();
         responseJsonObject(callback, interfaces.getAnItem(getHeader(), itemType.name(), id, options));
-    }
-
-    /**
-     * Return the instance fields of itemtype identified by id.
-     *
-     * @param itemType These are the item type available on GLPI
-     * @param id       unique identifier of the itemtype
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void getItem(String itemType, String id, final JsonObjectCallback callback) {
-        Map<String, String> options = new GetAnItemQuery().getQuery();
-        responseJsonObject(callback, interfaces.getAnItem(getHeader(), itemType, id, options));
     }
 
     /**

@@ -47,13 +47,13 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface Routes {
 
-    @Headers("Content-Type: application/json")
     @GET("initSession")
-    Call<InitSession> initSessionByUserToken(@Header("Authorization") String authorization);
+    Call<InitSession> initSessionByUserToken(@Header("user_token") String token, @Query("user_token") String userToken);
 
     @Headers("Content-Type: application/json")
     @GET("initSession")

@@ -45,7 +45,7 @@ public class InitSession {
 
     /**
      * set Session Token
-     * @param string session token
+     * @param sessionToken session token
      */
     public void setSessionToken(String sessionToken) {
         this.sessionToken = sessionToken;

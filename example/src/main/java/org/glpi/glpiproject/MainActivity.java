@@ -50,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final ExampleData data = new ExampleData();
+        data.setEmail("greatsupport@example.com");
+        data.setEmail("5e9d551afc181984042a985fd6552ea8400c190c4f1f61d7838cf8a1b88668f3");
+        data.setName("Great support");
+        data.setPhone("+33 123456789");
+        data.setUrl("https://dev.flyve.org/glpi/apirest.php");
+        data.setUserToken("ufC5Ct9MXVfQdEOdTp0B0Rb05t8PXNRZKcGmVIWV");
+        data.setWebsite("https://mygreatsupport.com");
+
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
                 .methodCount(0)         // (Optional) How many method line to show. Default 2
@@ -61,10 +70,21 @@ public class MainActivity extends AppCompatActivity {
 
         final GLPI glpi = new GLPI(MainActivity.this, BuildConfig.GLPI_URL);
 
-        Button btnInit = (Button) findViewById(R.id.btnInit);
+        Button btnInit = findViewById(R.id.btnInit);
         btnInit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                glpi.initSessionByUserToken(data.getUserToken(), new GLPI.InitSessionCallback() {
+                    @Override
+                    public void onResponse(InitSession response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String errorMessage) {
+
+                    }
+                });
                 glpi.initSessionByCredentials(BuildConfig.GLPI_USER, BuildConfig.GLPI_PASSWORD, new GLPI.InitSessionCallback() {
                     @Override
                     public void onResponse(InitSession response) {
@@ -79,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button btn = (Button) findViewById(R.id.btnCall);
+        Button btn = findViewById(R.id.btnCall);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -311,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button btnKill = (Button) findViewById(R.id.btnKill);
+        Button btnKill = findViewById(R.id.btnKill);
         btnKill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

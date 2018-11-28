@@ -55,67 +55,67 @@ public class GetAnItemQuery {
 
         Map<String, String> map = new HashMap<>();
 
-        if(expandDropdowns!=null) {
+        if (expandDropdowns != null) {
             map.put("expand_dropdowns", expandDropdowns.toString());
         }
 
-        if(getHateoas!=null) {
+        if (getHateoas != null) {
             map.put("get_hateoas", getHateoas.toString());
         }
 
-        if(getSha1!=null) {
+        if (getSha1 != null) {
             map.put("get_sha1", getSha1.toString());
         }
 
-        if(withDevices!=null) {
+        if (withDevices != null) {
             map.put("with_devices", withDevices.toString());
         }
 
-        if(withDisks!=null) {
+        if (withDisks != null) {
             map.put("with_disks", withDisks.toString());
         }
 
-        if(withSoftwares!=null) {
+        if (withSoftwares != null) {
             map.put("with_softwares", withSoftwares.toString());
         }
 
-        if(withConnections!=null) {
+        if (withConnections != null) {
             map.put("with_connections", withConnections.toString());
         }
 
-        if(withNetworkports!=null) {
+        if (withNetworkports != null) {
             map.put("with_networkports", withNetworkports.toString());
         }
 
-        if(withInfocoms!=null) {
+        if (withInfocoms != null) {
             map.put("with_infocoms", withInfocoms.toString());
         }
 
-        if(withContracts!=null) {
+        if (withContracts != null) {
             map.put("with_contracts", withContracts.toString());
         }
 
-        if(withDocuments!=null) {
+        if (withDocuments != null) {
             map.put("with_documents", withDocuments.toString());
         }
 
-        if(withTickets!=null) {
+        if (withTickets != null) {
             map.put("with_tickets", withTickets.toString());
         }
 
-        if(withProblems!=null) {
+        if (withProblems != null) {
             map.put("with_problems", withProblems.toString());
         }
 
-        if(withChanges!=null) {
+        if (withChanges != null) {
             map.put("with_changes", withChanges.toString());
         }
 
-        if(withNotes!=null) {
+        if (withNotes != null) {
             map.put("with_notes", withNotes.toString());
         }
 
-        if(withLogs!=null) {
+        if (withLogs != null) {
             map.put("with_logs", withLogs.toString());
         }
 
@@ -124,6 +124,7 @@ public class GetAnItemQuery {
 
     /**
      * (default: false): show dropdown name instead of id.
+     *
      * @param expandDropdowns
      */
     public void setExpandDropdowns(Boolean expandDropdowns) {
@@ -132,6 +133,7 @@ public class GetAnItemQuery {
 
     /**
      * (default: true): Show relations of the item in a links attribute.
+     *
      * @param getHateoas
      */
     public void setGetHateoas(Boolean getHateoas) {
@@ -140,6 +142,7 @@ public class GetAnItemQuery {
 
     /**
      * (default: false): Get a sha1 signature instead of the full answer.
+     *
      * @param getSha1
      */
     public void setGetSha1(Boolean getSha1) {
@@ -148,6 +151,7 @@ public class GetAnItemQuery {
 
     /**
      * Only for [Computer, NetworkEquipment, Peripheral, Phone, Printer], retrieve the associated components.
+     *
      * @param withDevices
      */
     public void setWithDevices(Boolean withDevices) {
@@ -156,6 +160,7 @@ public class GetAnItemQuery {
 
     /**
      * Only for Computer, retrieve the associated file-systems.
+     *
      * @param withDisks
      */
     public void setWithDisks(Boolean withDisks) {
@@ -164,6 +169,7 @@ public class GetAnItemQuery {
 
     /**
      * Only for Computer, retrieve the associated software's installations.
+     *
      * @param withSoftwares
      */
     public void setWithSoftwares(Boolean withSoftwares) {
@@ -172,6 +178,7 @@ public class GetAnItemQuery {
 
     /**
      * Only for Computer, retrieve the associated direct connections
+     *
      * @param withConnections
      */
     public void setWithConnections(Boolean withConnections) {
@@ -180,6 +187,7 @@ public class GetAnItemQuery {
 
     /**
      * Retrieve all network's connections and advanced network's informations.
+     *
      * @param withNetworkports
      */
     public void setWithNetworkports(Boolean withNetworkports) {
@@ -188,6 +196,7 @@ public class GetAnItemQuery {
 
     /**
      * Retrieve financial and administrative informations.
+     *
      * @param withInfocoms
      */
     public void setWithInfocoms(Boolean withInfocoms) {
@@ -196,6 +205,7 @@ public class GetAnItemQuery {
 
     /**
      * Retrieve associated contracts.
+     *
      * @param withContracts
      */
     public void setWithContracts(Boolean withContracts) {
@@ -204,6 +214,7 @@ public class GetAnItemQuery {
 
     /**
      * Retrieve associated external documents.
+     *
      * @param withDocuments
      */
     public void setWithDocuments(Boolean withDocuments) {
@@ -212,6 +223,7 @@ public class GetAnItemQuery {
 
     /**
      * Retrieve associated itil tickets.
+     *
      * @param withTickets
      */
     public void setWithTickets(Boolean withTickets) {
@@ -220,6 +232,7 @@ public class GetAnItemQuery {
 
     /**
      * Retrieve associated itil problems.
+     *
      * @param withProblems
      */
     public void setWithProblems(Boolean withProblems) {
@@ -228,6 +241,7 @@ public class GetAnItemQuery {
 
     /**
      * Retrieve associated itil changes.
+     *
      * @param withChanges
      */
     public void setWithChanges(Boolean withChanges) {
@@ -236,6 +250,7 @@ public class GetAnItemQuery {
 
     /**
      * Retrieve Notes.
+     *
      * @param withNotes
      */
     public void setWithNotes(Boolean withNotes) {
@@ -244,6 +259,7 @@ public class GetAnItemQuery {
 
     /**
      * Retrieve historical.
+     *
      * @param withLogs
      */
     public void setWithLogs(Boolean withLogs) {
