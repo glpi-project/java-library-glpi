@@ -26,6 +26,7 @@
 package org.glpi.api;
 
 import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -36,13 +37,14 @@ public class ServiceGenerator {
     private static final int READ_TIMEOUT = 60;
     private static final int WRITE_TIMEOUT = 60;
 
-    protected Retrofit retrofit;
+    Retrofit retrofit;
 
     /**
      * Initial connection configuration
+     *
      * @param url
      */
-    protected void start(String url) {
+    void start(String url) {
 
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
