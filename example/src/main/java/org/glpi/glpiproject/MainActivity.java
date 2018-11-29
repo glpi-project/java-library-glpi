@@ -30,7 +30,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -51,14 +54,17 @@ public class MainActivity extends AppCompatActivity {
     private List<String> resultList = new ArrayList<>();
     private GLPI glpi;
     private ActivityAdapter activityAdapter;
-    private int prevSize;
+    private Spinner spinnerTest;
+    private ExampleData data;
+    private ProgressBar progressBar;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ExampleData data = new ExampleData();
+        data = new ExampleData();
         data.setEmail("greatsupport@example.com");
         data.setEmail("5e9d551afc181984042a985fd6552ea8400c190c4f1f61d7838cf8a1b88668f3");
         data.setName("Great support");
@@ -78,57 +84,66 @@ public class MainActivity extends AppCompatActivity {
 
         glpi = new GLPI(MainActivity.this, data.getUrl());
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewApi);
+        progressBar = findViewById(R.id.progressBar);
+
+        recyclerView = findViewById(R.id.recyclerViewApi);
         resultList.add("Ivans");
         activityAdapter = new ActivityAdapter(resultList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(activityAdapter);
 
-        final Button btnInit = findViewById(R.id.btnInit);
-        btnInit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnInit(data);
-            }
-        });
+        spinnerTest = findViewById(R.id.spinnerTest);
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Init Session");
+        list.add("Kill session");
+        list.add("Call Request");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerTest.setAdapter(adapter);
 
         Button btn = findViewById(R.id.btnCall);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnCall();
-            }
-        });
-
-        Button btnKill = findViewById(R.id.btnKill);
-        btnKill.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnKill();
+                switch (spinnerTest.getSelectedItem().toString()) {
+                    case "Init Session":
+                        btnInit();
+                        break;
+                    case "Kill session":
+                        btnKill();
+                        break;
+                    case "Call Request":
+                        btnCall();
+                        break;
+                }
             }
         });
     }
 
     private void btnKill() {
-        prevSize = resultList.size();
+        progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
         glpi.killSession(new GLPI.VoidCallback() {
             @Override
             public void onResponse(String response) {
                 FlyveLog.i("killSession: %s", response.toString());
                 updateAdapter("Success: Kill Session");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(String errorMessage) {
                 FlyveLog.e("killSession: %s", errorMessage);
                 updateAdapter("Error: Kill Session");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         });
     }
 
-    private void btnInit(ExampleData data) {
-        prevSize = resultList.size();
+    private void btnInit() {
+        progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
         glpi.initSessionByUserToken(data.getUserToken(), new GLPI.InitSessionCallback() {
             @Override
@@ -146,17 +161,22 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(InitSession response) {
                 FlyveLog.i("initSession: %s", response.getSessionToken());
                 updateAdapter("Success: Init Session Credentials");
+
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(String errorMessage) {
                 updateAdapter("Error: Init Session Credentials");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         });
     }
 
     private void btnCall() {
-        prevSize = resultList.size();
+        progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
         glpi.getMyProfiles(new GLPI.JsonObjectCallback() {
             @Override
@@ -409,19 +429,22 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 FlyveLog.i("recoveryPassword: %s", response);
                 updateAdapter("Success: Reset Password");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(String errorMessage) {
                 FlyveLog.e("recoveryPassword: %s", errorMessage);
                 updateAdapter("Error: Reset Password");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         });
     }
 
     private void updateAdapter(String message) {
         resultList.add(message);
-        activityAdapter.notifyItemRangeRemoved(0, prevSize);
-        activityAdapter.notifyItemRangeInserted(0, resultList.size());
+        activityAdapter.notifyDataSetChanged();
     }
 }
