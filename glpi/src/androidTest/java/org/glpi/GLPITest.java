@@ -27,7 +27,7 @@ public class GLPITest {
     public void initSessionTest() throws Exception {
         if (!BuildConfig.GLPI_URL.equals("")) {
             GLPI glpi = new GLPI(appContext, BuildConfig.GLPI_URL);
-            glpi.initSessionByCredentials(BuildConfig.GLPI_USER, BuildConfig.GLPI_PASSWORD, new GLPI.InitSessionCallback() {
+            glpi.initSessionByCredentials(BuildConfig.GLPI_USER, BuildConfig.GLPI_PASSWORD, new GLPI.ResponseHandle<InitSession, String>() {
                 @Override
                 public void onResponse(InitSession response) {
                     String sessionToken = response.getSessionToken();
