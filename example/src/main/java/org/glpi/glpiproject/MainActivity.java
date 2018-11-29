@@ -44,6 +44,7 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 
 import org.glpi.api.GLPI;
 import org.glpi.api.itemType;
+import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 
 import java.util.ArrayList;
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     private void btnKill() {
         progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
-        glpi.killSession(new GLPI.VoidCallback() {
+        glpi.killSession(new GLPI.ResponseHandle<String, String>() {
             @Override
             public void onResponse(String response) {
                 FlyveLog.i("killSession: %s", response.toString());
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     private void btnInit() {
         progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
-        glpi.initSessionByUserToken(data.getUserToken(), new GLPI.InitSessionCallback() {
+        glpi.initSessionByUserToken(data.getUserToken(), new GLPI.ResponseHandle<InitSession, String>() {
             @Override
             public void onResponse(InitSession response) {
                 updateAdapter("Success: Init Session User Token");
@@ -153,32 +154,48 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String errorMessage) {
-                updateAdapter("Error: Init Session User Token");
+                updateAdapter("Error: Init Session User Token" + errorMessage);
             }
         });
-        glpi.initSessionByCredentials(BuildConfig.GLPI_USER, BuildConfig.GLPI_PASSWORD, new GLPI.InitSessionCallback() {
+        String token = glpi.initSessionByCredentialsSync(BuildConfig.GLPI_USER, BuildConfig.GLPI_PASSWORD);
+        FlyveLog.i("initSession: %s", token);
+        updateAdapter("Success: Init Session Credentials");
+        glpi.fullSession(new GLPI.ResponseHandle<FullSessionModel, String>() {
+            @Override
+            public void onResponse(FullSessionModel response) {
+                FlyveLog.i("Full Session: %s", response.toString());
+                updateAdapter("Success: Full Session");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.i("Full Session: %s", errorMessage);
+                updateAdapter("Error: Full Session");
+            }
+        });
+        GLPI.ResponseHandle<InitSession, String> handle = new GLPI.ResponseHandle<InitSession, String>() {
             @Override
             public void onResponse(InitSession response) {
                 FlyveLog.i("initSession: %s", response.getSessionToken());
                 updateAdapter("Success: Init Session Credentials");
-
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                updateAdapter("Error: Init Session Credentials");
+                updateAdapter("Error: Init Session Credentials" + errorMessage);
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
-        });
+        };
+        glpi.initSessionByCredentials(BuildConfig.GLPI_USER, BuildConfig.GLPI_PASSWORD, handle);
     }
 
     private void btnCall() {
         progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
-        glpi.getMyProfiles(new GLPI.JsonObjectCallback() {
+        glpi.getMyProfiles(new GLPI.ResponseHandle<JsonObject, String>() {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("getMyProfiles: %s", response.toString());
@@ -192,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.getActiveProfile(new GLPI.JsonObjectCallback() {
+        glpi.getActiveProfile(new GLPI.ResponseHandle<JsonObject, String>()  {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("getActiveProfile: %s", response.toString());
@@ -206,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.getMyEntities(new GLPI.JsonObjectCallback() {
+        glpi.getMyEntities(new GLPI.ResponseHandle<JsonObject, String>()  {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("getMyEntities: %s", response.toString());
@@ -220,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.getActiveEntities(new GLPI.JsonObjectCallback() {
+        glpi.getActiveEntities(new GLPI.ResponseHandle<JsonObject, String>()  {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("getActiveEntities: %s", response.toString());
@@ -234,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.getFullSession(new GLPI.JsonObjectCallback() {
+        glpi.getFullSession(new GLPI.ResponseHandle<JsonObject, String>()  {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("getFullSession: %s", response.toString());
@@ -248,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.getGlpiConfig(new GLPI.JsonObjectCallback() {
+        glpi.getGlpiConfig(new GLPI.ResponseHandle<JsonObject, String>()  {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("getGlpiConfig: %s", response.toString());
@@ -262,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.getAllItems(itemType.Computer, new GLPI.JsonArrayCallback() {
+        glpi.getAllItems(itemType.Computer, new GLPI.ResponseHandle<JsonArray, String>() {
             @Override
             public void onResponse(JsonArray response) {
                 FlyveLog.i("getAllItems: %s", response.toString());
@@ -276,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.getItem(itemType.Computer, "110", new GLPI.JsonObjectCallback() {
+        glpi.getItem(itemType.Computer, "110", new GLPI.ResponseHandle<JsonObject, String>()  {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("getAnItem: %s", response.toString());
@@ -290,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.getSubItems(itemType.Computer, "2", itemType.ComputerType, new GLPI.JsonObjectCallback() {
+        GLPI.ResponseHandle<JsonObject, String> responseHandle = new GLPI.ResponseHandle<JsonObject, String>() {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("getSubItems", response.toString());
@@ -302,9 +319,10 @@ public class MainActivity extends AppCompatActivity {
                 FlyveLog.e("getSubItems: %s", errorMessage);
                 updateAdapter("Error: sub items");
             }
-        });
+        };
+        glpi.getSubItems(itemType.Computer, "2", itemType.ComputerType, responseHandle);
 
-        glpi.changeActiveProfile("9", new GLPI.VoidCallback() {
+        glpi.changeActiveProfile("9", new GLPI.ResponseHandle<String, String>() {
             @Override
             public void onResponse(String response) {
                 FlyveLog.i("changeActiveProfile: %s", response);
@@ -318,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.changeActiveEntities("1", false, new GLPI.VoidCallback() {
+        glpi.changeActiveEntities("1", false, new GLPI.ResponseHandle<String, String>() {
             @Override
             public void onResponse(String response) {
                 FlyveLog.i("changeActiveEntities: %s", response);
@@ -343,21 +361,18 @@ public class MainActivity extends AppCompatActivity {
 
         addItemExamplePayload obj = new addItemExamplePayload(list);
 
-        glpi.addItems(itemType.Computer, obj, new GLPI.JsonArrayCallback() {
+        glpi.addItems(itemType.Computer, obj, new GLPI.ResponseHandle<JsonArray, String>() {
             @Override
             public void onResponse(JsonArray response) {
-                FlyveLog.i("addItems: %s", response.toString());
-                updateAdapter("Success: add items");
+
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                FlyveLog.e("addItems: %s", errorMessage);
-                updateAdapter("Error: add items");
+
             }
         });
-
-        glpi.updateItems(itemType.Computer, "10", obj, new GLPI.JsonArrayCallback() {
+        glpi.updateItems(itemType.Computer, "10", obj, new GLPI.ResponseHandle<JsonArray, String>() {
             @Override
             public void onResponse(JsonArray response) {
                 FlyveLog.i("updateItems: %s", response.toString());
@@ -371,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.deleteItems(itemType.Computer, "10", new GLPI.JsonArrayCallback() {
+        glpi.deleteItems(itemType.Computer, "10", new GLPI.ResponseHandle<JsonArray, String>() {
             @Override
             public void onResponse(JsonArray response) {
                 FlyveLog.i("deleteItems: %s", response.toString());
@@ -396,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
 
         deleteItemExamplePayload deleteObj = new deleteItemExamplePayload(deleteList);
 
-        glpi.deleteItems(itemType.Computer, deleteObj, new GLPI.JsonArrayCallback() {
+        glpi.deleteItems(itemType.Computer, deleteObj, new GLPI.ResponseHandle<JsonArray, String>() {
             @Override
             public void onResponse(JsonArray response) {
                 FlyveLog.i("deleteItems: %s", response.toString());
@@ -410,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.recoveryPassword("youremail@yourdomain.com", new GLPI.VoidCallback() {
+        glpi.recoveryPassword("youremail@yourdomain.com", new GLPI.ResponseHandle<String, String>() {
             @Override
             public void onResponse(String response) {
                 FlyveLog.i("lostPassword: %s", response);
@@ -424,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        glpi.resetPassword("youremail@yourdomain.com", "asdfasdfafsASDFd333A", "1234", new GLPI.VoidCallback() {
+        GLPI.ResponseHandle<String, String> callback = new GLPI.ResponseHandle<String, String>() {
             @Override
             public void onResponse(String response) {
                 FlyveLog.i("recoveryPassword: %s", response);
@@ -440,7 +455,8 @@ public class MainActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
-        });
+        };
+        glpi.resetPassword("youremail@yourdomain.com", "asdfasdfafsASDFd333A", "1234", callback);
     }
 
     private void updateAdapter(String message) {

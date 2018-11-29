@@ -32,6 +32,7 @@ import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
 import org.glpi.api.request.RecoveryPasswordRequest;
 import org.glpi.api.request.ResetPasswordRequest;
+import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 
 import java.util.Map;
@@ -58,6 +59,10 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @GET("initSession")
     Call<InitSession> initSessionByCredentials(@Header("Authorization") String authorization);
+
+    @Headers("Content-Type: application/json")
+    @GET("getFullSession")
+    Call<FullSessionModel> fullSession(@HeaderMap Map<String, String> headers);
 
     @Headers("Content-Type: application/json")
     @GET("killSession")
