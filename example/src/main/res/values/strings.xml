@@ -4,4 +4,5 @@
     <string name="call_apis">Call APIs</string>
     <string name="kill_session">Kill Session</string>
     <string name="init_session">Init Session</string>
+    <string name="test">Test</string>
 </resources>
