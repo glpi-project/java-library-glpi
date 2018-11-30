@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         recyclerView = findViewById(R.id.recyclerViewApi);
-        resultList.add("Ivans");
         activityAdapter = new ActivityAdapter(resultList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(activityAdapter);
@@ -103,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         list.add("Full Session");
         list.add("Kill session");
         list.add("Call Request");
+        list.add("File Request");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTest.setAdapter(adapter);
@@ -128,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
                     case "Call Request":
                         btnCall();
                         break;
+                    case "File Request":
+                        btnFile();
+                        break;
                 }
             }
         });
@@ -139,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         glpi.killSession(new GLPI.ResponseHandle<String, String>() {
             @Override
             public void onResponse(String response) {
-                FlyveLog.i("killSession: %s", response.toString());
+                FlyveLog.i("killSession: %s", response);
                 updateAdapter("Success: Kill Session");
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
@@ -513,6 +516,54 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         glpi.resetPassword("youremail@yourdomain.com", "asdfasdfafsASDFd333A", "1234", callback);
+    }
+
+    private void btnFile() {
+        progressBar.setVisibility(View.VISIBLE);
+        resultList.clear();
+        glpi.downloadFileMD(new GLPI.VoidCallback() {
+            @Override
+            public void onResponse(String response) {
+                FlyveLog.i("Download file: %s", response);
+                updateAdapter("Success: Download file");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.e("Download file: %s", errorMessage);
+                updateAdapter("Error: Download file" + errorMessage);
+            }
+        });
+        glpi.getPluginPackage("fileId", new GLPI.VoidCallback() {
+            @Override
+            public void onResponse(String response) {
+                FlyveLog.i("Package plugin: %s", response);
+                updateAdapter("Success: Package plugin");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.e("Package plugin: %s", errorMessage);
+                updateAdapter("Error: Package plugin" + errorMessage);
+            }
+        });
+        glpi.getPluginFile("fileId", new GLPI.VoidCallback() {
+            @Override
+            public void onResponse(String response) {
+                FlyveLog.i("File plugin: %s", response);
+                updateAdapter("Success: File plugin");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.e("File plugin: %s", errorMessage);
+                updateAdapter("Error: File plugin" + errorMessage);
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void updateAdapter(String message) {
