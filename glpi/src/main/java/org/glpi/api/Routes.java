@@ -141,4 +141,13 @@ public interface Routes {
     @PUT("lostPassword")
     Call<Void> recoveryPassword(@Body ResetPasswordRequest requestPost);
 
+    /*Get File */
+    @Headers("Content-Type: application/json")
+    @GET("PluginFlyvemdmFile/{fileId}")
+    Call<JsonArray> getPluginFile(@HeaderMap Map<String, String> headers, @Path("fileId") String fileId);
+
+    @Headers("Content-Type: application/json")
+    @GET("PluginFlyvemdmPackage/{fileId}")
+    Call<JsonArray> getPluginPackage(@HeaderMap Map<String, String> headers, @Path("fileId") String fileId);
+
 }
