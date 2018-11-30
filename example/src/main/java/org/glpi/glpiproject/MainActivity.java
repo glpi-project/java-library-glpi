@@ -46,6 +46,8 @@ import org.glpi.api.GLPI;
 import org.glpi.api.itemType;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private ExampleData data;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
+    private GLPI.GLPIModel glpiModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
 
         glpi = new GLPI(MainActivity.this, data.getUrl());
+        glpiModel = glpi.new GLPIModel();
 
         progressBar = findViewById(R.id.progressBar);
 
@@ -96,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         spinnerTest = findViewById(R.id.spinnerTest);
         ArrayList<String> list = new ArrayList<>();
         list.add("Init Session");
+        list.add("Full Session");
         list.add("Kill session");
         list.add("Call Request");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, list);
@@ -109,6 +114,13 @@ public class MainActivity extends AppCompatActivity {
                 switch (spinnerTest.getSelectedItem().toString()) {
                     case "Init Session":
                         btnInit();
+                        break;
+                    case "Full Session":
+                        try {
+                            btnSession();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case "Kill session":
                         btnKill();
@@ -149,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
         glpi.initSessionByUserToken(data.getUserToken(), new GLPI.ResponseHandle<InitSession, String>() {
             @Override
             public void onResponse(InitSession response) {
+                data.setSessionToken(response.getSessionToken());
                 updateAdapter("Success: Init Session User Token");
             }
 
@@ -159,20 +172,11 @@ public class MainActivity extends AppCompatActivity {
         });
         String token = glpi.initSessionByCredentialsSync(BuildConfig.GLPI_USER, BuildConfig.GLPI_PASSWORD);
         FlyveLog.i("initSession: %s", token);
-        updateAdapter("Success: Init Session Credentials");
-        glpi.fullSession(new GLPI.ResponseHandle<FullSessionModel, String>() {
-            @Override
-            public void onResponse(FullSessionModel response) {
-                FlyveLog.i("Full Session: %s", response.toString());
-                updateAdapter("Success: Full Session");
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-                FlyveLog.i("Full Session: %s", errorMessage);
-                updateAdapter("Error: Full Session");
-            }
-        });
+        if ("".equalsIgnoreCase(token)) {
+            updateAdapter("Error: Synchronous Init Session Credentials, Token Empty");
+        } else {
+            updateAdapter("Success: Synchronous Init Session Credentials");
+        }
         GLPI.ResponseHandle<InitSession, String> handle = new GLPI.ResponseHandle<InitSession, String>() {
             @Override
             public void onResponse(InitSession response) {
@@ -192,9 +196,75 @@ public class MainActivity extends AppCompatActivity {
         glpi.initSessionByCredentials(BuildConfig.GLPI_USER, BuildConfig.GLPI_PASSWORD, handle);
     }
 
+    private void btnSession() throws JSONException {
+        progressBar.setVisibility(View.VISIBLE);
+        resultList.clear();
+
+        JSONObject payload = new JSONObject();
+        payload.put("_email", "Test@gmail.com");
+        payload.put("_invitation_token", "");
+        payload.put("_serial", "");
+        payload.put("_uuid", "");
+        payload.put("csr", "");
+        payload.put("firstname", "Test");
+        payload.put("lastname", "Testing");
+        payload.put("phone", "");
+        payload.put("version", BuildConfig.VERSION_NAME);
+        payload.put("type", "android");
+        payload.put("has_system_permission", "");
+        payload.put("inventory", "");
+        JSONObject input = new JSONObject();
+        input.put("input", payload);
+        glpi.getPluginFlyve(data.getSessionToken(), input, new GLPI.ResponseHandle<JsonObject, String>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                FlyveLog.i("Plugin Flyve: %s", response.toString());
+                data.setAgentID(response.toString());
+                updateAdapter("Success: Plugin Flyve");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.i("Plugin Flyve: %s", errorMessage);
+                updateAdapter("Error: Plugin Flyve" + errorMessage);
+            }
+        });
+        glpi.fullSession(data.getSessionToken(), new GLPI.ResponseHandle<FullSessionModel, String>() {
+            @Override
+            public void onResponse(FullSessionModel response) {
+                FlyveLog.i("Full Session: %s", response.toString());
+                glpiModel.setProfileId(response.getSession().getPluginFlyvemdmGuestProfilesId());
+                updateAdapter("Success: Full Session");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.i("Full Session: %s", errorMessage);
+                updateAdapter("Error: Full Session" + errorMessage);
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
     private void btnCall() {
         progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
+        glpi.getPluginFlyveAgentID(data.getSessionToken(), data.getAgentID(), new GLPI.ResponseHandle<JsonObject, String>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                FlyveLog.i("Plugin Flyve Agent: %s", response);
+                updateAdapter("Success: Plugin Flyve Agent");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.i("Plugin Flyve Agent: %s", errorMessage);
+                updateAdapter("Error: Plugin Flyve Agent" + errorMessage);
+            }
+        });
         glpi.getMyProfiles(new GLPI.ResponseHandle<JsonObject, String>() {
             @Override
             public void onResponse(JsonObject response) {
@@ -248,20 +318,6 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(String errorMessage) {
                 FlyveLog.e("getActiveEntities: %s", errorMessage);
                 updateAdapter("Error: active entities");
-            }
-        });
-
-        glpi.getFullSession(new GLPI.ResponseHandle<JsonObject, String>()  {
-            @Override
-            public void onResponse(JsonObject response) {
-                FlyveLog.i("getFullSession: %s", response.toString());
-                updateAdapter("Success: Full Session");
-            }
-
-            @Override
-            public void onFailure(String errorMessage) {
-                FlyveLog.e("getFullSession: %s", errorMessage);
-                updateAdapter("Error: Full Session");
             }
         });
 
@@ -322,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
         };
         glpi.getSubItems(itemType.Computer, "2", itemType.ComputerType, responseHandle);
 
-        glpi.changeActiveProfile("9", new GLPI.ResponseHandle<String, String>() {
+        glpi.changeActiveProfile(glpiModel.getProfileId(), new GLPI.ResponseHandle<String, String>() {
             @Override
             public void onResponse(String response) {
                 FlyveLog.i("changeActiveProfile: %s", response);
