@@ -34,6 +34,7 @@ import org.glpi.api.request.RecoveryPasswordRequest;
 import org.glpi.api.request.ResetPasswordRequest;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -62,7 +63,15 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @GET("getFullSession")
-    Call<FullSessionModel> fullSession(@HeaderMap Map<String, String> headers);
+    Call<FullSessionModel> getFullSession(@HeaderMap Map<String, String> headers);
+
+    @Headers("Content-Type: application/json")
+    @POST("PluginFlyvemdmAgent")
+    Call<JsonObject> getPluginFlyve(@HeaderMap Map<String, String> headers, @Body JSONObject data);
+
+    @Headers("Content-Type: application/json")
+    @GET("PluginFlyvemdmAgent/{agentId}")
+    Call<JsonObject> getPluginFlyveAgentID(@HeaderMap Map<String, String> headers, @Path("agentId") String agentId);
 
     @Headers("Content-Type: application/json")
     @GET("killSession")
@@ -85,10 +94,6 @@ public interface Routes {
     Call<JsonObject> getActiveEntities(@HeaderMap Map<String, String> headers);
 
     @Headers("Content-Type: application/json")
-    @GET("getFullSession")
-    Call<JsonObject> getFullSession(@HeaderMap Map<String, String> headers);
-
-    @Headers("Content-Type: application/json")
     @GET("getGlpiConfig")
     Call<JsonObject> getGlpiConfig(@HeaderMap Map<String, String> headers);
 
@@ -106,7 +111,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @POST("changeActiveProfile")
-    Call<Void> changeActiveProfile(@HeaderMap Map<String, String> headers,  @Body ChangeActiveProfileRequest requestPost);
+    Call<Void> changeActiveProfile(@HeaderMap Map<String, String> headers, @Query("profiles_id") String profileId, @Body ChangeActiveProfileRequest requestPost);
 
     @Headers("Content-Type: application/json")
     @POST("changeActiveEntities")

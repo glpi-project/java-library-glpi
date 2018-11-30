@@ -9,6 +9,8 @@ public class ExampleData {
     private String url;
     private String userToken;
     private String website;
+    private String sessionToken;
+    private String agentID;
 
     public String getEmail() {
         return email;
@@ -64,5 +66,21 @@ public class ExampleData {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
+    }
+
+    public String getSessionToken() {
+        return sessionToken;
+    }
+
+    public void setAgentID(String agentID) {
+        this.agentID = agentID;
+    }
+
+    public String getAgentID() {
+        return agentID;
     }
 }

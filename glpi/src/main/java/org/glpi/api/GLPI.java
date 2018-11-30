@@ -42,6 +42,7 @@ import org.glpi.api.request.ResetPasswordRequest;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 import org.glpi.api.utils.Helpers;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -113,14 +114,14 @@ public class GLPI extends ServiceGenerator {
         responseInitSession(callback, interfaces.initSessionByCredentials("Basic " + authorization.trim()));
     }
 
-    public void fullSession(final ResponseHandle<FullSessionModel, String>  callback) {
+    public void fullSession(String userToken, final ResponseHandle<FullSessionModel, String> callback) {
         HashMap<String, String> header = new HashMap<>();
-        header.put("Session-Token", sessionToken);
+        header.put("Session-Token", userToken);
         header.put("Accept", "application/json");
         header.put("Content-Type", "application/json" + ";" + "charset=UTF-8");
         header.put("User-Agent", "Flyve MDM");
         header.put("Referer", "/getFullSession");
-        interfaces.fullSession(header).enqueue(new Callback<FullSessionModel>() {
+        interfaces.getFullSession(header).enqueue(new Callback<FullSessionModel>() {
             @Override
             public void onResponse(@NonNull Call<FullSessionModel> call, @NonNull Response<FullSessionModel> response) {
                 if (response.isSuccessful()) {
@@ -196,6 +197,35 @@ public class GLPI extends ServiceGenerator {
     /**
      * Return the current active profile.
      *
+     * @param data
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void getPluginFlyve(String sessionToken, JSONObject data, final ResponseHandle<JsonObject, String> callback) {
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Session-Token", sessionToken);
+        header.put("Accept", "application/json");
+        header.put("Content-Type", "application/json" + ";" + "charset=UTF-8");
+        responseJsonObject(callback, interfaces.getPluginFlyve(header, data));
+    }
+
+    /**
+     * Return the current active profile.
+     *
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void getPluginFlyveAgentID(String sessionToken, String agentID, final ResponseHandle<JsonObject, String> callback) {
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Session-Token", sessionToken);
+        header.put("Accept", "application/json");
+        header.put("Content-Type", "application/json" + ";" + "charset=UTF-8");
+        header.put("User-Agent", "Flyve MDM");
+        header.put("Referer", "/getFullSession");
+        responseJsonObject(callback, interfaces.getPluginFlyveAgentID(header, agentID));
+    }
+
+    /**
+     * Return the current active profile.
+     *
      * @param callback here you are going to get the asynchronous response
      */
     public void getActiveProfile(final ResponseHandle<JsonObject, String> callback) {
@@ -218,15 +248,6 @@ public class GLPI extends ServiceGenerator {
      */
     public void getActiveEntities(final ResponseHandle<JsonObject, String> callback) {
         responseJsonObject(callback, interfaces.getActiveEntities(getHeader()));
-    }
-
-    /**
-     * Return the current php $_SESSION.
-     *
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void getFullSession(final ResponseHandle<JsonObject, String> callback) {
-        responseJsonObject(callback, interfaces.getFullSession(getHeader()));
     }
 
     /**
@@ -406,7 +427,7 @@ public class GLPI extends ServiceGenerator {
     public void changeActiveProfile(String profilesId, final ResponseHandle<String, String>  callback) {
         ChangeActiveProfileRequest requestPost = new ChangeActiveProfileRequest(profilesId);
         int message = R.string.change_active_profile_success;
-        responseVoid(callback, interfaces.changeActiveProfile(getHeader(), requestPost), message);
+        responseVoid(callback, interfaces.changeActiveProfile(getHeader(), profilesId, requestPost), message);
     }
 
     /**
@@ -512,11 +533,16 @@ public class GLPI extends ServiceGenerator {
     /**
      * Interface definition for a callback to be invoked when an endpoint return void.
      */
-    public interface FullSessionCallback {
-        void onResponse(FullSessionModel response);
+    public class GLPIModel {
+        private String profileId;
 
-        void onFailure(String errorMessage);
+        public String getProfileId() {
+            return profileId;
+        }
+
+        public void setProfileId(String profileId) {
+            this.profileId = profileId;
+        }
     }
-
 
 }
