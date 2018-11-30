@@ -51,6 +51,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
+import retrofit2.http.Url;
 
 public interface Routes {
 
@@ -144,10 +145,14 @@ public interface Routes {
     /*Get File */
     @Headers("Content-Type: application/json")
     @GET("PluginFlyvemdmFile/{fileId}")
-    Call<JsonArray> getPluginFile(@HeaderMap Map<String, String> headers, @Path("fileId") String fileId);
+    Call<JsonObject> getPluginFile(@HeaderMap Map<String, String> headers, @Path("fileId") String fileId);
 
     @Headers("Content-Type: application/json")
     @GET("PluginFlyvemdmPackage/{fileId}")
-    Call<JsonArray> getPluginPackage(@HeaderMap Map<String, String> headers, @Path("fileId") String fileId);
+    Call<JsonObject> getPluginPackage(@HeaderMap Map<String, String> headers, @Path("fileId") String fileId);
+
+    @Headers("Content-Type: application/json")
+    @GET("CHANGELOG.md")
+    Call<JsonObject> downloadFileMD(@Url String url, @HeaderMap Map<String, String> headers);
 
 }
