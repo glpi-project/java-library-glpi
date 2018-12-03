@@ -16,6 +16,7 @@
 *  GNU General Public License for more details.
 *  --------------------------------------------------------------------
 *  @author    Rafael Hernandez - <rhernandez@teclib.com>
+*  @author    Ivan Del Pino - <idelpino@teclib.com>
 *  @copyright (C) 2017 Teclib' and contributors.
 *  @license   GPLv3 https://www.gnu.org/licenses/gpl-3.0.html
 *  @link      https://github.com/glpi-project/java-library-glpi
@@ -27,6 +28,7 @@ package org.glpi.api;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
@@ -38,6 +40,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -145,14 +148,14 @@ public interface Routes {
     /*Get File */
     @Headers("Content-Type: application/json")
     @GET("PluginFlyvemdmFile/{fileId}")
-    Call<JsonObject> getPluginFile(@HeaderMap Map<String, String> headers, @Path("fileId") String fileId);
+    Call<JsonArray> getPluginFile(@HeaderMap Map<String, String> headers, @Path("fileId") String fileId);
 
     @Headers("Content-Type: application/json")
     @GET("PluginFlyvemdmPackage/{fileId}")
-    Call<JsonObject> getPluginPackage(@HeaderMap Map<String, String> headers, @Path("fileId") String fileId);
+    Call<JsonArray> getPluginPackage(@HeaderMap Map<String, String> headers, @Path("fileId") String fileId);
 
     @Headers("Content-Type: application/json")
-    @GET("CHANGELOG.md")
-    Call<JsonObject> downloadFileMD(@Url String url, @HeaderMap Map<String, String> headers);
+    @GET
+    Call<ResponseBody> downloadFile(@Url String url, @HeaderMap Map<String, String> headers);
 
 }

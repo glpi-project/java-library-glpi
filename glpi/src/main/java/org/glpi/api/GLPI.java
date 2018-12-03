@@ -16,6 +16,7 @@
 *  GNU General Public License for more details.
 *  --------------------------------------------------------------------
 *  @author    Rafael Hernandez - <rhernandez@teclib.com>
+*  @author    Ivan Del Pino - <idelpino@teclib.com>
 *  @copyright (C) 2017 Teclib' and contributors.
 *  @license   GPLv3 https://www.gnu.org/licenses/gpl-3.0.html
 *  @link      https://github.com/glpi-project/java-library-glpi
@@ -47,6 +48,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -179,7 +181,7 @@ public class GLPI extends ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<InitSession> call, Throwable t) {
+            public void onFailure(@NonNull Call<InitSession> call, @NonNull Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -314,7 +316,7 @@ public class GLPI extends ServiceGenerator {
                 }
             }
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(@NonNull Call<JsonObject> call, @NonNull Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -380,7 +382,7 @@ public class GLPI extends ServiceGenerator {
     private void responseJsonArray(final ResponseHandle<JsonArray, String>  callback, Call<JsonArray> responseCall) {
         responseCall.enqueue(new Callback<JsonArray>() {
             @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+            public void onResponse(@NonNull Call<JsonArray> call, @NonNull Response<JsonArray> response) {
                 if (response.isSuccessful()) {
                     callback.onResponse(response.body());
                 } else {
@@ -395,7 +397,7 @@ public class GLPI extends ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
+            public void onFailure(@NonNull Call<JsonArray> call, @NonNull Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -461,7 +463,7 @@ public class GLPI extends ServiceGenerator {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });
@@ -476,7 +478,7 @@ public class GLPI extends ServiceGenerator {
         responseKillSession(callback, interfaces.killSession(getHeader()));
     }
 
-    private void responseKillSession(final ResponseHandle<String, String>  callback, Call<Void> responseCall) {
+    private void responseKillSession(final ResponseHandle<String, String> callback, Call<Void> responseCall) {
         responseCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
@@ -495,7 +497,91 @@ public class GLPI extends ServiceGenerator {
                 }
             }
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    /**
+     *
+     *
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void getPluginFile(String fileId, final ResponseHandle<JsonArray, String> callback) {
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Session-Token", sessionToken);
+        responseFile(callback, interfaces.getPluginFile(header, fileId));
+    }
+
+    /**
+     * Destroy a session identified by a session token.
+     *
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void getPluginPackage(String fileId, final ResponseHandle<JsonArray, String> callback) {
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Session-Token", sessionToken);
+        responseFile(callback, interfaces.getPluginPackage(header, fileId));
+    }
+
+    private void responseFile(final ResponseHandle<JsonArray, String> callback, Call<JsonArray> responseCall) {
+        responseCall.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(@NonNull Call<JsonArray> call, @NonNull Response<JsonArray> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<JsonArray> call, @NonNull Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Download file specifying route.
+     *
+     * @param callback here you are going to get the asynchronous response
+     * @param url: route to download file
+     */
+    public void downloadFile(String url, final ResponseHandle<ResponseBody, String> callback) {
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Accept","application/octet-stream");
+        header.put("Content-Type","application/json");
+        header.put("Session-Token", sessionToken);
+        responseFileDownload(callback, interfaces.downloadFile(url, header));
+    }
+
+    private void responseFileDownload(final ResponseHandle<ResponseBody, String> callback, Call<ResponseBody> responseCall) {
+        responseCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 callback.onFailure(t.getMessage());
             }
         });

@@ -27,7 +27,14 @@ package org.glpi.api.utils;
 
 import android.util.Base64;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+
+import okhttp3.ResponseBody;
 
 public class Helpers {
 
@@ -71,5 +78,55 @@ public class Helpers {
             e.printStackTrace();
         }
         return rtext.trim();
+    }
+
+    /**
+     * @param body: response file
+     * @param pathname: route to download
+     *                example: getExternalFilesDir(null) + File.separator + "Future Studio Icon.png"
+     * @return if was success or no
+     */
+    public static boolean writeResponseBodyToDisk(ResponseBody body, String pathname) {
+        try {
+            File futureStudioIconFile = new File(pathname);
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(futureStudioIconFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+                    if (read == -1) {
+                        break;
+                    }
+                    outputStream.write(fileReader, 0, read);
+                    fileSizeDownloaded += read;
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
     }
 }
