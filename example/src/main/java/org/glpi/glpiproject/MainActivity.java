@@ -16,6 +16,7 @@
 *  GNU General Public License for more details.
 *  --------------------------------------------------------------------
 *  @author    Rafael Hernandez - <rhernandez@teclib.com>
+*  @author    Ivan Del Pino - <idelpino@teclib.com>
 *  @copyright (C) 2017 Teclib' and contributors.
 *  @license   GPLv3 https://www.gnu.org/licenses/gpl-3.0.html
 *  @link      https://github.com/glpi-project/java-library-glpi
@@ -46,11 +47,15 @@ import org.glpi.api.GLPI;
 import org.glpi.api.itemType;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
+import org.glpi.api.utils.Helpers;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -521,11 +526,15 @@ public class MainActivity extends AppCompatActivity {
     private void btnFile() {
         progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
-        glpi.downloadFileMD(new GLPI.VoidCallback() {
+        String url = "https://raw.githubusercontent.com/flyve-mdm/android-mdm-agent/develop/CHANGELOG.md";
+        glpi.downloadFile(url, new GLPI.ResponseHandle<ResponseBody, String>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(ResponseBody response) {
                 FlyveLog.i("Download file: %s", response);
                 updateAdapter("Success: Download file");
+                String pathname = getExternalFilesDir(null) + File.separator + "CHANGELOG.md";
+                boolean inDisk = Helpers.writeResponseBodyToDisk(response, pathname);
+                FlyveLog.i(inDisk + "");
             }
 
             @Override
@@ -534,9 +543,9 @@ public class MainActivity extends AppCompatActivity {
                 updateAdapter("Error: Download file" + errorMessage);
             }
         });
-        glpi.getPluginPackage("fileId", new GLPI.VoidCallback() {
+        glpi.getPluginPackage("fileId", new GLPI.ResponseHandle<JsonArray, String>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JsonArray response) {
                 FlyveLog.i("Package plugin: %s", response);
                 updateAdapter("Success: Package plugin");
             }
@@ -547,9 +556,9 @@ public class MainActivity extends AppCompatActivity {
                 updateAdapter("Error: Package plugin" + errorMessage);
             }
         });
-        glpi.getPluginFile("fileId", new GLPI.VoidCallback() {
+        glpi.getPluginFile("fileId", new GLPI.ResponseHandle<JsonArray, String>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JsonArray response) {
                 FlyveLog.i("File plugin: %s", response);
                 updateAdapter("Success: File plugin");
                 progressBar.setVisibility(View.GONE);
