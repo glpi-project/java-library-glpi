@@ -16,6 +16,7 @@
 *  GNU General Public License for more details.
 *  --------------------------------------------------------------------
 *  @author    Rafael Hernandez - <rhernandez@teclib.com>
+*  @author    Ivan Del Pino - <idelpino@teclib.com>
 *  @copyright (C) 2017 Teclib' and contributors.
 *  @license   GPLv3 https://www.gnu.org/licenses/gpl-3.0.html
 *  @link      https://github.com/glpi-project/java-library-glpi
