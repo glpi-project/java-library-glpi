@@ -17,6 +17,7 @@ It helps companies to manage their information system, since it's able to build 
 
 * [Synopsis](#synopsis)
 * [Build Status](#build-status)
+* [Installation](#installation)
 * [Compatibility matrix](#matrix)
 * [Documentation](#documentation)
 * [Versioning](#versioning)
@@ -44,11 +45,58 @@ You will be able to call all the methods that belong to the [GLPI REST API](http
 |:---:|:---:|
 |[![Circle CI build](https://circleci.com/gh/glpi-project/java-library-glpi/tree/master.svg?style=svg)](https://circleci.com/gh/glpi-project/java-library-glpi/tree/master)|[![Circle CI build](https://circleci.com/gh/glpi-project/java-library-glpi/tree/develop.svg?style=svg)](https://circleci.com/gh/glpi-project/java-library-glpi/tree/develop)|
 
+## Installation
+
+### External Library Manager
+
+Soon to be published
+
+<!-- #### Maven
+
+```xml
+<dependency>
+  <groupId>org.glpi</groupId>
+  <artifactId>api</artifactId>
+  <version>1.0.0</version>
+  <type>pom</type>
+</dependency>
+```
+
+#### Gradle
+
+```groovy
+compile 'org.glpi:api:1.0.0'
+```
+
+#### Apache Ivy
+
+```
+<dependency org='org.glpi' name='api' rev='0.1.0'>
+  <artifact name='api' ext='pom' ></artifact>
+</dependency>
+```
+
+You can also find us on [**Bintray repository**](https://bintray.com/flyve-mdm/). -->
+
+### Manually
+
+In your ```setting.gradle``` add the following line:
+
+```groovy
+include ':my-project', ':java-library-glpi'
+```
+
+And in your ```build.gradle``` add:
+
+```groovy
+implementation project(':java-library-glpi')
+```
+
 ## Matrix
 
-|**GLPI Version**|9.1.1|9.1.2|9.1.3|9.1.5|9.1.6|9.2.0|
-|:----|----|----|----|---|---|---|
-|**GLPI API Client**|||||||
+|**GLPI Version**|9.1|9.2|9.3|
+|:----|----|----|----|
+|**GLPI API Client**||||
 
 ## Documentation
 
