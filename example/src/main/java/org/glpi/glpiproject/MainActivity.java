@@ -35,6 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -632,6 +633,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(ResponseBody response) {
                 FlyveLog.i("Download file: %s", response);
                 updateAdapter("Success: Download file");
+
                 String pathname = getExternalFilesDir(null) + File.separator + "CHANGELOG.md";
                 boolean inDisk = Helpers.writeResponseBodyToDisk(response, pathname);
                 FlyveLog.i(inDisk + "");
@@ -641,6 +643,22 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(String errorMessage) {
                 FlyveLog.e("Download file: %s", errorMessage);
                 updateAdapter("Error: Download file" + errorMessage);
+            }
+        });
+        String[] urls = {url, url, url, url, url};
+        glpi.handleMultipleDownload(urls, 3, new GLPI.ResponseHandle<ResponseBody[], String>() {
+            @Override
+            public void onResponse(ResponseBody[] response) {
+                Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < response.length; i++) {
+                    String pathname = getExternalFilesDir(null) + File.separator + i + "-test.md";
+                    boolean inDisk = Helpers.writeResponseBodyToDisk(response[i], pathname);
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
         glpi.getPluginPackage("fileId", new GLPI.ResponseHandle<JsonArray, String>() {
