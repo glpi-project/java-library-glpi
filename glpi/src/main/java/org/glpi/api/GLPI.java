@@ -45,9 +45,16 @@ import org.glpi.api.response.InitSession;
 import org.glpi.api.utils.Helpers;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -549,6 +556,54 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
+    public void handleMultipleDownload(String[] urls, int limit, final ResponseHandle<ResponseBody[], String> callback) {
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Accept","application/octet-stream");
+        header.put("Content-Type","application/json");
+        header.put("Session-Token", sessionToken);
+        String[] sendUrls = Arrays.copyOfRange(urls, 0, limit);
+        for (int i = 0; i < limit; i++) {
+            Observable<ResponseBody> observableOne = interfaces.downloadFileRX(sendUrls[0], header)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+            Observable<ResponseBody> observableTwo = interfaces.downloadFileRX(sendUrls[1], header)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+            final Disposable subscribe = Observable.zip(observableOne, observableTwo, new BiFunction<ResponseBody, ResponseBody, ManagementFile>() {
+                @Override
+                public ManagementFile apply(ResponseBody responseBody, ResponseBody responseBody2) throws Exception {
+                    return new ManagementFile(new ResponseBody[]{responseBody, responseBody2});
+                }
+            }).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            new Consumer<ManagementFile>() {
+                                @Override
+                                public void accept(ManagementFile o) throws Exception {
+                                    callback.onResponse(o.getFile());
+                                }
+                            },
+                            new Consumer<Throwable>() {
+                                @Override
+                                public void accept(Throwable e) throws Exception {
+                                    callback.onFailure(e.getMessage());
+                                }
+                            });
+        }
+    }
+
+    public class ManagementFile {
+        private ResponseBody[] file;
+
+        public ManagementFile(ResponseBody[] file) {
+            this.file = file;
+        }
+
+        public ResponseBody[] getFile() {
+            return file;
+        }
+    }
+
     /**
      * Download file specifying route.
      *
@@ -563,7 +618,7 @@ public class GLPI extends ServiceGenerator {
         responseFileDownload(callback, interfaces.downloadFile(url, header));
     }
 
-    private void responseFileDownload(final ResponseHandle<ResponseBody, String> callback, Call<ResponseBody> responseCall) {
+    private void responseFileDownload(final ResponseHandle<ResponseBody, String> callback, final Call<ResponseBody> responseCall) {
         responseCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {

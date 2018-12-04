@@ -39,6 +39,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -168,5 +169,9 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @GET("getMultipleItems")
     Call<JsonArray> getMultipleItem(@HeaderMap Map<String, String> headers, @QueryMap Map<String, String> options);
+
+    @Headers("Content-Type: application/json")
+    @GET
+    Observable<ResponseBody> downloadFileRX(@Url String url, @HeaderMap Map<String, String> headers);
 
 }
