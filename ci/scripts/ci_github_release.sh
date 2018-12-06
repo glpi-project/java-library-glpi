@@ -29,10 +29,10 @@ GIT_TAG=$(jq -r ".version" package.json)
 # git push --follow-tags origin $CIRCLE_BRANCH
 
 # push tag to github
-conventional-github-releaser -t $GH_TOKEN 2> /dev/null || true
+conventional-github-releaser -p angular -t $GITHUB_TOKEN 2> /dev/null || true
 
 # Create zip example code
-sudo zip -r $CIRCLE_ARTIFACTS/java_example_code.zip app/*
+sudo zip -r $CIRCLE_ARTIFACTS/java_example_code.zip example/*
 
 # Update release name
 github-release edit \
@@ -40,20 +40,11 @@ github-release edit \
 --repo $CIRCLE_PROJECT_REPONAME \
 --tag ${GIT_TAG} \
 --name "GLPI API REST v${GIT_TAG}" \
---description "$(git log -1 --pretty=%B)"
 
 # Upload example code release
 github-release upload \
 --user $CIRCLE_PROJECT_USERNAME \
 --repo $CIRCLE_PROJECT_REPONAME \
 --tag ${GIT_TAG} \
---name "java_example.zip" \
+--name "java_example_${GIT_TAG}.zip" \
 --file $CIRCLE_ARTIFACTS/java_example_code.zip
-
-# Upload example code release
-github-release upload \
---user $CIRCLE_PROJECT_USERNAME \
---repo $CIRCLE_PROJECT_REPONAME \
---tag ${GIT_TAG} \
---name "app-example-${GIT_TAG}.apk" \
---file example/build/outputs/apk/app-release.apk
