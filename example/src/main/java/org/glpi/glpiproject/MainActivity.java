@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         list.add("Kill session");
         list.add("Call Request");
         list.add("File Request");
+        list.add("Response http Request");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTest.setAdapter(adapter);
@@ -136,7 +137,32 @@ public class MainActivity extends AppCompatActivity {
                     case "File Request":
                         btnFile();
                         break;
+                    case "Response http Request":
+                        btnHttpResponse();
+                        break;
                 }
+            }
+        });
+    }
+
+    private void btnHttpResponse() {
+        progressBar.setVisibility(View.VISIBLE);
+        resultList.clear();
+        glpi.httpResponse(data.getUserToken(), new GLPI.ResponseHandle<JsonObject, String>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                FlyveLog.i("http response: %s", response);
+                updateAdapter("Success: http response");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.i("http response: %s", errorMessage);
+                updateAdapter("Success: http response");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -148,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 FlyveLog.i("killSession: %s", response);
-                updateAdapter("Success: Kill Session");
+                updateAdapter("Success: http response");
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }

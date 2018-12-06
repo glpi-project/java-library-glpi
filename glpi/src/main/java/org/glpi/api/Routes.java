@@ -28,7 +28,6 @@ package org.glpi.api;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
@@ -144,6 +143,10 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @PUT("lostPassword")
     Call<Void> recoveryPassword(@Body ResetPasswordRequest requestPost);
+
+    @Headers("Content-Type: application/json")
+    @PUT("PluginFlyvemdmAgent/{id}")
+    Call<JsonObject> responseInventory(@Path("id") String id);
 
     /*Get File */
     @Headers("Content-Type: application/json")

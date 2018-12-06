@@ -116,6 +116,27 @@ public class GLPI extends ServiceGenerator {
         responseInitSession(callback, interfaces.initSessionByCredentials("Basic " + authorization.trim()));
     }
 
+    /**
+     * Request a session token to uses other api endpoints. with a couple login & password:
+     * 2 parameters to login with user authentication
+     *
+     * @param id     valid user on GLPI
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void httpResponse(String id, final ResponseHandle<JsonObject, String> callback) {
+        interfaces.responseInventory(id).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                callback.onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
     public void fullSession(String userToken, final ResponseHandle<FullSessionModel, String> callback) {
         HashMap<String, String> header = new HashMap<>();
         header.put("Session-Token", userToken);
