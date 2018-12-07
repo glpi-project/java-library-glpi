@@ -34,12 +34,6 @@ import org.glpi.api.request.ChangeActiveProfileRequest;
 import org.glpi.api.request.PluginSessionBody;
 import org.glpi.api.request.RecoveryPasswordRequest;
 import org.glpi.api.request.ResetPasswordRequest;
-import org.glpi.api.request.geolocation.GeolocationBody;
-import org.glpi.api.request.geolocationnogps.GeolocationNoGPSBody;
-import org.glpi.api.request.inventory.InventoryBody;
-import org.glpi.api.request.ping.PingBody;
-import org.glpi.api.request.status.OnlineOfflineBody;
-import org.glpi.api.request.taskstatus.TaskStatusBody;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 
@@ -149,32 +143,6 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @PUT("lostPassword")
     Call<Void> recoveryPassword(@Body ResetPasswordRequest requestPost);
-
-    /* Handle Http response */
-
-    @Headers("Content-Type: application/json")
-    @PUT("PluginFlyvemdmAgent/{id}")
-    Call<JsonObject> sendInventory(@HeaderMap Map<String, String> header, @Path("id") String id, @Body InventoryBody inventory);
-
-    @Headers("Content-Type: application/json")
-    @PUT("PluginFlyvemdmAgent/{id}")
-    Call<JsonObject> sendOnlineOffline(@HeaderMap Map<String, String> header, @Path("id") String id, @Body OnlineOfflineBody onlineOffline);
-
-    @Headers("Content-Type: application/json")
-    @PUT("PluginFlyvemdmAgent/{id}")
-    Call<JsonObject> sendPing(@HeaderMap Map<String, String> header, @Path("id") String id, @Body PingBody ping);
-
-    @Headers("Content-Type: application/json")
-    @PUT("PluginFlyvemdmGeolocation")
-    Call<JsonObject> sendGeolocation(@HeaderMap Map<String, String> header, @Body GeolocationBody geolocation);
-
-    @Headers("Content-Type: application/json")
-    @PUT("PluginFlyvemdmGeolocation")
-    Call<JsonObject> sendGeolocationNoGPS(@HeaderMap Map<String, String> header, @Body GeolocationNoGPSBody geolocationNoGPS);
-
-    @Headers("Content-Type: application/json")
-    @PUT("PluginFlyvemdmTaskstatus/{id}")
-    Call<JsonObject> sendTaskStatus(@HeaderMap Map<String, String> header, @Path("id") String id, @Body TaskStatusBody taskStatus);
 
     /*Get File */
     @Headers("Content-Type: application/json")

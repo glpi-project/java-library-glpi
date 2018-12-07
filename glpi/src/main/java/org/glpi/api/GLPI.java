@@ -41,19 +41,9 @@ import org.glpi.api.request.ChangeActiveProfileRequest;
 import org.glpi.api.request.PluginSessionBody;
 import org.glpi.api.request.RecoveryPasswordRequest;
 import org.glpi.api.request.ResetPasswordRequest;
-import org.glpi.api.request.geolocation.GeolocationBody;
-import org.glpi.api.request.geolocationnogps.GeolocationNoGPSBody;
-import org.glpi.api.request.inventory.InputInventory;
-import org.glpi.api.request.inventory.InventoryBody;
-import org.glpi.api.request.ping.InputPing;
-import org.glpi.api.request.ping.PingBody;
-import org.glpi.api.request.status.InputIsOnline;
-import org.glpi.api.request.status.OnlineOfflineBody;
-import org.glpi.api.request.taskstatus.TaskStatusBody;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 import org.glpi.api.utils.Helpers;
-import org.json.JSONArray;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -124,147 +114,6 @@ public class GLPI extends ServiceGenerator {
         this.appToken = null;
         String authorization = Helpers.base64encode(user + ":" + password);
         responseInitSession(callback, interfaces.initSessionByCredentials("Basic " + authorization.trim()));
-    }
-
-    /**
-     * Response to Inventory
-     *
-     * @param session     User Token
-     * @param inventoryValue
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void sendInventory(String session, String inventoryValue, final ResponseHandle<JsonObject, String> callback) {
-        InventoryBody inventoryBody = new InventoryBody();
-        InputInventory inventory = new InputInventory();
-        inventory.setInventory(inventoryValue);
-        inventoryBody.setInput(inventory);
-
-        interfaces.sendInventory(getHeader(session), session, inventoryBody).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                handleResponseBody(response, callback);
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                callback.onFailure(t.getMessage());
-            }
-        });
-    }
-
-    /**
-     * Response to Ping
-     *
-     * @param session     User Token
-     * @param pingValue
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void sendPing(String session, String pingValue, final ResponseHandle<JsonObject, String> callback) {
-        InputPing inputPing = new InputPing();
-        inputPing.setPong("!");
-        PingBody ping = new PingBody();
-        ping.setInput(inputPing);
-
-        interfaces.sendPing(getHeader(session), session, ping).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                handleResponseBody(response, callback);
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                callback.onFailure(t.getMessage());
-            }
-        });
-    }
-
-    /**
-     * Response to Online Offline
-     *
-     * @param session     User Token
-     * @param geolocation
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void sendGeolocation(String session, GeolocationBody geolocation, final ResponseHandle<JsonObject, String> callback) {
-        interfaces.sendGeolocation(getHeader(session), geolocation).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                handleResponseBody(response, callback);
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                callback.onFailure(t.getMessage());
-            }
-        });
-    }
-
-    /**
-     * Response to Geolocation
-     *
-     * @param session     User Token
-     * @param isOnline
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void sendOnlineOffline(String session, String isOnline, final ResponseHandle<JsonObject, String> callback) {
-        OnlineOfflineBody offlineBody = new OnlineOfflineBody();
-        InputIsOnline inputIsOnline = new InputIsOnline();
-        inputIsOnline.setIsOnline(isOnline);
-        offlineBody.setInput(inputIsOnline);
-
-        interfaces.sendOnlineOffline(getHeader(session), session, offlineBody).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                handleResponseBody(response, callback);
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                callback.onFailure(t.getMessage());
-            }
-        });
-    }
-
-    /**
-     * Response to Geolocation no GPS
-     *
-     * @param session     User Token
-     * @param geolocationNoGPS
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void sendGeolocationNoGPS(String session, GeolocationNoGPSBody geolocationNoGPS, final ResponseHandle<JsonObject, String> callback) {
-        interfaces.sendGeolocationNoGPS(getHeader(session), geolocationNoGPS).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                handleResponseBody(response, callback);
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                callback.onFailure(t.getMessage());
-            }
-        });
-    }
-
-    /**
-     * Response to Task Status
-     *
-     * @param session     User Token
-     * @param statusBody
-     * @param callback here you are going to get the asynchronous response
-     */
-    public void sendTaskStatus(String session, TaskStatusBody statusBody, final ResponseHandle<JsonObject, String> callback) {
-        interfaces.sendTaskStatus(getHeader(session), session, statusBody).enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                handleResponseBody(response, callback);
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                callback.onFailure(t.getMessage());
-            }
-        });
     }
 
     private void handleResponseBody(Response<JsonObject> response, ResponseHandle<JsonObject, String> callback) {

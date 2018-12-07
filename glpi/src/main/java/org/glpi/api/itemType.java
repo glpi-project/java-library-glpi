@@ -351,5 +351,8 @@ public enum itemType {
     Item_DevicePci,
     Item_DevicePowerSupply,
     Item_DeviceProcessor,
-    Item_Devices
+    Item_Devices,
+    PluginFlyvemdmTaskstatus,
+    PluginFlyvemdmGeolocation,
+    PluginFlyvemdmAgent
 }
