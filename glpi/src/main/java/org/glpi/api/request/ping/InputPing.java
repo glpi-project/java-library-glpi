@@ -1,8 +1,8 @@
-package org.glpi.api.request;
+package org.glpi.api.request.ping;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PingBody {
+public class InputPing {
 
     @SerializedName("_pong")
     private String pong;

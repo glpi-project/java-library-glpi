@@ -1,8 +1,8 @@
-package org.glpi.api.request;
+package org.glpi.api.request.status;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OnlineOfflineBody {
+public class InputIsOnline {
 
     @SerializedName("is_online")
     private String isOnline;

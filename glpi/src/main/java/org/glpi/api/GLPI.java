@@ -38,13 +38,17 @@ import org.glpi.api.query.GetAnItemQuery;
 import org.glpi.api.query.GetSubItemQuery;
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
-import org.glpi.api.request.GeolocationBody;
-import org.glpi.api.request.GeolocationNoGPSBody;
-import org.glpi.api.request.InventoryBody;
-import org.glpi.api.request.OnlineOfflineBody;
-import org.glpi.api.request.PingBody;
 import org.glpi.api.request.RecoveryPasswordRequest;
 import org.glpi.api.request.ResetPasswordRequest;
+import org.glpi.api.request.geolocation.GeolocationBody;
+import org.glpi.api.request.geolocationnogps.GeolocationNoGPSBody;
+import org.glpi.api.request.inventory.InputInventory;
+import org.glpi.api.request.inventory.InventoryBody;
+import org.glpi.api.request.ping.InputPing;
+import org.glpi.api.request.ping.PingBody;
+import org.glpi.api.request.status.InputIsOnline;
+import org.glpi.api.request.status.OnlineOfflineBody;
+import org.glpi.api.request.taskstatus.TaskStatusBody;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 import org.glpi.api.utils.Helpers;
@@ -125,16 +129,19 @@ public class GLPI extends ServiceGenerator {
      * Response to Inventory
      *
      * @param session     User Token
-     * @param pingValue
+     * @param inventoryValue
      * @param callback here you are going to get the asynchronous response
      */
-    public void sendInventory(String session, String pingValue, final ResponseHandle<JsonObject, String> callback) {
-        PingBody ping = new PingBody();
-        ping.setPong(pingValue);
-        interfaces.sendInventory(getHeader(session), session, ping).enqueue(new Callback<JsonObject>() {
+    public void sendInventory(String session, String inventoryValue, final ResponseHandle<JsonObject, String> callback) {
+        InventoryBody inventoryBody = new InventoryBody();
+        InputInventory inventory = new InputInventory();
+        inventory.setInventory(inventoryValue);
+        inventoryBody.setInput(inventory);
+
+        interfaces.sendInventory(getHeader(session), session, inventoryBody).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                callback.onResponse(response.body());
+                handleResponseBody(response, callback);
             }
 
             @Override
@@ -148,16 +155,19 @@ public class GLPI extends ServiceGenerator {
      * Response to Ping
      *
      * @param session     User Token
-     * @param inventory
+     * @param pingValue
      * @param callback here you are going to get the asynchronous response
      */
-    public void sendPing(String session, String inventory, final ResponseHandle<JsonObject, String> callback) {
-        InventoryBody inventoryBody = new InventoryBody();
-        inventoryBody.setInventory(inventory);
-        interfaces.sendPing(getHeader(session), session, inventoryBody).enqueue(new Callback<JsonObject>() {
+    public void sendPing(String session, String pingValue, final ResponseHandle<JsonObject, String> callback) {
+        InputPing inputPing = new InputPing();
+        inputPing.setPong("!");
+        PingBody ping = new PingBody();
+        ping.setInput(inputPing);
+
+        interfaces.sendPing(getHeader(session), session, ping).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                callback.onResponse(response.body());
+                handleResponseBody(response, callback);
             }
 
             @Override
@@ -178,7 +188,7 @@ public class GLPI extends ServiceGenerator {
         interfaces.sendGeolocation(getHeader(session), geolocation).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                callback.onResponse(response.body());
+                handleResponseBody(response, callback);
             }
 
             @Override
@@ -189,7 +199,33 @@ public class GLPI extends ServiceGenerator {
     }
 
     /**
-     * Response to Online Offline
+     * Response to Geolocation
+     *
+     * @param session     User Token
+     * @param isOnline
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void sendOnlineOffline(String session, String isOnline, final ResponseHandle<JsonObject, String> callback) {
+        OnlineOfflineBody offlineBody = new OnlineOfflineBody();
+        InputIsOnline inputIsOnline = new InputIsOnline();
+        inputIsOnline.setIsOnline(isOnline);
+        offlineBody.setInput(inputIsOnline);
+
+        interfaces.sendOnlineOffline(getHeader(session), session, offlineBody).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                handleResponseBody(response, callback);
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Response to Geolocation no GPS
      *
      * @param session     User Token
      * @param geolocationNoGPS
@@ -199,7 +235,7 @@ public class GLPI extends ServiceGenerator {
         interfaces.sendGeolocationNoGPS(getHeader(session), geolocationNoGPS).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                callback.onResponse(response.body());
+                handleResponseBody(response, callback);
             }
 
             @Override
@@ -210,19 +246,17 @@ public class GLPI extends ServiceGenerator {
     }
 
     /**
-     * Response to Online Offline
+     * Response to Geolocation no GPS
      *
      * @param session     User Token
-     * @param isOnline
+     * @param statusBody
      * @param callback here you are going to get the asynchronous response
      */
-    public void sendOnlineOffline(String session, String isOnline, final ResponseHandle<JsonObject, String> callback) {
-        OnlineOfflineBody inventoryBody = new OnlineOfflineBody();
-        inventoryBody.setIsOnline(isOnline);
-        interfaces.sendOnlineOffline(getHeader(session), session, inventoryBody).enqueue(new Callback<JsonObject>() {
+    public void sendTaskStatus(String session, TaskStatusBody statusBody, final ResponseHandle<JsonObject, String> callback) {
+        interfaces.sendTaskStatus(getHeader(session), session, statusBody).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                callback.onResponse(response.body());
+                handleResponseBody(response, callback);
             }
 
             @Override
@@ -230,6 +264,14 @@ public class GLPI extends ServiceGenerator {
                 callback.onFailure(t.getMessage());
             }
         });
+    }
+
+    private void handleResponseBody(Response<JsonObject> response, ResponseHandle<JsonObject, String> callback) {
+        if (response.isSuccessful()) {
+            callback.onResponse(response.body());
+        } else {
+            callback.onFailure("Error");
+        }
     }
 
     @NonNull

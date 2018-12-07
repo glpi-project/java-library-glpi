@@ -45,8 +45,12 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 
 import org.glpi.api.GLPI;
 import org.glpi.api.itemType;
-import org.glpi.api.request.GeolocationBody;
-import org.glpi.api.request.GeolocationNoGPSBody;
+import org.glpi.api.request.geolocation.GeolocationBody;
+import org.glpi.api.request.geolocation.InputGeolocation;
+import org.glpi.api.request.geolocationnogps.GeolocationNoGPSBody;
+import org.glpi.api.request.geolocationnogps.InputNoGeolocation;
+import org.glpi.api.request.taskstatus.InputTaskStatus;
+import org.glpi.api.request.taskstatus.TaskStatusBody;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 import org.glpi.api.utils.Helpers;
@@ -150,12 +154,33 @@ public class MainActivity extends AppCompatActivity {
     private void btnHttpResponse() {
         progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
-        GeolocationBody geolocation = new GeolocationBody();
+
+        TaskStatusBody statusBody = new TaskStatusBody();
+        InputTaskStatus taskStatus = new InputTaskStatus();
+        taskStatus.setStatus("");
+        statusBody.setInput(taskStatus);
+        glpi.sendTaskStatus(data.getUserToken(), statusBody, new GLPI.ResponseHandle<JsonObject, String>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                FlyveLog.i("task status: %s", response);
+                updateAdapter("Success: task status");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.i("task status: %s", errorMessage);
+                updateAdapter("Success: task status");
+            }
+        });
+
+        GeolocationBody geolocationBody = new GeolocationBody();
+        InputGeolocation geolocation = new InputGeolocation();
         geolocation.setAgentsId("");
         geolocation.setDatetime("");
         geolocation.setLongitude("");
         geolocation.setLatitude("");
-        glpi.sendGeolocation(data.getUserToken(), geolocation, new GLPI.ResponseHandle<JsonObject, String>() {
+        geolocationBody.setInput(geolocation);
+        glpi.sendGeolocation(data.getUserToken(), geolocationBody, new GLPI.ResponseHandle<JsonObject, String>() {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("geolocation: %s", response);
@@ -168,11 +193,14 @@ public class MainActivity extends AppCompatActivity {
                 updateAdapter("Error: geolocation");
             }
         });
-        GeolocationNoGPSBody geolocationNoGPS = new GeolocationNoGPSBody();
+
+        GeolocationNoGPSBody geolocationNoGPSBody = new GeolocationNoGPSBody();
+        InputNoGeolocation geolocationNoGPS = new InputNoGeolocation();
         geolocationNoGPS.setAgentsId("");
         geolocationNoGPS.setDatetime("");
         geolocationNoGPS.setGps("");
-        glpi.sendGeolocationNoGPS(data.getUserToken(), geolocationNoGPS, new GLPI.ResponseHandle<JsonObject, String>() {
+        geolocationNoGPSBody.setInput(geolocationNoGPS);
+        glpi.sendGeolocationNoGPS(data.getUserToken(), geolocationNoGPSBody, new GLPI.ResponseHandle<JsonObject, String>() {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("geolocation no GPS: %s", response);
@@ -185,19 +213,21 @@ public class MainActivity extends AppCompatActivity {
                 updateAdapter("Error: geolocation no GPS");
             }
         });
+
         glpi.sendInventory(data.getEmail(), "!", new GLPI.ResponseHandle<JsonObject, String>() {
             @Override
             public void onResponse(JsonObject response) {
-                FlyveLog.i("http response: %s", response);
-                updateAdapter("Success: http response");
+                FlyveLog.i("inventory: %s", response);
+                updateAdapter("Success: inventory");
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                FlyveLog.i("http response: %s", errorMessage);
-                updateAdapter("Success: http response");
+                FlyveLog.i("inventory: %s", errorMessage);
+                updateAdapter("Success: inventory");
             }
         });
+
         glpi.sendPing(data.getUserToken(), "", new GLPI.ResponseHandle<JsonObject, String>() {
             @Override
             public void onResponse(JsonObject response) {
@@ -211,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
                 updateAdapter("Error: ping body");
             }
         });
+
         glpi.sendOnlineOffline(data.getUserToken(), "1", new GLPI.ResponseHandle<JsonObject, String>() {
             @Override
             public void onResponse(JsonObject response) {

@@ -1,8 +1,8 @@
-package org.glpi.api.request;
+package org.glpi.api.request.geolocationnogps;
 
 import com.google.gson.annotations.SerializedName;
 
-public class GeolocationNoGPSBody {
+public class InputNoGeolocation {
 
     @SerializedName("_datetime")
     private String datetime;

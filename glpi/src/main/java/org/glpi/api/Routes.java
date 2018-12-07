@@ -31,13 +31,14 @@ import com.google.gson.JsonObject;
 
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
-import org.glpi.api.request.GeolocationBody;
-import org.glpi.api.request.GeolocationNoGPSBody;
-import org.glpi.api.request.OnlineOfflineBody;
-import org.glpi.api.request.PingBody;
-import org.glpi.api.request.InventoryBody;
 import org.glpi.api.request.RecoveryPasswordRequest;
 import org.glpi.api.request.ResetPasswordRequest;
+import org.glpi.api.request.geolocation.GeolocationBody;
+import org.glpi.api.request.geolocationnogps.GeolocationNoGPSBody;
+import org.glpi.api.request.inventory.InventoryBody;
+import org.glpi.api.request.ping.PingBody;
+import org.glpi.api.request.status.OnlineOfflineBody;
+import org.glpi.api.request.taskstatus.TaskStatusBody;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 import org.json.JSONObject;
@@ -153,7 +154,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @PUT("PluginFlyvemdmAgent/{id}")
-    Call<JsonObject> sendInventory(@HeaderMap Map<String, String> header, @Path("id") String id, @Body PingBody ping);
+    Call<JsonObject> sendInventory(@HeaderMap Map<String, String> header, @Path("id") String id, @Body InventoryBody inventory);
 
     @Headers("Content-Type: application/json")
     @PUT("PluginFlyvemdmAgent/{id}")
@@ -161,7 +162,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @PUT("PluginFlyvemdmAgent/{id}")
-    Call<JsonObject> sendPing(@HeaderMap Map<String, String> header, @Path("id") String id, @Body InventoryBody inventory);
+    Call<JsonObject> sendPing(@HeaderMap Map<String, String> header, @Path("id") String id, @Body PingBody ping);
 
     @Headers("Content-Type: application/json")
     @PUT("PluginFlyvemdmGeolocation")
@@ -170,6 +171,10 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @PUT("PluginFlyvemdmGeolocation")
     Call<JsonObject> sendGeolocationNoGPS(@HeaderMap Map<String, String> header, @Body GeolocationNoGPSBody geolocationNoGPS);
+
+    @Headers("Content-Type: application/json")
+    @PUT("PluginFlyvemdmTaskstatus/{id}")
+    Call<JsonObject> sendTaskStatus(@HeaderMap Map<String, String> header, @Path("id") String id, @Body TaskStatusBody taskStatus);
 
     /*Get File */
     @Headers("Content-Type: application/json")

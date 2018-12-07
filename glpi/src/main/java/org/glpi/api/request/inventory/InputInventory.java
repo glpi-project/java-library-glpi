@@ -1,8 +1,8 @@
-package org.glpi.api.request;
+package org.glpi.api.request.inventory;
 
 import com.google.gson.annotations.SerializedName;
 
-public class InventoryBody {
+public class InputInventory {
 
     @SerializedName("_inventory")
     private String inventory;
