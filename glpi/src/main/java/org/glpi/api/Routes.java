@@ -31,6 +31,9 @@ import com.google.gson.JsonObject;
 
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
+import org.glpi.api.request.OnlineOfflineBody;
+import org.glpi.api.request.PingBody;
+import org.glpi.api.request.InventoryBody;
 import org.glpi.api.request.RecoveryPasswordRequest;
 import org.glpi.api.request.ResetPasswordRequest;
 import org.glpi.api.response.FullSessionModel;
@@ -146,7 +149,15 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @PUT("PluginFlyvemdmAgent/{id}")
-    Call<JsonObject> responseInventory(@Path("id") String id);
+    Call<JsonObject> sendInventory(@HeaderMap Map<String, String> header, @Path("id") String id, @Body PingBody ping);
+
+    @Headers("Content-Type: application/json")
+    @PUT("PluginFlyvemdmAgent/{id}")
+    Call<JsonObject> sendOnlineOffline(@HeaderMap Map<String, String> header, @Path("id") String id, @Body OnlineOfflineBody onlineOffline);
+
+    @Headers("Content-Type: application/json")
+    @PUT("PluginFlyvemdmAgent/{id}")
+    Call<JsonObject> sendPing(@HeaderMap Map<String, String> header, @Path("id") String id, @Body InventoryBody inventory);
 
     /*Get File */
     @Headers("Content-Type: application/json")

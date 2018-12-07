@@ -148,19 +148,45 @@ public class MainActivity extends AppCompatActivity {
     private void btnHttpResponse() {
         progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
-        glpi.httpResponse(data.getUserToken(), new GLPI.ResponseHandle<JsonObject, String>() {
+        glpi.sendInventory(data.getEmail(), "!", new GLPI.ResponseHandle<JsonObject, String>() {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("http response: %s", response);
                 updateAdapter("Success: http response");
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(String errorMessage) {
                 FlyveLog.i("http response: %s", errorMessage);
                 updateAdapter("Success: http response");
+            }
+        });
+        glpi.sendPing(data.getUserToken(), "", new GLPI.ResponseHandle<JsonObject, String>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                FlyveLog.i("ping body: %s", response);
+                updateAdapter("Success: ping body");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.i("ping body: %s", errorMessage);
+                updateAdapter("Error: ping body");
+            }
+        });
+        glpi.sendOnlineOffline(data.getUserToken(), "1", new GLPI.ResponseHandle<JsonObject, String>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                FlyveLog.i("online/offline: %s", response);
+                updateAdapter("Success: online/offline");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.i("online/offline: %s", errorMessage);
+                updateAdapter("Success: online/offline");
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }

@@ -38,6 +38,9 @@ import org.glpi.api.query.GetAnItemQuery;
 import org.glpi.api.query.GetSubItemQuery;
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
+import org.glpi.api.request.InventoryBody;
+import org.glpi.api.request.OnlineOfflineBody;
+import org.glpi.api.request.PingBody;
 import org.glpi.api.request.RecoveryPasswordRequest;
 import org.glpi.api.request.ResetPasswordRequest;
 import org.glpi.api.response.FullSessionModel;
@@ -117,14 +120,16 @@ public class GLPI extends ServiceGenerator {
     }
 
     /**
-     * Request a session token to uses other api endpoints. with a couple login & password:
-     * 2 parameters to login with user authentication
+     * Response to Inventory
      *
-     * @param id     valid user on GLPI
+     * @param session     User Token
+     * @param pingValue
      * @param callback here you are going to get the asynchronous response
      */
-    public void httpResponse(String id, final ResponseHandle<JsonObject, String> callback) {
-        interfaces.responseInventory(id).enqueue(new Callback<JsonObject>() {
+    public void sendInventory(String session, String pingValue, final ResponseHandle<JsonObject, String> callback) {
+        PingBody ping = new PingBody();
+        ping.setPong(pingValue);
+        interfaces.sendInventory(getHeader(session), session, ping).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 callback.onResponse(response.body());
@@ -137,13 +142,65 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void fullSession(String userToken, final ResponseHandle<FullSessionModel, String> callback) {
+    /**
+     * Response to Ping
+     *
+     * @param session     User Token
+     * @param inventory
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void sendPing(String session, String inventory, final ResponseHandle<JsonObject, String> callback) {
+        InventoryBody inventoryBody = new InventoryBody();
+        inventoryBody.setInventory(inventory);
+        interfaces.sendPing(getHeader(session), session, inventoryBody).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                callback.onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Response to Online Offline
+     *
+     * @param session     User Token
+     * @param isOnline
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void sendOnlineOffline(String session, String isOnline, final ResponseHandle<JsonObject, String> callback) {
+        OnlineOfflineBody inventoryBody = new OnlineOfflineBody();
+        inventoryBody.setIsOnline(isOnline);
+        interfaces.sendOnlineOffline(getHeader(session), session, inventoryBody).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                callback.onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    @NonNull
+    private HashMap<String, String> getHeader(String session) {
         HashMap<String, String> header = new HashMap<>();
-        header.put("Session-Token", userToken);
+        header.put("Session-Token", session);
         header.put("Accept", "application/json");
         header.put("Content-Type", "application/json" + ";" + "charset=UTF-8");
         header.put("User-Agent", "Flyve MDM");
         header.put("Referer", "/getFullSession");
+        return header;
+    }
+
+    public void fullSession(String userToken, final ResponseHandle<FullSessionModel, String> callback) {
+        HashMap<String, String> header = getHeader(userToken);
         interfaces.getFullSession(header).enqueue(new Callback<FullSessionModel>() {
             @Override
             public void onResponse(@NonNull Call<FullSessionModel> call, @NonNull Response<FullSessionModel> response) {
@@ -224,11 +281,7 @@ public class GLPI extends ServiceGenerator {
      * @param callback here you are going to get the asynchronous response
      */
     public void getPluginFlyve(String sessionToken, JSONObject data, final ResponseHandle<JsonObject, String> callback) {
-        HashMap<String, String> header = new HashMap<>();
-        header.put("Session-Token", sessionToken);
-        header.put("Accept", "application/json");
-        header.put("Content-Type", "application/json" + ";" + "charset=UTF-8");
-        responseJsonObject(callback, interfaces.getPluginFlyve(header, data));
+        responseJsonObject(callback, interfaces.getPluginFlyve(getHeader(sessionToken), data));
     }
 
     /**
@@ -237,13 +290,7 @@ public class GLPI extends ServiceGenerator {
      * @param callback here you are going to get the asynchronous response
      */
     public void getPluginFlyveAgentID(String sessionToken, String agentID, final ResponseHandle<JsonObject, String> callback) {
-        HashMap<String, String> header = new HashMap<>();
-        header.put("Session-Token", sessionToken);
-        header.put("Accept", "application/json");
-        header.put("Content-Type", "application/json" + ";" + "charset=UTF-8");
-        header.put("User-Agent", "Flyve MDM");
-        header.put("Referer", "/getFullSession");
-        responseJsonObject(callback, interfaces.getPluginFlyveAgentID(header, agentID));
+        responseJsonObject(callback, interfaces.getPluginFlyveAgentID(getHeader(sessionToken), agentID));
     }
 
     /**
