@@ -38,6 +38,7 @@ import org.glpi.api.query.GetAnItemQuery;
 import org.glpi.api.query.GetSubItemQuery;
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
+import org.glpi.api.request.PluginSessionBody;
 import org.glpi.api.request.RecoveryPasswordRequest;
 import org.glpi.api.request.ResetPasswordRequest;
 import org.glpi.api.request.geolocation.GeolocationBody;
@@ -52,7 +53,7 @@ import org.glpi.api.request.taskstatus.TaskStatusBody;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 import org.glpi.api.utils.Helpers;
-import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -246,7 +247,7 @@ public class GLPI extends ServiceGenerator {
     }
 
     /**
-     * Response to Geolocation no GPS
+     * Response to Task Status
      *
      * @param session     User Token
      * @param statusBody
@@ -362,11 +363,10 @@ public class GLPI extends ServiceGenerator {
 
     /**
      * Return the current active profile.
-     *
      * @param data
      * @param callback here you are going to get the asynchronous response
      */
-    public void getPluginFlyve(String sessionToken, JSONObject data, final ResponseHandle<JsonObject, String> callback) {
+    public void getPluginFlyve(String sessionToken, PluginSessionBody data, final ResponseHandle<JsonObject, String> callback) {
         responseJsonObject(callback, interfaces.getPluginFlyve(getHeader(sessionToken), data));
     }
 

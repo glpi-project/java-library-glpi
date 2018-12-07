@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
+import org.glpi.api.request.PluginSessionBody;
 import org.glpi.api.request.RecoveryPasswordRequest;
 import org.glpi.api.request.ResetPasswordRequest;
 import org.glpi.api.request.geolocation.GeolocationBody;
@@ -41,7 +42,6 @@ import org.glpi.api.request.status.OnlineOfflineBody;
 import org.glpi.api.request.taskstatus.TaskStatusBody;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
-import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -76,7 +76,7 @@ public interface Routes {
 
     @Headers("Content-Type: application/json")
     @POST("PluginFlyvemdmAgent")
-    Call<JsonObject> getPluginFlyve(@HeaderMap Map<String, String> headers, @Body JSONObject data);
+    Call<JsonObject> getPluginFlyve(@HeaderMap Map<String, String> headers, @Body PluginSessionBody data);
 
     @Headers("Content-Type: application/json")
     @GET("PluginFlyvemdmAgent/{agentId}")
