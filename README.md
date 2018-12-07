@@ -22,6 +22,7 @@ It helps companies to manage their information system, since it's able to build 
 * [Documentation](#documentation)
 * [Versioning](#versioning)
 * [Contact](#contact)
+* [Professional Services](#professional-services)
 * [Contribute](#contribute)
 * [Copying](#copying)
 
@@ -41,7 +42,7 @@ You will be able to call all the methods that belong to the [GLPI REST API](http
 
 ## Build Status
 
-|**Release channel**|Beta Channel|
+|**LTS**|Bleeding Edge|
 |:---:|:---:|
 |[![Circle CI build](https://circleci.com/gh/glpi-project/java-library-glpi/tree/master.svg?style=svg)](https://circleci.com/gh/glpi-project/java-library-glpi/tree/master)|[![Circle CI build](https://circleci.com/gh/glpi-project/java-library-glpi/tree/develop.svg?style=svg)](https://circleci.com/gh/glpi-project/java-library-glpi/tree/develop)|
 
@@ -92,9 +93,13 @@ implementation project(':java-library-glpi')
 
 ## Matrix
 
-|**GLPI Version**|9.1|9.2|9.3|
-|:----|----|----|----|
-|**GLPI API Client**||||
+|**Library**|1.0.0|
+|:----|----|
+|**Android API**||
+
+|**Library**|1.0.0|
+|:----|----|
+|**Java**||
 
 ## Documentation
 
@@ -104,7 +109,8 @@ We maintain a detailed documentation of the project on the [website](https://glp
 
 In order to provide transparency on our release cycle and to maintain backward compatibility, GLPI is maintained under [the Semantic Versioning guidelines](http://semver.org/). We are committed to following and complying with the rules, the best we can.
 
-See [the tags section of our GitHub project](https://github.com/glpi-project/java-library-glpi/tags) for changelogs for each release version. Release announcement posts on [the official Teclib' blog](http://www.teclib-edition.com/en/communities/blog-posts/) contain summaries of the most noteworthy changes made in each release.
+See [the release section of our GitHub project](https://github.com/glpi-project/java-library-glpi/releases) for changelogs for each release version. Release announcement posts on [the official Teclib' blog](http://www.teclib-edition.com/en/communities/blog-posts/) contain summaries of the most noteworthy changes made in each release.
+
 
 ## Contact
 
@@ -116,8 +122,15 @@ You can also chat with us via IRC in [#GLPI on freenode](http://webchat.freenode
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our
 guidelines for [contributing](./CONTRIBUTING.md) and then check out one of our issues in the [Issues Dashboard](https://github.com/glpi-project/java-library-glpi/issues).
 
+## Professional Services
+
+The GLPI Network services are available through our [Partner's Network](http://www.teclib-edition.com/en/partners/). We provide special training, bug fixes with editor subscription, contributions for new features, and more.
+
+Obtain a personalized service experience, associated with benefits and opportunities.
+
 ## Copying
 
+* **Name**: [GLPI](https://glpi-project.org/) is a registered trademark of [Teclib'](http://www.teclib-edition.com/en/).
 * **Code**: you can redistribute it and/or modify
     it under the terms of the GNU General Public License ([GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)).
 * **Documentation**: released under Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)).
