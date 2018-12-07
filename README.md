@@ -49,9 +49,7 @@ You will be able to call all the methods that belong to the [GLPI REST API](http
 
 ### External Library Manager
 
-Soon to be published
-
-<!-- #### Maven
+#### Maven
 
 ```xml
 <dependency>
@@ -65,18 +63,18 @@ Soon to be published
 #### Gradle
 
 ```groovy
-compile 'org.glpi:api:1.0.0'
+compile 'org.glpi:api:1.0.0@jar'
 ```
 
 #### Apache Ivy
 
 ```
-<dependency org='org.glpi' name='api' rev='0.1.0'>
+<dependency org='org.glpi' name='api' rev='1.0.0'>
   <artifact name='api' ext='pom' ></artifact>
 </dependency>
 ```
 
-You can also find us on [**Bintray repository**](https://bintray.com/flyve-mdm/). -->
+You can also find us on [**Bintray repository**](https://bintray.com/glpi-project/maven-repository/java-library-glpi).
 
 ### Manually
 
