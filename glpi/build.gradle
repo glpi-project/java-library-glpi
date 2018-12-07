@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         setProperty("archivesBaseName", "glpi-api-client")
@@ -46,15 +46,15 @@ android.libraryVariants.all  { variant ->
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    testCompile 'junit:junit:4.12'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 }
 
 Properties properties = new Properties()
@@ -63,7 +63,7 @@ if(project.rootProject.file('local.properties').exists()) {
 }
 
 ext {
-    bintrayName = 'android-api-client'
+    bintrayName = 'java-library-glpi'
     bintrayRepo = 'maven-repository'
     bintrayUserOrg = "glpi-project"
 
@@ -78,9 +78,9 @@ ext {
 
     libraryVersion = properties.getProperty("version")
 
-    developerId = 'rafaelje'
-    developerName = 'Rafael Hernandez'
-    developerEmail = 'rhernandez@teclib.com'
+    developerId = 'ivans51'
+    developerName = 'Ivan Del Pino'
+    developerEmail = 'idelpino@teclib.com'
 
     licenseName = 'GNU GENERAL PUBLIC LICENSE, Version 3.0'
     licenseUrl = 'https://www.gnu.org/licenses/gpl-3.0.html'
