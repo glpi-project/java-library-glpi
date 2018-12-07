@@ -646,13 +646,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         String[] urls = {url, url, url, url, url};
-        glpi.handleMultipleDownload(urls, 3, new GLPI.ResponseHandle<ResponseBody[], String>() {
+        glpi.handleMultipleDownload(urls, new GLPI.ResponseHandle<ArrayList<ResponseBody>, String>() {
             @Override
-            public void onResponse(ResponseBody[] response) {
+            public void onResponse(ArrayList<ResponseBody> response) {
                 Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                for (int i = 0; i < response.length; i++) {
+                for (int i = 0; i < response.size(); i++) {
                     String pathname = getExternalFilesDir(null) + File.separator + i + "-test.md";
-                    boolean inDisk = Helpers.writeResponseBodyToDisk(response[i], pathname);
+                    boolean inDisk = Helpers.writeResponseBodyToDisk(response.get(i), pathname);
                 }
             }
 
