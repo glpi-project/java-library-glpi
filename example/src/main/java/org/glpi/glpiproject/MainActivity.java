@@ -45,6 +45,8 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 
 import org.glpi.api.GLPI;
 import org.glpi.api.itemType;
+import org.glpi.api.request.GeolocationBody;
+import org.glpi.api.request.GeolocationNoGPSBody;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 import org.glpi.api.utils.Helpers;
@@ -148,6 +150,41 @@ public class MainActivity extends AppCompatActivity {
     private void btnHttpResponse() {
         progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
+        GeolocationBody geolocation = new GeolocationBody();
+        geolocation.setAgentsId("");
+        geolocation.setDatetime("");
+        geolocation.setLongitude("");
+        geolocation.setLatitude("");
+        glpi.sendGeolocation(data.getUserToken(), geolocation, new GLPI.ResponseHandle<JsonObject, String>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                FlyveLog.i("geolocation: %s", response);
+                updateAdapter("Success: geolocation");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.i("geolocation: %s", errorMessage);
+                updateAdapter("Error: geolocation");
+            }
+        });
+        GeolocationNoGPSBody geolocationNoGPS = new GeolocationNoGPSBody();
+        geolocationNoGPS.setAgentsId("");
+        geolocationNoGPS.setDatetime("");
+        geolocationNoGPS.setGps("");
+        glpi.sendGeolocationNoGPS(data.getUserToken(), geolocationNoGPS, new GLPI.ResponseHandle<JsonObject, String>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                FlyveLog.i("geolocation no GPS: %s", response);
+                updateAdapter("Success: geolocation no GPS");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.i("geolocation no GPS: %s", errorMessage);
+                updateAdapter("Error: geolocation no GPS");
+            }
+        });
         glpi.sendInventory(data.getEmail(), "!", new GLPI.ResponseHandle<JsonObject, String>() {
             @Override
             public void onResponse(JsonObject response) {

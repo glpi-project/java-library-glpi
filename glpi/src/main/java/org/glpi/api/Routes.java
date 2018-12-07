@@ -31,6 +31,8 @@ import com.google.gson.JsonObject;
 
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
+import org.glpi.api.request.GeolocationBody;
+import org.glpi.api.request.GeolocationNoGPSBody;
 import org.glpi.api.request.OnlineOfflineBody;
 import org.glpi.api.request.PingBody;
 import org.glpi.api.request.InventoryBody;
@@ -147,6 +149,8 @@ public interface Routes {
     @PUT("lostPassword")
     Call<Void> recoveryPassword(@Body ResetPasswordRequest requestPost);
 
+    /* Handle Http response */
+
     @Headers("Content-Type: application/json")
     @PUT("PluginFlyvemdmAgent/{id}")
     Call<JsonObject> sendInventory(@HeaderMap Map<String, String> header, @Path("id") String id, @Body PingBody ping);
@@ -158,6 +162,14 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @PUT("PluginFlyvemdmAgent/{id}")
     Call<JsonObject> sendPing(@HeaderMap Map<String, String> header, @Path("id") String id, @Body InventoryBody inventory);
+
+    @Headers("Content-Type: application/json")
+    @PUT("PluginFlyvemdmGeolocation")
+    Call<JsonObject> sendGeolocation(@HeaderMap Map<String, String> header, @Body GeolocationBody geolocation);
+
+    @Headers("Content-Type: application/json")
+    @PUT("PluginFlyvemdmGeolocation")
+    Call<JsonObject> sendGeolocationNoGPS(@HeaderMap Map<String, String> header, @Body GeolocationNoGPSBody geolocationNoGPS);
 
     /*Get File */
     @Headers("Content-Type: application/json")

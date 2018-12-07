@@ -38,6 +38,8 @@ import org.glpi.api.query.GetAnItemQuery;
 import org.glpi.api.query.GetSubItemQuery;
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
+import org.glpi.api.request.GeolocationBody;
+import org.glpi.api.request.GeolocationNoGPSBody;
 import org.glpi.api.request.InventoryBody;
 import org.glpi.api.request.OnlineOfflineBody;
 import org.glpi.api.request.PingBody;
@@ -153,6 +155,48 @@ public class GLPI extends ServiceGenerator {
         InventoryBody inventoryBody = new InventoryBody();
         inventoryBody.setInventory(inventory);
         interfaces.sendPing(getHeader(session), session, inventoryBody).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                callback.onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Response to Online Offline
+     *
+     * @param session     User Token
+     * @param geolocation
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void sendGeolocation(String session, GeolocationBody geolocation, final ResponseHandle<JsonObject, String> callback) {
+        interfaces.sendGeolocation(getHeader(session), geolocation).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                callback.onResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Response to Online Offline
+     *
+     * @param session     User Token
+     * @param geolocationNoGPS
+     * @param callback here you are going to get the asynchronous response
+     */
+    public void sendGeolocationNoGPS(String session, GeolocationNoGPSBody geolocationNoGPS, final ResponseHandle<JsonObject, String> callback) {
+        interfaces.sendGeolocationNoGPS(getHeader(session), geolocationNoGPS).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 callback.onResponse(response.body());
