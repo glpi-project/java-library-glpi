@@ -11,35 +11,32 @@ You have two ways to import the GLPI Java Library to your Android project.
 
 ## External Library Manager
 
-Soon to be published
-
-<!-- ### Maven
+### Maven
 
 ```xml
 <dependency>
-    <groupId>org.flyve</groupId>
-    <artifactId>inventory</artifactId>
-    <version>1.0.0</version>
-    <type>pom</type>
+  <groupId>org.glpi</groupId>
+  <artifactId>api</artifactId>
+  <version>1.0.0</version>
+  <type>pom</type>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-compile 'org.flyve:inventory:1.0.0'
+compile 'org.glpi:api:1.0.0@jar'
 ```
 
 ### Apache Ivy
 
-```xml
-<dependency org='org.flyve' name='inventory' rev='0.1.0'>
-    <artifact name='inventory' ext='pom' ></artifact>
+```
+<dependency org='org.glpi' name='api' rev='1.0.0'>
+  <artifact name='api' ext='pom' ></artifact>
 </dependency>
 ```
 
-You can also find us on [**Bintray repository**](https://bintray.com/flyve-mdm/glpi/java-library-glpi).
--->
+You can also find us on [**Bintray repository**](https://bintray.com/glpi-project/maven-repository/android-api-client).
 
 ## Manually
 
