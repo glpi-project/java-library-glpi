@@ -33,6 +33,10 @@ android {
             testCoverageEnabled true
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 android.libraryVariants.all  { variant ->
