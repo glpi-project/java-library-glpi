@@ -35,6 +35,7 @@ import com.google.gson.JsonObject;
 
 import org.glpi.api.query.GetAllItemQuery;
 import org.glpi.api.query.GetAnItemQuery;
+import org.glpi.api.query.GetSearchItem;
 import org.glpi.api.query.GetSubItemQuery;
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
@@ -588,6 +589,39 @@ public class GLPI extends ServiceGenerator {
     }
 
     /**
+     * Search items
+     *
+     * @param callback here you are going to get the asynchronous response
+     * @param itemType: search item
+     */
+    public void searchItems(String itemType, final ResponseHandle<JsonObject, String> callback) {
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Session-Token", sessionToken);
+        Map<String, String> query = new GetSearchItem().getQuery();
+        interfaces.searchItem(header, itemType, query).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    /**
      * Create a valid Array with common headers needs
      *
      * @return Map<String   ,       String> with all the headers
@@ -626,9 +660,6 @@ public class GLPI extends ServiceGenerator {
                 callback.onFailure(t.getMessage());
             }
         });
-    }
-
-    public void searchItems() {
     }
 
     public interface ResponseHandle<T, U> {
