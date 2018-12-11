@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         list.add("Call Request");
         list.add("List Search Options");
         list.add("File Request");
+        list.add("Search");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTest.setAdapter(adapter);
@@ -142,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
                     case "File Request":
                         btnFile();
                         break;
+                    case "Search":
+                        btnSearch();
+                        break;
                 }
             }
         });
@@ -169,6 +173,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void btnSearch() {
+        progressBar.setVisibility(View.VISIBLE);
+        resultList.clear();
+        glpi.searchItems("Users", new GLPI.ResponseHandle<JsonObject, String>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                FlyveLog.i("Search Item: %s", response);
+                updateAdapter("Success: Search Item");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.e("Search Item: %s", errorMessage);
+                updateAdapter("Error: Search Item");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void btnKill() {

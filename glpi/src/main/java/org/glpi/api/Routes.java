@@ -161,4 +161,8 @@ public interface Routes {
     @GET("listSearchOptions/{itemType}")
     Call<JsonObject> getListSearchOption(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @QueryMap Map<String, String> options);
 
+    @Headers("Content-Type: application/json")
+    @GET("search/{itemType}")
+    Call<JsonObject> searchItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @QueryMap Map<String, String> options);
+
 }
