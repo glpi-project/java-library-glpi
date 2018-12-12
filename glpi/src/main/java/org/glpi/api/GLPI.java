@@ -605,7 +605,7 @@ public class GLPI extends ServiceGenerator {
     }
 
     public void listSearchOptions(Map<String, String> query, final ResponseHandle<JsonObject, String> callback) {
-        interfaces.getListSearchOption(getHeader(), "Users", query).enqueue(new Callback<JsonObject>() {
+        interfaces.getListSearchOption(getHeader(), itemType.Computer.name(), query).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful()) {
