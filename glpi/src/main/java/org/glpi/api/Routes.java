@@ -28,7 +28,6 @@ package org.glpi.api;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
 import org.glpi.api.request.ChangeActiveEntitiesRequest;
 import org.glpi.api.request.ChangeActiveProfileRequest;
@@ -157,5 +156,9 @@ public interface Routes {
     @Headers("Content-Type: application/json")
     @GET
     Call<ResponseBody> downloadFile(@Url String url, @HeaderMap Map<String, String> headers);
+
+    @Headers("Content-Type: application/json")
+    @GET("listSearchOptions/{itemType}")
+    Call<JsonObject> getListSearchOption(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @QueryMap Map<String, String> options);
 
 }

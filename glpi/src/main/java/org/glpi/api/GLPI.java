@@ -604,7 +604,28 @@ public class GLPI extends ServiceGenerator {
     public void getMultipleItems() {
     }
 
-    public void listSearchOptions() {
+    public void listSearchOptions(Map<String, String> query, final ResponseHandle<JsonObject, String> callback) {
+        interfaces.getListSearchOption(getHeader(), "Users", query).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(response.body());
+                } else {
+                    String errorMessage;
+                    try {
+                        errorMessage = response.errorBody().string();
+                    } catch (Exception ex) {
+                        errorMessage = context.getResources().getString(R.string.error_generic);
+                    }
+                    callback.onFailure(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
     }
 
     public void searchItems() {
