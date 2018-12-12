@@ -165,4 +165,8 @@ public interface Routes {
     @GET("search/{itemType}")
     Call<JsonObject> searchItem(@HeaderMap Map<String, String> headers, @Path("itemType") String itemType, @QueryMap Map<String, String> options);
 
+    @Headers("Content-Type: application/json")
+    @GET("getMultipleItems")
+    Call<JsonArray> getMultipleItem(@HeaderMap Map<String, String> headers, @QueryMap Map<String, String> options);
+
 }
