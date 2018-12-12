@@ -46,6 +46,9 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import org.glpi.api.GLPI;
 import org.glpi.api.itemType;
 import org.glpi.api.query.GetListSearchOptionsQuery;
+import org.glpi.api.query.GetSearchItem;
+import org.glpi.api.request.search.CriteriaItem;
+import org.glpi.api.request.search.CriteriaRequest;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 import org.glpi.api.utils.Helpers;
@@ -178,7 +181,20 @@ public class MainActivity extends AppCompatActivity {
     private void btnSearch() {
         progressBar.setVisibility(View.VISIBLE);
         resultList.clear();
-        glpi.searchItems("Users", new GLPI.ResponseHandle<JsonObject, String>() {
+        GetSearchItem getSearchItem = new GetSearchItem();
+        CriteriaRequest criteria = new CriteriaRequest();
+        ArrayList<CriteriaItem> listCriteriaItem = new ArrayList<>();
+
+        CriteriaItem criteriaItem = new CriteriaItem();
+        criteriaItem.setField(1);
+        criteriaItem.setItemtype("User");
+        criteriaItem.setSearchtype("equals");
+        listCriteriaItem.add(criteriaItem);
+        criteria.setCriteria(listCriteriaItem);
+
+        getSearchItem.setCriteria(criteria);
+        Map<String, String> query = getSearchItem.getQuery();
+        glpi.searchItems("Users", query, new GLPI.ResponseHandle<JsonObject, String>() {
             @Override
             public void onResponse(JsonObject response) {
                 FlyveLog.i("Search Item: %s", response);

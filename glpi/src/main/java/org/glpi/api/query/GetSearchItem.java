@@ -25,6 +25,9 @@
 
 package org.glpi.api.query;
 
+import org.glpi.api.request.search.CriteriaRequest;
+import org.glpi.api.request.search.MetaCriteriaRequest;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,8 +39,8 @@ public class GetSearchItem {
     private String itemtype;
     private String searchtype;
     private String value;
-    private String criteria;
-    private String metacriteria;
+    private CriteriaRequest criteria;
+    private MetaCriteriaRequest metacriteria;
     private String sort;
     private String order;
     private String range;
@@ -170,19 +173,19 @@ public class GetSearchItem {
         this.value = value;
     }
 
-    public String getCriteria() {
+    public CriteriaRequest getCriteria() {
         return criteria;
     }
 
-    public void setCriteria(String criteria) {
+    public void setCriteria(CriteriaRequest criteria) {
         this.criteria = criteria;
     }
 
-    public String getMetacriteria() {
+    public MetaCriteriaRequest getMetacriteria() {
         return metacriteria;
     }
 
-    public void setMetacriteria(String metacriteria) {
+    public void setMetacriteria(MetaCriteriaRequest metacriteria) {
         this.metacriteria = metacriteria;
     }
 
