@@ -49,6 +49,7 @@ import org.glpi.api.query.GetListSearchOptionsQuery;
 import org.glpi.api.query.GetSearchItem;
 import org.glpi.api.request.search.CriteriaItem;
 import org.glpi.api.request.search.CriteriaRequest;
+import org.glpi.api.query.GetMultipleItemsQuery;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 import org.glpi.api.utils.Helpers;
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         list.add("Kill session");
         list.add("Call Request");
         list.add("List Search Options");
+        list.add("Multiple Items");
         list.add("File Request");
         list.add("Search");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, list);
@@ -142,6 +144,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case "List Search Options":
                         btnSearchOptions();
+                        break;
+                    case "Multiple Items":
+                        btnMultipleItem();
                         break;
                     case "File Request":
                         btnFile();
@@ -207,6 +212,29 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(String errorMessage) {
                 FlyveLog.e("Search Item: %s", errorMessage);
                 updateAdapter("Error: Search Item");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private void btnMultipleItem() {
+        progressBar.setVisibility(View.VISIBLE);
+        resultList.clear();
+        Map<String, String> query = new GetMultipleItemsQuery(this).getQuery();
+        glpi.getMultipleItems(query, new GLPI.ResponseHandle<JsonArray, String>() {
+            @Override
+            public void onResponse(JsonArray response) {
+                FlyveLog.i("multiple session: %s", response);
+                updateAdapter("Success: multiple session");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.e("multiple session: %s", errorMessage);
+                updateAdapter("Error: multiple session");
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
