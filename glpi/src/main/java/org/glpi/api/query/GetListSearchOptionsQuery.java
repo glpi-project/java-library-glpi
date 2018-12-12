@@ -52,7 +52,7 @@ public class GetListSearchOptionsQuery {
         Map<String, String> map = new HashMap<>();
 
         if (raw != null) {
-            map.put("raw", raw.toString());
+            map.put("raw", raw);
         }
 
         return map;
