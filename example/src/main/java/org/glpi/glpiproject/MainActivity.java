@@ -45,6 +45,7 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 
 import org.glpi.api.GLPI;
 import org.glpi.api.itemType;
+import org.glpi.api.query.GetListSearchOptionsQuery;
 import org.glpi.api.response.FullSessionModel;
 import org.glpi.api.response.InitSession;
 import org.glpi.api.utils.Helpers;
@@ -54,6 +55,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         list.add("Full Session");
         list.add("Kill session");
         list.add("Call Request");
+        list.add("List Search Options");
         list.add("File Request");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -133,12 +136,39 @@ public class MainActivity extends AppCompatActivity {
                     case "Call Request":
                         btnCall();
                         break;
+                    case "List Search Options":
+                        btnSearchOptions();
+                        break;
                     case "File Request":
                         btnFile();
                         break;
                 }
             }
         });
+    }
+
+    private void btnSearchOptions() {
+        progressBar.setVisibility(View.VISIBLE);
+        resultList.clear();
+        Map<String, String> query = new GetListSearchOptionsQuery(this).getQuery();
+        glpi.listSearchOptions(query, new GLPI.ResponseHandle<JsonObject, String>() {
+            @Override
+            public void onResponse(JsonObject response) {
+                FlyveLog.i("Search Option: %s", response);
+                updateAdapter("Success: Search Option");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                FlyveLog.e("Search Option: %s", errorMessage);
+                updateAdapter("Error: Search Option");
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
     private void btnKill() {
