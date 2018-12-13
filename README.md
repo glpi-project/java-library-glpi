@@ -75,7 +75,7 @@ compile 'org.glpi:api:1.0.0@jar'
 </dependency>
 ```
 
-You can also find us on [**Bintray repository**](https://bintray.com/glpi-project/maven-repository/java-library-glpi).
+You can also find us on [**Bintray repository**](https://bintray.com/glpi-project/teclib-repository/java-library-glpi).
 
 ### Manually
 
