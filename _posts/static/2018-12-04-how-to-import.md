@@ -36,7 +36,7 @@ compile 'org.glpi:api:1.0.0@jar'
 </dependency>
 ```
 
-You can also find us on [**Bintray repository**](https://bintray.com/glpi-project/maven-repository/android-api-client).
+You can also find us on [**Bintray repository**](https://bintray.com/glpi-project/teclib-repository/java-library-glpi).
 
 ## Manually
 
