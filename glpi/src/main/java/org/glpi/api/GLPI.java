@@ -46,6 +46,7 @@ import org.glpi.api.utils.Helpers;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,6 +67,7 @@ public class GLPI extends ServiceGenerator {
     private String sessionToken = "";
     private String appToken;
     private Context context;
+    private boolean isFinishSplitArray;
 
     /**
      * GLPI REST API Constructor this class will help you to interact with GLPI endpoints
@@ -556,33 +558,64 @@ public class GLPI extends ServiceGenerator {
         });
     }
 
-    public void handleMultipleDownload(String[] urls, final ResponseHandle<ArrayList<ResponseBody>, String> callback) {
+    public void handleMultipleDownload(final String[] urls, int start, int step, final ResponseHandle<ArrayList<ResponseBody>, String> callback) {
         HashMap<String, String> header = new HashMap<>();
         header.put("Accept","application/octet-stream");
         header.put("Content-Type","application/json");
         header.put("Session-Token", sessionToken);
-        ArrayList<Observable<ResponseBody>> list = new ArrayList<>();
-        for (String url : urls) {
-            Observable<ResponseBody> observableOne = interfaces.downloadFileRX(url, header)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-            list.add(observableOne);
+
+        /*ArraySplit splitArray = getSplitArray(urls);*/
+
+        ArrayList<Observable<ResponseBody>> listUrls = new ArrayList<>();
+        ArrayList<ArrayList<Observable<ResponseBody>>> listRxUrls = new ArrayList<>();
+
+        String[] listModifyUrls = splitArray(urls, start, step);
+
+        while (true) {
+            for (String url : listModifyUrls) {
+                if (url != null) {
+                    Observable<ResponseBody> observableOne = interfaces.downloadFileRX(url, header)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread());
+                    listUrls.add(observableOne);
+                }
+            }
+            listModifyUrls = splitArray(urls, start + step, step);
+            listRxUrls.add(listUrls);
+            listUrls = new ArrayList<>();
+            if (listModifyUrls.length == 0)
+                break;
         }
+        isFinishSplitArray = false;
+
         final ArrayList<ResponseBody> listResponseBody = new ArrayList<>();
-        Disposable subscribe1 = Observable.merge(list)
+        Disposable subscribe1 = Observable.fromIterable(listRxUrls)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        Log.e("", "");
-                        callback.onResponse(listResponseBody);
-                    }
-                })
-                .subscribe(new Consumer<ResponseBody>() {
+                .subscribe(new Consumer<ArrayList<Observable<ResponseBody>>>() {
                                @Override
-                               public void accept(ResponseBody responseBody) throws Exception {
-                                   listResponseBody.add(responseBody);
+                               public void accept(ArrayList<Observable<ResponseBody>> responseBodyObservable) throws Exception {
+                                   Disposable subscribe = Observable.merge(responseBodyObservable)
+                                           .subscribeOn(Schedulers.io())
+                                           .observeOn(AndroidSchedulers.mainThread())
+                                           .doOnComplete(new Action() {
+                                               @Override
+                                               public void run() throws Exception {
+                                                   callback.onResponse(listResponseBody);
+                                               }
+                                           })
+                                           .subscribe(new Consumer<ResponseBody>() {
+                                                          @Override
+                                                          public void accept(ResponseBody responseBody) throws Exception {
+                                                              listResponseBody.add(responseBody);
+                                                          }
+                                                      },
+                                                   new Consumer<Throwable>() {
+                                                       @Override
+                                                       public void accept(Throwable e) throws Exception {
+                                                           callback.onFailure(e.getMessage());
+                                                       }
+                                                   });
                                }
                            },
                         new Consumer<Throwable>() {
@@ -593,16 +626,12 @@ public class GLPI extends ServiceGenerator {
                         });
     }
 
-    public class ManagementFile {
-        private ResponseBody[] file;
-
-        public ManagementFile(ResponseBody[] file) {
-            this.file = file;
-        }
-
-        public ResponseBody[] getFile() {
-            return file;
-        }
+    private String[] splitArray(String[] values, int start, int step) {
+        if (isFinishSplitArray)
+            return new String[0];
+        if (start >= values.length - step)
+            isFinishSplitArray = true;
+        return Arrays.copyOfRange(values, start, start + step);
     }
 
     /**
