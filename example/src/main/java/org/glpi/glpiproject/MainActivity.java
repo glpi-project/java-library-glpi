@@ -645,9 +645,9 @@ public class MainActivity extends AppCompatActivity {
                 updateAdapter("Error: Download file" + errorMessage);
             }
         });
-        String[] values = {url, url, url, url, url};
+        String[] urls = {url, url, url, url, url, url, url};
 
-        glpi.handleMultipleDownload(values, 0, 3, new GLPI.ResponseHandle<ArrayList<ResponseBody>, String>() {
+        glpi.handleMultipleDownload(urls, 0, 3, new GLPI.ResponseHandle<ArrayList<ResponseBody>, String>() {
             @Override
             public void onResponse(ArrayList<ResponseBody> response) {
                 Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();

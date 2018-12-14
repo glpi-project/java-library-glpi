@@ -570,6 +570,7 @@ public class GLPI extends ServiceGenerator {
         ArrayList<ArrayList<Observable<ResponseBody>>> listRxUrls = new ArrayList<>();
 
         String[] listModifyUrls = splitArray(urls, start, step);
+        int starts = start;
 
         while (true) {
             for (String url : listModifyUrls) {
@@ -580,7 +581,8 @@ public class GLPI extends ServiceGenerator {
                     listUrls.add(observableOne);
                 }
             }
-            listModifyUrls = splitArray(urls, start + step, step);
+            starts = starts + step;
+            listModifyUrls = splitArray(urls, starts, step);
             listRxUrls.add(listUrls);
             listUrls = new ArrayList<>();
             if (listModifyUrls.length == 0)
@@ -602,6 +604,7 @@ public class GLPI extends ServiceGenerator {
                                                @Override
                                                public void run() throws Exception {
                                                    callback.onResponse(listResponseBody);
+                                                   listResponseBody.clear();
                                                }
                                            })
                                            .subscribe(new Consumer<ResponseBody>() {
