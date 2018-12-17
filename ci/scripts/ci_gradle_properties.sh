@@ -1,5 +1,4 @@
-#!/bin/bash
-# ---------------------------------------------------------------------
+#!/usr/bin/env bash
 #
 #  LICENSE
 #
@@ -15,13 +14,15 @@
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
-#  --------------------------------------------------------------------
-#  @author    Rafael Hernandez - <rhernandez@teclib.com>
-#  @copyright (C) 2017 Teclib' and contributors.
+#  -------------------------------------------------------------------------------
+#  @copyright Copyright © 2018 Teclib. All rights reserved.
 #  @license   GPLv3 https://www.gnu.org/licenses/gpl-3.0.html
 #  @link      https://github.com/glpi-project/java-library-glpi
 #  @link      http://www.glpi-project.org/
-#  --------------------------------------------------------------------
+#  @link      https://glpi-project.github.io/java-library-glpi/
+#  @link      https://bintray.com/glpi-project/teclib-repository/java-library-glpi
+#  -------------------------------------------------------------------------------
+#
 
 # create gradle properties
 rm gradle.properties
