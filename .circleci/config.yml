@@ -21,41 +21,9 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "glpi/build.gradle" }}
-  test_api_v25:
-    working_directory: ~/flyve_mdm
-    docker:
-        - image: circleci/android:api-26-alpha
-    environment:
-      JVM_OPTS: -Xmx3200m
-    steps:
-      - checkout
-      - run:
-          name: Setup gradle properties
-          command: source ci/scripts/ci_gradle_properties.sh
-      - run:
-          name: Setup emulator
-          command: sdkmanager "system-images;android-25;google_apis;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-25;google_apis;armeabi-v7a"
-      - run:
-          name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
-          background: true
-      - run:
-          name: Wait emulator
-          command: |
-            # wait for it to have booted
-            circle-android wait-for-boot
-            # unlock the emulator screen
-            sleep 30
-            adb shell input keyevent 82
-      - run:
-          name: Run Tests
-          command: ./gradlew connectedAndroidTest
-      - store_artifacts:
-          path: glpi/build/reports
-          destination: reports
-      - store_test_results:
-          path: glpi/build/test-results
-  test_api_v16:
+
+  # Test Instrumentation with Android 4.1 JELLY_BEAN API 16
+  test_instrumentation:
       working_directory: ~/flyve_mdm
       docker:
           - image: circleci/android:api-26-alpha
@@ -64,31 +32,24 @@ jobs:
       steps:
         - checkout
         - run:
-            name: Setup gradle properties
-            command: source ci/scripts/ci_gradle_properties.sh
+            name: Validate
+            command: source ci/scripts/ci_validate_workflow.sh
+        - restore_cache:
+            key: jars-{{ checksum "build.gradle" }}-{{ checksum  "glpi/build.gradle" }}
         - run:
-            name: Setup emulator
-            command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
+            name: Download Android Dependencies
+            command: ./gradlew androidDependencies
+        - save_cache:
+            paths:
+              - ~/.gradle
+            key: jars-{{ checksum "build.gradle" }}-{{ checksum  "glpi/build.gradle" }}
         - run:
-            name: Launch emulator
-            command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
-            background: true
+            name: Create debug apk
+            command: ./gradlew assembleAndroidTest assemble
         - run:
-            name: Wait emulator
-            command: |
-              # wait for it to have booted
-              circle-android wait-for-boot
-              # unlock the emulator screen
-              sleep 30
-              adb shell input keyevent 82
-        - run:
-            name: Run Tests
-            command: ./gradlew connectedAndroidTest
-        - store_artifacts:
-            path: glpi/build/reports
-            destination: reports
-        - store_test_results:
-            path: glpi/build/test-results
+            name: Run Tests on Firebase test lab
+            command: source ci/scripts/google_cloud.sh
+
   deploy_production:
       working_directory: ~/flyve_mdm
       docker:
@@ -179,24 +140,16 @@ workflows:
   build_test_and_deploy:
     jobs:
       - build
-      - test_api_v16:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - develop
-      - test_api_v25:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - develop
+      # - test_instrumentation:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - master
       - documentation:
-          requires:
-            - test_api_v16
-            - test_api_v25
+          # requires:
+          #   - test_instrumentation
           filters:
             branches:
               only:
