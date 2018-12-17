@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ---------------------------------------------------------------------
 #
 #  LICENSE
@@ -16,39 +16,29 @@
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #  --------------------------------------------------------------------
-#  @author    Rafael Hernandez - <rhernandez@teclib.com>
+#  @author    Ivan Del Pino - <idelpino@teclib.com>
 #  @copyright (C) 2017 Teclib' and contributors.
 #  @license   GPLv3 https://www.gnu.org/licenses/gpl-3.0.html
 #  @link      https://github.com/glpi-project/java-library-glpi
 #  @link      http://www.glpi-project.org/
 #  --------------------------------------------------------------------
+#
+# send to google play
 
-# create enviroment vars to work with fastlane telegram
-echo TELEGRAM_WEBHOOKS=$TELEGRAM_WEBHOOKS > .env
-echo GIT_REPO=$CIRCLE_REPOSITORY_URL >> .env
-echo GIT_BRANCH=$CIRCLE_BRANCH >> .env
+GH_COMMIT_MESSAGE=$(git log --pretty=oneline -n 1 $CIRCLE_SHA1)
 
-# install ruby
-sudo apt-get install ruby-full build-essential
+if [[ $GH_COMMIT_MESSAGE != *"ci(release): generate CHANGELOG.md for version"* && $GH_COMMIT_MESSAGE != *"ci(build): release version"* ]]; then
 
-# install fastlane
-sudo gem install fastlane --no-rdoc --no-ri
+# run update version script
+ci/scripts/ci_updateversion.sh
 
-# install Node.js v7
-curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
-sudo sudo apt-get install -y nodejs
+# run push changes script
+ci/scripts/ci_push_changes.sh
 
-# install globally
-sudo npm install -g conventional-github-releaser
+# run github release script
+ci/scripts/ci_github_release.sh
 
-# Install node-github-release to create and edit releases on Github
-sudo npm install -g node-github-release
+# run bintray script
+ci/scripts/ci_bintray.sh
 
-# install node package available on package.json
-sudo npm install
-
-# config git
-git config --global user.email $GH_EMAIL
-git config --global user.name "Teclib'bot"
-git remote remove origin
-git remote add origin https://$GH_USER:$GH_TOKEN@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git
+fi

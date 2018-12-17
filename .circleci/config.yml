@@ -71,17 +71,8 @@ jobs:
             name: Setup environment
             command: source ci/scripts/ci_setup.sh
         - run:
-            name: Update version and code
-            command: source ci/scripts/ci_updateversion.sh
-        - run:
-            name: Push changes to github
-            command: source ci/scripts/ci_push_changes.sh
-        - run:
-            name: Create a github release
-            command: source ci/scripts/ci_github_release.sh
-        - run:
-            name: Deploy to Bintray
-            command: source ci/scripts/ci_bintray.sh
+            name: Deploy production
+            command: source ci/scripts/ci_deploy_production.sh
         - save_cache:
             paths:
               - ~/.gradle
