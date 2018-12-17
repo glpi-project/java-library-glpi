@@ -1,6 +1,6 @@
 {
   "name": "@teclib/android-library-glpi",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0",
   "description": "GLPI API Client Library for Java",
   "main": "index.js",
   "scripts": {

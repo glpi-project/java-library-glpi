@@ -71,7 +71,7 @@ if(project.rootProject.file('local.properties').exists()) {
 
 ext {
     bintrayName = 'java-library-glpi'
-    bintrayRepo = 'maven-repository'
+    bintrayRepo = 'teclib-repository'
     bintrayUserOrg = "glpi-project"
 
     publishedGroupId = 'org.glpi'
