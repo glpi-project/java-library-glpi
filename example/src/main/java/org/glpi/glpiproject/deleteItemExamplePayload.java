@@ -18,6 +18,7 @@
  *  @license   GPLv3 https://www.gnu.org/licenses/gpl-3.0.html
  *  @link      https://github.com/glpi-project/java-library-glpi
  *  @link      http://www.glpi-project.org/
+ *  @link      https://glpi-project.github.io/java-library-glpi/
  *  @link      https://bintray.com/glpi-project/teclib-repository/java-library-glpi
  *  --------------------------------------------------------------------------------
  */
